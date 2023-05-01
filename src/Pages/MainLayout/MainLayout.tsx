@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationProp } from "@react-navigation/native";
@@ -17,7 +17,6 @@ export type RootStackParamList = {
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-
 export default function MainLayout() {
   return (
     <NavigationContainer>
