@@ -38,8 +38,8 @@ const CoachCornerCard = () => {
 
       <Card.Content>
         <ScrollView>
-          <Text style={{ maxHeight: 200 }}>
-            {expanded ? announcement : announcement.slice(0, 200) + "..."}
+          <Text style={{ maxHeight: 225 }}>
+            {expanded ? announcement : announcement.slice(0, 100) + "..."}
           </Text>
         </ScrollView>
         <Button onPress={() => setExpanded(!expanded)}>

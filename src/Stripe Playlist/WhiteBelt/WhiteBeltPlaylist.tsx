@@ -1,4 +1,4 @@
-import { SectionName, Section, Stripe, StripeLevel } from "../index";
+import { SectionName, Section, Stripe, StripeLevel, BeltLevel } from "../index";
 
 const S1_1: Section = {
   index: 0,
@@ -621,14 +621,17 @@ const S3_2: Section = {
 
 
 export const W1_PLAYLIST: Stripe = {
+  belt: BeltLevel.White,
   stripe: StripeLevel.S1,
-  playlist: [S1_1, S1_2, S1_3, S1_4, S1_5 ]
+  section: [S1_1, S1_2, S1_3, S1_4, S1_5 ]
 }
 export const W2_PLAYLIST: Stripe = {
+  belt: BeltLevel.White,
   stripe: StripeLevel.S2,
-  playlist: [S2_1, S2_2, S2_3, S2_4 ]
+  section: [S2_1, S2_2, S2_3, S2_4 ]
 }
 export const W3_PLAYLIST: Stripe = {
+  belt: BeltLevel.White,
   stripe: StripeLevel.S3,
-  playlist: [S3_1, S3_2]
+  section: [S3_1, S3_2]
 }

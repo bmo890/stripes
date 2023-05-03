@@ -15,10 +15,10 @@ import { ScreenProps } from "../MainLayout/MainLayout";
 import BookmarksCard from "../Bookmarks/BookmarksCard";
 import CoachsCornerCard from "../CoachsCorner/CoachsCornerCard";
 import BeltCard from "../StripePages/BeltCard";
-import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon"
+import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon";
 
-const F_TLV_BLUE = "#9BD5E7";
-const F_TLV_PINK = "#F0A4C7";
+export const F_TLV_BLUE = "#9BD5E7";
+export const F_TLV_PINK = "#F0A4C7";
 
 export default function HomeScreen({ route, navigation }: ScreenProps) {
   const styles = StyleSheet.create({
@@ -26,14 +26,11 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
       flex: 1,
     },
     gradient: {
-      // flex: 1,
+      flex: 1,
     },
     display: {
       flex: 1,
       padding: ".75rem",
-      // alignItems: "center",
-      // justifyContent: "center",
-      // padding: 20,
     },
     title: {
       fontSize: 24,
@@ -42,8 +39,6 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
     },
     card: {
       padding: 8,
-      // height: 80,
-      // width: '100%',
       alignItems: "center",
       justifyContent: "center",
     },
@@ -66,14 +61,14 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
   });
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <LinearGradient
-          colors={[F_TLV_BLUE, F_TLV_PINK]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.gradient}
-        >
+    <View style={styles.container}>
+      <LinearGradient
+        colors={[F_TLV_BLUE, F_TLV_PINK]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradient}
+      >
+        <ScrollView>
           <View style={styles.display}>
             <Button
               mode="contained"
@@ -91,8 +86,8 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               <BookmarksCard />
             </View>
           </View>
-        </LinearGradient>
-      </View>
-    </ScrollView>
+        </ScrollView>
+      </LinearGradient>
+    </View>
   );
 }

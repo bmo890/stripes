@@ -1,30 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image, StyleSheet } from "react-native";
 import { Card, Button, List, IconButton } from "react-native-paper";
 import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon";
-import { Section, VideoType, SavedPlaylist, UserBookmarks } from "../../Stripe Playlist";
+import { LinearGradient } from "expo-linear-gradient";
+import { F_TLV_BLUE, F_TLV_PINK } from "../Home/HomeScreen";
+
+import {
+  Section,
+  VideoType,
+  StripeLevel,
+  UserBookmarks,
+  BeltLevel,
+  BookmarkedItem,
+} from "../../Stripe Playlist";
 import {
   W1_PLAYLIST,
   W2_PLAYLIST,
   W3_PLAYLIST,
 } from "../../Stripe Playlist/WhiteBelt/WhiteBeltPlaylist";
 
-// console.log(W1_Playlist);
-// const userSavedBookmarks: UserBookmarks = {
-//   savedItems: [
-//     {level: W1_Playlist[0], saved: [0, 1, 2]},
-//     {level: W1_Playlist[1], saved: [0, 1, 2, 3]},
-//     {level: W2_Playlist[1], saved: [0, 1]}
-//   ]
-// }
-interface Bookmark {
-  title: string;
-  imageUrl: string;
-}
+const bookmarkedItems: UserBookmarks = {
+  savedItems: [
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W1_PLAYLIST.stripe,
+      section: W1_PLAYLIST.section[0].section,
+      video: W1_PLAYLIST.section[0].playlist[0],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W1_PLAYLIST.stripe,
+      section: W1_PLAYLIST.section[2].section,
+      video: W1_PLAYLIST.section[2].playlist[1],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W1_PLAYLIST.stripe,
+      section: W1_PLAYLIST.section[2].section,
+      video: W1_PLAYLIST.section[2].playlist[2],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W1_PLAYLIST.stripe,
+      section: W1_PLAYLIST.section[3].section,
+      video: W1_PLAYLIST.section[3].playlist[1],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W2_PLAYLIST.stripe,
+      section: W2_PLAYLIST.section[1].section,
+      video: W2_PLAYLIST.section[1].playlist[0],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W2_PLAYLIST.stripe,
+      section: W2_PLAYLIST.section[1].section,
+      video: W2_PLAYLIST.section[1].playlist[2],
+    },
+    {
+      belt: W1_PLAYLIST.belt,
+      stripe: W3_PLAYLIST.stripe,
+      section: W3_PLAYLIST.section[0].section,
+      video: W3_PLAYLIST.section[0].playlist[0],
+    },
+  ],
+};
 
-interface Bookmarks {
-  [belt: string]: Bookmark[];
-}
 
 const fakebookmarks = [
   { title: "Rear Naked Choke", imageUrl: "https://picsum.photos/200/200" },
@@ -48,36 +89,6 @@ const fakebookmarks = [
 ];
 
 const BookmarkCard: React.FC = () => {
-  const bookmarks: Bookmarks = {
-    W1: [
-      { title: "Rear Naked Choke", imageUrl: "https://picsum.photos/200/200" },
-      { title: "Armbar", imageUrl: "https://picsum.photos/200/201" },
-      { title: "Triangle Choke", imageUrl: "https://picsum.photos/200/202" },
-      { title: "Guillotine Choke", imageUrl: "https://picsum.photos/200/203" },
-      { title: "Ankle Lock", imageUrl: "https://picsum.photos/200/204" },
-      { title: "Omoplata", imageUrl: "https://picsum.photos/200/205" },
-    ],
-    W3: [
-      { title: "Kimura", imageUrl: "https://picsum.photos/200/206" },
-      { title: "Americana", imageUrl: "https://picsum.photos/200/207" },
-      { title: "Omaplata", imageUrl: "https://picsum.photos/200/208" },
-      { title: "Leg Lock", imageUrl: "https://picsum.photos/200/209" },
-      { title: "Ezekiel Choke", imageUrl: "https://picsum.photos/200/210" },
-      {
-        title: "Bow and Arrow Choke",
-        imageUrl: "https://picsum.photos/200/211",
-      },
-    ],
-    B1: [
-      { title: "Scissor Sweep", imageUrl: "https://picsum.photos/200/212" },
-      { title: "Hip Bump Sweep", imageUrl: "https://picsum.photos/200/213" },
-      { title: "Pendulum Sweep", imageUrl: "https://picsum.photos/200/214" },
-      { title: "X-Guard Sweep", imageUrl: "https://picsum.photos/200/215" },
-      { title: "De La Riva Sweep", imageUrl: "https://picsum.photos/200/216" },
-      { title: "Half Guard Sweep", imageUrl: "https://picsum.photos/200/217" },
-    ],
-  };
-
   const [expanded, setExpanded] = useState<{ [belt: string]: boolean }>({
     W1: true,
     W3: false,
@@ -85,6 +96,47 @@ const BookmarkCard: React.FC = () => {
   });
 
   const [allExpanded, setAllExpanded] = useState(false);
+
+  interface BookmarkDisplay {
+    belt: BeltLevel;
+    stripe: StripeLevel;
+    items: VideoType[];
+  }
+
+  const [displayedBookmarks, setDisplayedBookmarks] = useState<
+    BookmarkDisplay[]
+  >([]);
+
+  const groupedByStripeLevel = (videos: BookmarkedItem[]) => {
+    const bookmarkDisplay: BookmarkDisplay[] = [];
+
+    for (const video of videos) {
+      let found = false;
+
+      for (const item of bookmarkDisplay) {
+        if (video.belt === item.belt && video.stripe === item.stripe) {
+          item.items.push(video.video);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        bookmarkDisplay.push({
+          belt: video.belt,
+          stripe: video.stripe,
+          items: [video.video],
+        });
+      }
+    }
+
+    return bookmarkDisplay;
+  };
+
+  useEffect(() => {
+    const vids = groupedByStripeLevel(bookmarkedItems.savedItems);
+    setDisplayedBookmarks(vids);
+  }, []);
 
   const handlePress = (belt: string) => {
     setExpanded((prevExpanded) => ({
@@ -102,30 +154,8 @@ const BookmarkCard: React.FC = () => {
     });
   };
 
-  // const StripeIcon = (belt: "white" | "blue") => {
-  //   console.log(belt);
-  //   let rank: "white" | "blue" = belt;
-  //   let stripe = 1;
-  //   switch (belt) {
-  //     case "W1":
-  //       stripe = 1;
-  //       break;
-  //     case "W3":
-  //       stripe = 3;
-  //       break;
-  //     case "B1":
-  //       rank = "blue";
-  //       stripe = 1;
-  //       break;
-  //     default:
-  //       rank = "white";
-  //       stripe = 1;
-  //       break;
-  //   }
-  //   return <ChooseStripeIcon amount={stripe} belt={rank} />;
-  // };
+  let count = 1;
 
-  const view = false;
   return (
     <Card>
       <Card.Title
@@ -149,34 +179,49 @@ const BookmarkCard: React.FC = () => {
       <Card.Content>
         <View style={{ maxHeight: 400 }}>
           <ScrollView>
-            {/* {W1_Playlist.map((position: SectionPlaylist, index: number) => (
-              <List.Accordion
-                key={position.index}
-                title={
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <StripeIcon belt={position.index}/>
-                    <Text style={{ marginLeft: 5 }}>{position.nameEN}</Text>
-                  </View>
-                }
-                expanded={true}
-                onPress={() => {
-                  return;
-                }}
-              >
-                <ScrollView horizontal={true} style={styles.scrollView}>
-                  {position.playlist.map((move: VideoType, index: number) => (
-                    <View key={index} style={styles.thumbnailContainer}>
-                      <Image
-                        style={styles.thumbnail}
-                        source={{ uri: fakebookmarks[index].imageUrl }}
+            {displayedBookmarks.map((stripe, index: number) => {
+              return (
+                <List.Accordion
+                  style={{ backgroundColor: "lightgrey", borderRadius: 10 }}
+                  key={index}
+                  title={
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center',paddingLeft: 20, width: '100%' }}
+                    >
+                      <ChooseStripeIcon
+                        amount={stripe.stripe}
+                        belt={stripe.belt}
                       />
-                      <Text style={{textAlign: 'center'}}>{move.titleEN}</Text>
+                      {/* <Text style={{ marginLeft: 5 }}>{stripe.stripe}</Text> */}
                     </View>
-                  ))}
-                </ScrollView>
-              </List.Accordion>
-            ))} */}
-           {/* {Object.keys(bookmarks).map((belt) => {
+                  }
+                  expanded={true}
+                  onPress={() => {
+                    return;
+                  }}
+                >
+                  <View style={{ paddingTop: 10 }}>
+                    <ScrollView horizontal={true} style={styles.scrollView}>
+                      {stripe.items.map((move, index: number) => {
+                        count++;
+                        return (
+                          <View key={index} style={styles.thumbnailContainer}>
+                            <Image
+                              style={styles.thumbnail}
+                              source={{ uri: fakebookmarks[count].imageUrl }}
+                            />
+                            <Text style={{ textAlign: "center" }}>
+                              {move.titleEN}
+                            </Text>
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                </List.Accordion>
+              );
+            })}
+            {/* {Object.keys(bookmarks).map((belt) => {
               return (
                 <List.Accordion
                   key={belt}

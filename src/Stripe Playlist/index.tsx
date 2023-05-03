@@ -22,10 +22,14 @@ export enum SectionName {
   S3_1 = "S3_1",
   S3_2 = "S3_2",
 }
+export enum BeltLevel {
+  White,
+  Blue
+}
 
 export enum StripeLevel {
-  S2,
   S1,
+  S2,
   S3,
   S4,
 }
@@ -34,8 +38,9 @@ export enum StripeLevel {
 export type BeltPlaylist = Stripe[];
 
 export interface Stripe {
+  belt: BeltLevel;
   stripe: StripeLevel;
-  playlist: Section[];
+  section: Section[];
 }
 
 export interface Section {
@@ -58,12 +63,15 @@ export interface VideoType {
   descriptionEN: string;
 }
 
-export interface SavedLevel {}
 
-export interface SavedPlaylist {
-  level: Section;
-  saved: number[];
-}
 export interface UserBookmarks {
-  savedItems: SavedPlaylist[];
+  savedItems: BookmarkedItem[];
 }
+
+export interface BookmarkedItem {
+  belt: BeltLevel;
+  stripe: StripeLevel;
+  section: SectionName;
+  video: VideoType
+}
+

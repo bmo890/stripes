@@ -1,13 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
-
+import {BeltLevel, StripeLevel} from '../../Stripe Playlist/index'
 interface ChooseStripeIconProps {
   amount: number;
-  belt: 'white' | 'blue';
+  belt: BeltLevel
 }
 
 const ChooseStripeIcon: React.FC<ChooseStripeIconProps> = ({ amount, belt }) => {
-  const beltColor = belt === 'white' ? 'white' : 'blue';
+//   const beltColor = belt === BeltLevel.White ? 'white' : 'blue';
+const beltColor = belt === 0 ? 'white' : 'blue'
+console.log(belt)
 
   return (
     <View
@@ -31,7 +33,7 @@ const ChooseStripeIcon: React.FC<ChooseStripeIconProps> = ({ amount, belt }) => 
           alignItems: 'center',
         }}
       >
-        {[...Array(amount)].map((_, i) => (
+        {[...Array(amount + 1)].map((_, i) => (
           <View
             key={i}
             style={{
