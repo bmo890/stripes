@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getHeaderTitle } from "@react-navigation/elements";
-import { StyleSheet, View, Pressable, Platform } from "react-native";
+import { StyleSheet, View, Text, Pressable, Platform } from "react-native";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import {
   Menu,
@@ -9,9 +9,22 @@ import {
   Divider,
   Provider,
   Appbar,
+  List,
 } from "react-native-paper";
 
+type MenuItemProps = {
+  icon: string;
+  title: string;
+};
 
+const MenuItem: React.FC<MenuItemProps> = ({ icon, title }) => {
+  return (
+    <View style={{ flexDirection: "row", alignItems: 'center'}}>
+      <List.Icon icon={icon}/>
+      <Text style={{marginLeft: 5}}>{title}</Text>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "black",
@@ -57,9 +70,25 @@ const AppBar = ({
           }
           anchorPosition="bottom"
         >
-          <Menu.Item onPress={() => {}} title="White Belt" />
+          <Menu.Item
+            onPress={() => {}}
+            title={<MenuItem icon="account" title="Profile" />}
+          />
           <Divider />
-          <Menu.Item onPress={() => {}} title="Blue Belt" />
+          <Menu.Item
+            onPress={() => {}}
+            title={<MenuItem icon="bookmark-outline" title="Bookmarks" />}
+          />
+          <Divider />
+          <Menu.Item
+            onPress={() => {}}
+            title={<MenuItem icon="cog" title="Settings" />}
+          />
+          <Divider />
+          <Menu.Item
+            onPress={() => {}}
+            title={<MenuItem icon="logout" title="Logout" />}
+          />
         </Menu>
       </View>
     </Appbar.Header>

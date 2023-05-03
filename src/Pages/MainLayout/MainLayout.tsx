@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View, ScrollView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationProp } from "@react-navigation/native";
