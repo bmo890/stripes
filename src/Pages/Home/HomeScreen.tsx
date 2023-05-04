@@ -14,7 +14,7 @@ import { Button, Card, Text, Menu, Surface, List } from "react-native-paper";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import BookmarksCard from "../Bookmarks/BookmarksCard";
 import CoachsCornerCard from "../CoachsCorner/CoachsCornerCard";
-import BeltCard from "../StripePages/BeltCard";
+import BeltCard from "../Belt/BeltCard";
 import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon";
 
 export const F_TLV_BLUE = "#9BD5E7";

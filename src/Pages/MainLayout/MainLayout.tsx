@@ -8,10 +8,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AppBar from "../../Components/AppBar";
 import HomeScreen from "../Home";
 import ProfileScreen from "../Profile";
+import BeltPage from "../Belt/BeltPage"
+import {BeltLevel} from '../../Stripe Playlist/index'
 
 export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
+  BeltPage: {beltLevel: number};
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -28,6 +31,8 @@ export default function MainLayout() {
       >
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
+        <RootStack.Screen name="BeltPage" component={BeltPage} />
+
       </RootStack.Navigator>
     </NavigationContainer>
   );

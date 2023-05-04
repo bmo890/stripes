@@ -4,11 +4,6 @@ import {
   W3_PLAYLIST,
 } from "./WhiteBelt/WhiteBeltPlaylist";
 
-export const WHITE_PLAYLIST: BeltPlaylist = [
-  W1_PLAYLIST,
-  W2_PLAYLIST,
-  W3_PLAYLIST,
-];
 export enum SectionName {
   S1_1 = "S1_1",
   S1_2 = "S1_2",
@@ -34,8 +29,19 @@ export enum StripeLevel {
   S4,
 }
 
+export const WHITE_PLAYLIST: BeltPlaylist = {
+belt: BeltLevel.White,
+  sections: [
+  W1_PLAYLIST,
+  W2_PLAYLIST,
+  W3_PLAYLIST,
+]}
+
 //BeltPlaylist > Stripe > Section > Video Type 
-export type BeltPlaylist = Stripe[];
+export type BeltPlaylist = {
+  belt: BeltLevel;
+  sections: Stripe[];
+}
 
 export interface Stripe {
   belt: BeltLevel;
