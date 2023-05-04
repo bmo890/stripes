@@ -14,7 +14,7 @@ import {BeltLevel} from '../../Stripe Playlist/index'
 export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
-  BeltPage: {beltLevel: number};
+  Belt: {beltPage: BeltLevel} 
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -31,7 +31,7 @@ export default function MainLayout() {
       >
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
-        <RootStack.Screen name="BeltPage" component={BeltPage} />
+        <RootStack.Screen name="Belt" component={BeltPage} />
 
       </RootStack.Navigator>
     </NavigationContainer>

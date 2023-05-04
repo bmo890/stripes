@@ -27,8 +27,8 @@ const BeltCard: React.FC = () => {
           belt={BeltLevel.White}
           amount={4}
           onPress={() =>
-            navigation.navigate("BeltPage", {
-              beltLevel: BeltLevel.White,
+            navigation.navigate("Belt", {
+              beltPage: BeltLevel.White,
             })
           }
         />
@@ -36,8 +36,8 @@ const BeltCard: React.FC = () => {
           belt={BeltLevel.Blue}
           amount={4}
           onPress={() =>
-            navigation.navigate("BeltPage", {
-              beltLevel: BeltLevel.Blue,
+            navigation.navigate("Belt", {
+              beltPage: BeltLevel.Blue,
             })
           }
         />

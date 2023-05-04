@@ -25,7 +25,17 @@ const BeltThumbnail: React.FC<BeltThumbnailProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{ width: 100, height: 100, borderRadius: 10, overflow: "hidden" }}
+      style={{
+        width: 110,
+        height: 110,
+        borderRadius: 10,
+        overflow: "hidden",
+        elevation: 1, // Add an elevation value to apply a shadow
+        shadowColor: "#000", // Set the shadow color to black
+        shadowOpacity: 0.25, // Set the shadow opacity to 25%
+        shadowRadius: 3, // Set the shadow radius to 3 pixels
+        shadowOffset: { width: 0, height: 3 }, // Set the shadow offse
+      }}
     >
       <LinearGradient
         colors={gradientColors}
@@ -33,9 +43,11 @@ const BeltThumbnail: React.FC<BeltThumbnailProps> = ({
         end={{ x: 1, y: 1 }}
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
-        <ChooseStripeIcon belt={belt} amount={amount} />
-        <Text style={{ color: "black", fontWeight: "bold", paddingTop: 8}}>
-          {belt === BeltLevel.White ? "White Belt" : "Blue Belt"}
+        <View style={{ paddingTop: 8 }}>
+          <ChooseStripeIcon belt={belt} amount={amount} />
+        </View>
+        <Text style={{ color: "black", fontWeight: "bold", paddingTop: 8 }}>
+          {belt === BeltLevel.White ? "WHITE" : "BLUE"}
         </Text>
       </LinearGradient>
     </TouchableOpacity>

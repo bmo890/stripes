@@ -17,51 +17,51 @@ import {
   W1_PLAYLIST,
   W2_PLAYLIST,
   W3_PLAYLIST,
-} from "../../Stripe Playlist/WhiteBelt/WhiteBeltPlaylist";
+} from "../../Stripe Playlist/WhiteBeltPlaylist";
 
 const bookmarkedItems: UserBookmarks = {
   savedItems: [
     {
       belt: W1_PLAYLIST.belt,
       stripe: W1_PLAYLIST.stripe,
-      section: W1_PLAYLIST.section[0].section,
-      video: W1_PLAYLIST.section[0].playlist[0],
+      section: W1_PLAYLIST.sections[0].section,
+      video: W1_PLAYLIST.sections[0].playlist[0],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W1_PLAYLIST.stripe,
-      section: W1_PLAYLIST.section[2].section,
-      video: W1_PLAYLIST.section[2].playlist[1],
+      section: W1_PLAYLIST.sections[2].section,
+      video: W1_PLAYLIST.sections[2].playlist[1],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W1_PLAYLIST.stripe,
-      section: W1_PLAYLIST.section[2].section,
-      video: W1_PLAYLIST.section[2].playlist[2],
+      section: W1_PLAYLIST.sections[2].section,
+      video: W1_PLAYLIST.sections[2].playlist[2],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W1_PLAYLIST.stripe,
-      section: W1_PLAYLIST.section[3].section,
-      video: W1_PLAYLIST.section[3].playlist[1],
+      section: W1_PLAYLIST.sections[3].section,
+      video: W1_PLAYLIST.sections[3].playlist[1],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W2_PLAYLIST.stripe,
-      section: W2_PLAYLIST.section[1].section,
-      video: W2_PLAYLIST.section[1].playlist[0],
+      section: W2_PLAYLIST.sections[1].section,
+      video: W2_PLAYLIST.sections[1].playlist[0],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W2_PLAYLIST.stripe,
-      section: W2_PLAYLIST.section[1].section,
-      video: W2_PLAYLIST.section[1].playlist[2],
+      section: W2_PLAYLIST.sections[1].section,
+      video: W2_PLAYLIST.sections[1].playlist[2],
     },
     {
       belt: W1_PLAYLIST.belt,
       stripe: W3_PLAYLIST.stripe,
-      section: W3_PLAYLIST.section[0].section,
-      video: W3_PLAYLIST.section[0].playlist[0],
+      section: W3_PLAYLIST.sections[0].section,
+      video: W3_PLAYLIST.sections[0].playlist[0],
     },
   ],
 };
@@ -147,7 +147,7 @@ const BookmarkCard: React.FC = () => {
           <IconButton
             {...props}
             icon={
-              expanded.every((val) => val) ? "close-box-multiple-outline" : "expand-all-outline"
+              expanded.every((val) => val) ? "chevron-up" : "chevron-down"
             }
             onPress={handleAllPress}
           />
@@ -155,13 +155,13 @@ const BookmarkCard: React.FC = () => {
       />
       <Card.Content>
         <View style={{ maxHeight: 400 }}>
-          <ScrollView showsVerticalScrollIndicator={false} >
+          <ScrollView showsVerticalScrollIndicator={false}>
             {displayedBookmarks.map((stripe, index: number) => {
               return (
                 <List.Accordion
                   style={{
                     marginBottom: 5,
-                    backgroundColor: theme.colors.elevation.level3,
+                    backgroundColor: theme.colors.elevation.level4,
                     borderRadius: 10,
                   }}
                   key={index}
@@ -179,20 +179,18 @@ const BookmarkCard: React.FC = () => {
                         amount={stripe.stripe + 1}
                         belt={stripe.belt}
                       />
-                      {/* <Text style={{ marginLeft: 5 }}>{stripe.stripe}</Text> */}
                     </View>
                   }
                   expanded={expanded[index]}
                   onPress={() => handlePress(index)}
                 >
-                  <View style={{ paddingTop: 10 }}>
+                  <View style={{ paddingTop: 10}}>
                     <ScrollView horizontal={true} style={styles.scrollView}>
                       {stripe.items.map((move, index: number) => {
                         return (
                           <View key={index} style={styles.thumbnailContainer}>
                             <Image
                               style={styles.thumbnail}
-                              // source={{ uri: `https://i1.ytimg.com/vi/${move.url}/hqdefault.jpg` }}
                               source={{ uri: `https://i.ytimg.com/vi_webp/${move.url}/mqdefault.webp` }}
                             />
                             <Text style={{ textAlign: "center" }}>
@@ -210,8 +208,6 @@ const BookmarkCard: React.FC = () => {
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
       </Card.Actions>
     </Card>
   );
