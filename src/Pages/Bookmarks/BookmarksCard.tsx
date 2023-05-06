@@ -69,7 +69,6 @@ const bookmarkedItems: UserBookmarks = {
 
 const BookmarkCard: React.FC = () => {
   const theme = useTheme();
-  console.log(theme);
   const [expanded, setExpanded] = useState<boolean[]>([]);
 
 

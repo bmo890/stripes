@@ -6,6 +6,7 @@ import { useRoute, RouteProp, Route } from "@react-navigation/native";
 import { BeltLevel, StripeLevel } from "../../Stripe Playlist";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon";
+import StripeSection from './Components/StripeSection'
 
 import { BeltPlaylist, Stripe, Section } from "../../Stripe Playlist/index";
 
@@ -13,19 +14,6 @@ import {
   WHITE_PLAYLIST,
   BLUE_PLAYLIST,
 } from "../../Stripe Playlist/WhiteBeltPlaylist";
-
-interface StripeSectionProps {
-  stripe: Stripe;
-}
-
-const StripeSection = ({ stripe }: StripeSectionProps) => {
-  // Render the accordions and VideoTypeCards here.
-  return (
-    <View>
-      <Text>hi</Text>
-    </View>
-  );
-};
 
 const BeltPage = ({ route, navigation }: ScreenProps) => {
   const { beltPage } = route.params as { beltPage: BeltLevel };
@@ -71,10 +59,9 @@ const BeltPage = ({ route, navigation }: ScreenProps) => {
     <TabBar
       {...props}
       renderLabel={({ route, focused, color }: { route: TabType; focused: boolean; color: string }) => {
-        console.log(route);
         return (
           <View>
-            <Text>{route.title}</Text>
+            {/* <Text>{route.title}</Text> */}
             <ChooseStripeIcon amount={route.stripe + 1} belt={BeltLevel.White}/>
           </View>
         );
