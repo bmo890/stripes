@@ -1,19 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  View,
   Text,
-  FlatList,
   Image,
   StyleSheet,
-  ScrollView,
   TouchableOpacity
 } from "react-native";
-import { useTheme, Title, Card } from "react-native-paper";
-
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-
-import Collapsible from "react-native-collapsible";
-import { Stripe, Section, VideoType } from "../../../Stripe Playlist/index";
+import { VideoType } from "../../../Stripe Playlist/index";
 
 interface VideoCardProps {
     video: VideoType

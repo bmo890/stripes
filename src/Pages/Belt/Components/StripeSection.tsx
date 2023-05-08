@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { useTheme, Title, Card } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -23,6 +23,9 @@ interface StripeSectionProps {
 const StripeSection = ({ stripe }: StripeSectionProps) => {
   const initialExpandedSections = stripe.sections.map((stripe, index) => index);
   const [selectedVideo, setSelectedVideo] = useState<VideoType | false>(false);
+  const [selectedSection, setSelectedSection] = useState<Section | false>(
+    false
+  );
   const [openModal, setOpenModal] = useState(false);
 
   const theme = useTheme();
@@ -40,7 +43,11 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
   };
 
   const openModalCB = (video: VideoType) => {
+    const section = stripe.sections.filter(
+      (section) => section.section === video.section
+    );
     setSelectedVideo(video);
+    setSelectedSection(section[0]);
     setOpenModal(true);
   };
 
@@ -77,7 +84,12 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
       <VideoModal
         visible={openModal}
         selectedVideo={selectedVideo}
-        closeCB={() => setSelectedVideo(false)}
+        selectedSection={selectedSection}
+        changeVideo={(video: VideoType) => setSelectedVideo(video)}
+        closeCB={() => {
+          setSelectedVideo(false);
+          setSelectedSection(false);
+        }}
       />
     </ScrollView>
   );

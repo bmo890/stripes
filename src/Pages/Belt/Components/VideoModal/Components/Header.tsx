@@ -13,7 +13,7 @@ import { F_TLV_BLUE, F_TLV_PINK } from "../../../../Home/HomeScreen";
 import {ModalProps} from '../VideoModal'
 
 
-const ModalHeader = ({selectedVideo, visible, closeCB}: ModalProps) => {
+const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, closeCB}: ModalProps) => {
     if (!selectedVideo) {
         return null;
       }

@@ -1,23 +1,26 @@
-import {
-  Modal,
-  TouchableOpacity,
-  Dimensions,
-  SafeAreaView,
-  View,
-} from "react-native";
-import { Text, Card, IconButton } from "react-native-paper";
+import { Modal, Dimensions, SafeAreaView, View } from "react-native";
+import { Text, Card } from "react-native-paper";
 import { Stripe, Section, VideoType } from "../../../../Stripe Playlist/index";
 import YoutubePlayer from "../../../../Components/YoutubePlayer";
 import { HEADER_HEIGHT } from "../../../../Components/AppBar/AppBar";
 import Header from "./Components/Header";
+import Navigator from "./Components/Navigator";
 
 export interface ModalProps {
   selectedVideo: VideoType | false;
+  selectedSection: Section | false;
+  changeVideo: (video: VideoType) => void;
   visible: boolean;
   closeCB: () => void;
 }
-const VideoModal = ({ selectedVideo, visible, closeCB }: ModalProps) => {
-  if (!selectedVideo) {
+const VideoModal = ({
+  selectedVideo,
+  selectedSection,
+  changeVideo,
+  visible,
+  closeCB,
+}: ModalProps) => {
+  if (!selectedVideo || !selectedSection) {
     return null;
   }
 
@@ -38,6 +41,8 @@ const VideoModal = ({ selectedVideo, visible, closeCB }: ModalProps) => {
           }}
         >
           <Header
+            selectedSection={selectedSection}
+            changeVideo={changeVideo}
             selectedVideo={selectedVideo}
             visible={visible}
             closeCB={closeCB}
@@ -46,20 +51,34 @@ const VideoModal = ({ selectedVideo, visible, closeCB }: ModalProps) => {
             videoId={selectedVideo.url}
             style={{ width: "100%", height: "30%" }}
           />
-          <Card
+          <View
             style={{
-              // height: height - 300,
-              width: "90%",
-              borderRadius: 10,
-              marginTop: 10,
-              padding: 20,
+              flex: 1,
+              width: "100%",
+              flexDirection: "column",
+              padding: 10,
             }}
           >
-            <Text style={{ fontSize: 18, marginTop: 10, fontWeight: "bold" }}>
-              {selectedVideo.titleEN}
-            </Text>
-            <Text style={{ marginTop: 5 }}>{selectedVideo.descriptionEN}</Text>
-          </Card>
+            <Navigator
+              selectedSection={selectedSection}
+              selectedVideo={selectedVideo}
+              changeVideo={changeVideo}
+            />
+            <Card
+              style={{
+                borderRadius: 10,
+                marginTop: 10,
+                padding: 20,
+              }}
+            >
+              <Text style={{ fontSize: 18, marginTop: 10, fontWeight: "bold" }}>
+                {selectedVideo.titleEN}
+              </Text>
+              <Text style={{ marginTop: 5 }}>
+                {selectedVideo.descriptionEN}
+              </Text>
+            </Card>
+          </View>
         </View>
       </SafeAreaView>
     </Modal>

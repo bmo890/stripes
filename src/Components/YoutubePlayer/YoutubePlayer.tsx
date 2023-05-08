@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ActivityIndicator, Platform, View, Image, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Platform, View, Image } from "react-native";
 import { WebView } from "react-native-webview";
 
 interface YoutubePlayerProps {
@@ -35,6 +35,10 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
       source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
     />
   );
+
+  useEffect(() => {
+    setLoaded(false)
+  }, [videoId])
   const visibleStyle = { width: "100%", height: "100%", zIndex: 1 };
   const iframe = (
     <View style={{ ...style }}>
