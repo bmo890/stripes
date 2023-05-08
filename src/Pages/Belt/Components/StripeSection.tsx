@@ -14,7 +14,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Collapsible from "react-native-collapsible";
 import { Stripe, Section, VideoType } from "../../../Stripe Playlist/index";
 import VideoCard from "./VideoCard";
-import VideoModal from "./VideoModal";
+import VideoModal from "./VideoModal/VideoModal";
 
 interface StripeSectionProps {
   stripe: Stripe;

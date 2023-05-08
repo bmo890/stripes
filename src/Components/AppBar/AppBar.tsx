@@ -17,6 +17,8 @@ type MenuItemProps = {
   title: string;
 };
 
+export const HEADER_HEIGHT = 64
+
 const MenuItem: React.FC<MenuItemProps> = ({ icon, title }) => {
   return (
     <View style={{ flexDirection: "row", alignItems: 'center'}}>
@@ -28,6 +30,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, title }) => {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "black",
+    height: HEADER_HEIGHT
   },
   content: {
     color: "white",
