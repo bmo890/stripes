@@ -35,12 +35,12 @@ Ensure you have the following installed on your system:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/yourrepository.git
+   git clone https://github.com/bmo890/stripes.git
    ```
 
 2. Change into the project directory:
    ```
-   cd yourrepository
+   cd stripes
    ```
 
 3. Install dependencies:
