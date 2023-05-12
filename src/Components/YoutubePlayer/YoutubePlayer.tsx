@@ -80,7 +80,59 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
     </View>
   );
 
-  return Platform.OS === "web" ? iframe : webView;
+  // return Platform.OS === "web" ? iframe : webView;
+  return (
+    <View style={{ ...style }}>
+    {!loaded && (
+      <View
+        style={{
+          ...visibleStyle,
+          position: "absolute",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <YoutubeLoader />
+        <Image
+          style={{ width: "100%", height: "100%" }}
+          source={{
+            uri: `https://i.ytimg.com/vi_webp/${videoId}/hqdefault.webp`,
+          }}
+        />
+      </View>
+    )}
+    {Platform.OS === "web" ? (
+
+      <iframe
+      title="youtube-player"
+      src={`https://www.youtube.com/embed/${videoId}`}
+      frameBorder="0"
+      allowFullScreen
+      onLoad={() => {
+        // setTimeout(() => setLoaded(true), 10);
+        setLoaded(true)
+      }}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+      }}
+      />
+      ): (
+        <WebView
+        style={style}
+        javaScriptEnabled={true}
+        onLoad={() => {
+          // setTimeout(() => setLoaded(true), 10);
+          setLoaded(true)
+        }}
+        source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
+      />
+      )}
+  </View>
+  )
 };
 
 export default YoutubePlayer;
