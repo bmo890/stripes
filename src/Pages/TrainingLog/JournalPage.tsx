@@ -1,29 +1,18 @@
 // JournalPage.tsx
-import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import AddLogModal from './NewLogModal';
-import TrainingLogCard from './JournalEntry';
-import {Log} from './index'
+import React, { useState, useEffect } from "react";
+import { View } from "react-native";
+import { IconButton, Button, Text, TouchableRipple } from "react-native-paper";
+import AddLogModal from "./NewLogModal";
+import TrainingLogCard from "./JournalEntry";
+import { Log, fakeLogs } from "./index";
 
 const JournalPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [logs, setLogs] = useState<Log[]>([{
-    title: 'Saturday Evening - 13.05.23',
-    date: '13.05.23',
-    entry: 'This is a brief preview of the latest journal entry...',
-    tags: ['armbar']
-  },{
-    title: 'Saturday Evening - 13.05.23',
-    date: '13.05.23',
-    entry: 'This is a brief preview of the latest journal entry...',
-    tags: ['kimura', 'kneeslide']
-  },{
-    title: 'Saturday Evening - 13.05.23',
-    date: '13.05.23',
-    entry: 'This is a brief preview of the latest journal entry...',
-    tags: []
-  }]);
+  const [logs, setLogs] = useState<Log[]>([]);
 
+  useEffect(() => {
+    setLogs([...fakeLogs]);
+  }, []);
   const handleModalClose = () => {
     setModalVisible(false);
   };
@@ -33,13 +22,20 @@ const JournalPage: React.FC = () => {
   };
 
   const handleLogSubmit = (log: Log) => {
-    setLogs(prevState => [log, ...prevState]);
+    setLogs((prevState) => [log, ...prevState]);
   };
 
   return (
     <View>
-      <Text>Journal</Text>
-      <Button title="Add Log" onPress={handleModalOpen} />
+      <View style={{ flexDirection: "row", justifyContent: "flex-end", padding: 10 }}>
+        <Button
+          icon="plus"
+          mode="contained"
+          onPress={handleModalOpen}
+        >
+          New
+        </Button>
+      </View>
       <AddLogModal
         visible={modalVisible}
         onClose={handleModalClose}
@@ -47,9 +43,9 @@ const JournalPage: React.FC = () => {
       />
       <View>
         {logs.map((log, index) => (
-        <View key={index}>
-          <TrainingLogCard log={log} />
-            </View>
+          <View key={index} style={{ marginTop: 10, marginHorizontal: 10 }}>
+            <TrainingLogCard log={log} fromJournalPage={true} />
+          </View>
         ))}
       </View>
     </View>

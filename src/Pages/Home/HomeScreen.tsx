@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Platform, ScrollView, View, Image, StyleSheet, Text } from "react-native";
+import {
+  Platform,
+  ScrollView,
+  View,
+  Image,
+  StyleSheet,
+  Text,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, IconButton, MD3Colors } from "react-native-paper";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import BookmarksCard from "../Bookmarks/BookmarksCard";
 import CoachsCornerCard from "../CoachsCorner/CoachsCornerCard";
 import BeltCard from "../Belt/BeltCard";
-import LatestJournalCard from "../TrainingLog/LatestJournalCard";
+import JournalEntry from "../TrainingLog/JournalEntry";
+import { fakeLogs } from "../TrainingLog/index";
 
 export const F_TLV_BLUE = "#9BD5E7";
 export const F_TLV_PINK = "#F0A4C7";
@@ -51,13 +59,6 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
     },
   });
 
-  const latestLog = {
-    title: 'Saturday Evening - 13.05.23',
-    date: '13.05.23',
-    entry: 'This is a brief preview of the latest journal entry...',
-    tags: []
-  };
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -75,7 +76,7 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               Go to details
             </Button>
             <View style={{ marginTop: 10 }}>
-              <LatestJournalCard log={latestLog} />
+              <JournalEntry log={fakeLogs[0]} />
             </View>
             <View style={{ marginTop: 10 }}>
               <CoachsCornerCard />
