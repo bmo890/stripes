@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { ScrollView, View, Image, StyleSheet } from "react-native";
-import { Card, Text, Button, List, IconButton } from "react-native-paper";
+import {
+  Card,
+  Text,
+  Button,
+  List,
+  IconButton,
+  Avatar,
+} from "react-native-paper";
+// import Avatar from "react-native-paper/lib/typescript/src/components/Avatar/AvatarIcon";
 
 const CoachCornerCard = () => {
   const [expanded, setExpanded] = useState(false);
@@ -16,9 +24,8 @@ const CoachCornerCard = () => {
         title={
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-
-            <List.Icon icon="bullhorn-outline" />
-            <Text style={{ fontWeight: "bold" }}>Coach's Corner</Text>
+              <List.Icon icon="bullhorn-outline" />
+              <Text style={{ fontWeight: "bold" }}>Coach's Corner</Text>
             </View>
           </View>
         }
@@ -31,11 +38,32 @@ const CoachCornerCard = () => {
             }}
           />
         )}
-        subtitle={date.toDateString()}
+        subtitle={
+          <View
+            style={{
+              marginBottom: 10,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Avatar.Image
+              size={45}
+              source={require("../../../assets/gal_avatar.png")}
+            />
+            <View style={{paddingLeft: 5}}>
+              <Text style={{fontWeight: "bold" }}>Gal</Text>
+              <Text>{date.toDateString()}</Text>
+            </View>
+          </View>
+        }
         // left={LeftContent}
       />
 
       <Card.Content>
+        {/* <View style={{marginBottom: 5, flexDirection: 'row', alignItems: 'center'}}>
+        <Avatar.Image  size={45} source={require("../../../assets/gal_avatar.png")} />
+        <Text style={{marginLeft: 5, fontWeight: 'bold'}}>Gal</Text>
+        </View> */}
         <ScrollView>
           <Text style={{ maxHeight: 225 }}>
             {expanded ? announcement : announcement.slice(0, 100) + "..."}
@@ -44,13 +72,6 @@ const CoachCornerCard = () => {
         <Button onPress={() => setExpanded(!expanded)}>
           {expanded ? "Show Less" : "Show More"}
         </Button>
-        {/* <List.Accordion
-          title="Announcements"
-          left={(props) => <List.Icon {...props} icon='bullhorn' />}
-          >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
-        </List.Accordion> */}
       </Card.Content>
     </Card>
   );
