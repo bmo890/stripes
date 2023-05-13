@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  FlatList,
-  Image,
   StyleSheet,
   ScrollView,
 } from "react-native";
@@ -19,6 +17,23 @@ import VideoModal from "./VideoModal/VideoModal";
 interface StripeSectionProps {
   stripe: Stripe;
 }
+
+interface SectionListProps {
+  section: Section;
+  openModalCB: (video: VideoType) => void;
+}
+
+const SectionPlaylist = ({ section, openModalCB }: SectionListProps) => {
+  return (
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      {section.playlist.map((video, index) => (
+        <View style={{ width: "33.33%" }} key={index}>
+          <VideoCard video={video} modalCB={openModalCB} />
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const StripeSection = ({ stripe }: StripeSectionProps) => {
   const initialExpandedSections = stripe.sections.map((stripe, index) => index);
@@ -70,14 +85,7 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
             />
           </View>
           <Collapsible collapsed={!collapsedSections.includes(index)}>
-            <FlatList
-              data={section.playlist}
-              renderItem={({ item }) => (
-                <VideoCard video={item} modalCB={openModalCB} />
-              )}
-              keyExtractor={(item) => item.id.toString()}
-              numColumns={3}
-            />
+            <SectionPlaylist section={section} openModalCB={openModalCB} />
           </Collapsible>
         </View>
       ))}
