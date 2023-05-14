@@ -32,11 +32,13 @@ const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, clos
         alignItems: "center",
       }}
     >
+      {/* -----breadcrumbs section ------*/}
         <View style={{ marginLeft: 8 }}>
           <Text style={{ color: "black", fontSize: 15 }}>
             {selectedVideo.stripe} {">"} {selectedVideo.section}
           </Text>
         </View>
+      {/* -----------------------------*/}
         <View>
           <IconButton
             icon="close-circle-outline"

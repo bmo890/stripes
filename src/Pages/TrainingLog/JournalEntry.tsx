@@ -8,7 +8,7 @@ import {
   IconButton,
   List,
   Text,
-  useTheme
+  useTheme,
 } from "react-native-paper";
 import { Log } from "./index";
 import { useNavigation } from "@react-navigation/native";
@@ -21,14 +21,11 @@ interface JournalEntryProps {
 }
 const LeftContent = () => <Avatar.Icon size={25} icon="folder" />;
 
-const JournalEntry: React.FC<JournalEntryProps> = ({
-  log,
-  fromJournalPage,
-}) => {
+const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
   const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
   const navigation = useNavigation<ScreenProps["navigation"]>();
-  const theme = useTheme()
+  const theme = useTheme();
 
   const entryPreview =
     !expanded && log.entry.length > 50
@@ -63,19 +60,27 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
           </View>
         }
         right={(props) => {
-          return !fromJournalPage ?(
-              <IconButton mode='contained-tonal' icon="plus" iconColor='white' style={{backgroundColor: theme.colors.primary}} onPress={()=>{return}}/>
+          return !fromJournalPage ? (
+            <IconButton
+              mode="contained-tonal"
+              icon="plus"
+              iconColor="white"
+              style={{ backgroundColor: theme.colors.primary }}
+              onPress={() => {
+                return;
+              }}
+            />
+          ) : (
             //  <IconButton
             //   {...props}
             //   icon="chevron-right"
             //   onPress={() => navigation.navigate("Log")}
-            //   /> 
-          ) : (
+            //   />
             <IconButton
-            {...props}
-            icon="pencil-outline"
-            onPress={() => setEditing(true)}
-          />  
+              {...props}
+              icon="pencil-outline"
+              onPress={() => setEditing(true)}
+            />
           );
         }}
         subtitle={log.title.length > 0 ? formattedDate : ""}
