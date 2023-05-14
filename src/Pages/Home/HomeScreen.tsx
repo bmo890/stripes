@@ -76,13 +76,13 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               Go to details
             </Button>
             <View style={{ marginTop: 10 }}>
-              <JournalEntry log={fakeLogs[0]} />
-            </View>
-            <View style={{ marginTop: 10 }}>
               <CoachsCornerCard />
             </View>
             <View style={{ marginTop: 10 }}>
               <BeltCard />
+            </View>
+            <View style={{ marginTop: 10 }}>
+              <JournalEntry log={fakeLogs[0]} />
             </View>
             <View style={{ marginTop: 10 }}>
               <BookmarksCard />
