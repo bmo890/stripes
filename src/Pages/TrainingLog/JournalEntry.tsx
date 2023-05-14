@@ -8,6 +8,7 @@ import {
   IconButton,
   List,
   Text,
+  useTheme
 } from "react-native-paper";
 import { Log } from "./index";
 import { useNavigation } from "@react-navigation/native";
@@ -27,6 +28,7 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
   const navigation = useNavigation<ScreenProps["navigation"]>();
+  const theme = useTheme()
 
   const entryPreview =
     !expanded && log.entry.length > 50
@@ -62,11 +64,12 @@ const JournalEntry: React.FC<JournalEntryProps> = ({
         }
         right={(props) => {
           return !fromJournalPage ?(
-            <IconButton
-              {...props}
-              icon="chevron-right"
-              onPress={() => navigation.navigate("Log")}
-            />
+              <IconButton mode='contained-tonal' icon="plus" iconColor='white' style={{backgroundColor: theme.colors.primary}} onPress={()=>{return}}/>
+            //  <IconButton
+            //   {...props}
+            //   icon="chevron-right"
+            //   onPress={() => navigation.navigate("Log")}
+            //   /> 
           ) : (
             <IconButton
             {...props}
