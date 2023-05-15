@@ -43,9 +43,9 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
         />
       )}
       <Card.Title
-      subtitleStyle={{fontStyle: 'italic'}}
+        subtitleStyle={{ fontStyle: "italic" }}
         titleStyle={{ minHeight: 0, fontWeight: "bold" }}
-        style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5}}
+        style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
         title={log.title ? log.title : formattedDate}
         right={(props) => {
           return !fromJournalPage ? null : (
@@ -56,7 +56,7 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
             />
           );
         }}
-        subtitle={log.title.length > 0 ? formattedDate : ""}
+        subtitle={log.title.length > 0 ? formattedDate : " "}
       />
       <Card.Content>
         {log.tags.length > 0 && (

@@ -22,7 +22,8 @@ import {
 import { Log } from "./index";
 import formatDate from "../../Utils/ISOFormatter";
 import HomeCardTitle from "../Home/Components/HomeCardTitle";
-import ISOFormatter from "../../Utils/ISOFormatter";
+import ISOFormatter from "../../Utils/ISOFormatter"
+import TagHandler from './Components/TagHandler'
 
 interface Props {
   visible: boolean;
@@ -42,11 +43,15 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
   const [log, setLog] = useState<Log>(defaultLog);
   const [isChanged, setIsChanged] = useState(false);
-
+  const dateOnOpen = new Date();
   const handleChange = (field: keyof Log, value: string) => {
     // setIsChanged(true);
     setLog((prevState) => ({ ...prevState, [field]: value }));
   };
+
+  const addTag = (newTag: string) => {
+    setLog((prevState) => ({ ...prevState, ['tags']: [...log.tags, newTag] }));
+  }
 
   const handleModalClose = () => {
     if (isChanged) {
@@ -95,7 +100,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
               titleStyle={{ minHeight: 0, fontWeight: "bold" }}
               style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
               title={"New Journal Entry"}
-              // subtitle={log.title.length > 0 ? formattedDate : ""}
+            subtitle={ISOFormatter(dateOnOpen.toString())}
             />
             <Card.Content>
               <TextInput
@@ -114,6 +119,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                   )
                 }
               />
+              <TagHandler tags={log.tags} addTagCB={(tag: string) => addTag(tag) }/>
               <View style={{ flexDirection: "row", marginVertical: 10 }}>
                 <List.Icon icon="tag-multiple-outline" />
                 <Chip
@@ -124,10 +130,11 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                     borderWidth: 2,
                     marginHorizontal: 2,
                   }}
-                  onPress={()=>{return}}
+                  onPress={() => {
+                    return;
+                  }}
                 >
                   <Text>+</Text>
-                  
                 </Chip>
                 <ScrollView horizontal style={{ flexDirection: "row" }}>
                   {log.tags.map((tag, index) => (
