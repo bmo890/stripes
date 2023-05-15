@@ -50,16 +50,7 @@ Ensure you have the following installed on your system:
 
 4. Start the React Native development server:
    ```
-   npx react-native start
-   ```
-
-5. In another terminal, run the app on Android:
-   ```
-   npx react-native run-android
-   ```
-   Or on iOS:
-   ```
-   npx react-native run-ios
+   npm start
    ```
 
 ## Contributing
