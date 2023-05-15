@@ -15,11 +15,12 @@ import ChooseStripeIcon from "../../../../../Components/ChooseStripeIcon/ChooseS
 
 
 const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, closeCB}: ModalProps) => {
-    if (!selectedVideo) {
+    if (!selectedVideo || !selectedSection) {
         return null;
       }
       const gradientColors = [ F_TLV_PINK, F_TLV_BLUE]
 
+      
     return (
     <LinearGradient
       colors={gradientColors}
