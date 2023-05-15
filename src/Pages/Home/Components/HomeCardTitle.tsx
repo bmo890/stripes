@@ -22,6 +22,9 @@ const HomeCardTitle = ({ page, icon, title }: JournalEntryProps) => {
           alignItems: "center",
           justifyContent: "space-between",
           padding: 10,
+          backgroundColor: theme.colors.elevation.level3,
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>

@@ -14,7 +14,7 @@ import { Log } from "./index";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import formatDate from "../../Utils/ISOFormatter";
-import HomeCardTitle from '../Home/Components/HomeCardTitle'
+import HomeCardTitle from "../Home/Components/HomeCardTitle";
 
 interface JournalEntryProps {
   log: Log;
@@ -36,22 +36,19 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
   return (
     <Card>
       {!fromJournalPage && (
-        <HomeCardTitle page={"Log"} icon={"book-open"} title={"Training Journal"}/>
+        <HomeCardTitle
+          page={"Log"}
+          icon={"book-open"}
+          title={"Training Journal"}
+        />
       )}
       <Card.Title
+      subtitleStyle={{fontStyle: 'italic'}}
+        titleStyle={{ minHeight: 0, fontWeight: "bold" }}
+        style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5}}
         title={log.title ? log.title : formattedDate}
         right={(props) => {
-          return !fromJournalPage ? (
-            <IconButton
-              mode="contained-tonal"
-              icon="plus"
-              // iconColor="white"
-              // style={{ backgroundColor: theme.colors.primary }}
-              onPress={() => {
-                return;
-              }}
-            />
-          ) : (
+          return !fromJournalPage ? null : (
             <IconButton
               {...props}
               icon="pencil-outline"
@@ -59,11 +56,11 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
             />
           );
         }}
-        // subtitle={log.title.length > 0 ? formattedDate : ""}
+        subtitle={log.title.length > 0 ? formattedDate : ""}
       />
       <Card.Content>
         {log.tags.length > 0 && (
-          <View style={{ flexDirection: "row", marginBottom: 2 }}>
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
             <List.Icon icon="tag-multiple-outline" />
             <ScrollView horizontal style={{ flexDirection: "row" }}>
               {log.tags.map((tag, index) => (
