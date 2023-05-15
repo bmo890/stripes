@@ -34,7 +34,7 @@ const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, clos
       }}
     >
       {/* -----breadcrumbs section ------*/}
-        <View style={{ marginLeft: 8, borderColor: "white"  }}>
+        <View style={{ marginLeft: 8 }}>
           <Text style={{ color: "black", fontSize: 15, fontWeight: "bold", display: "flex", alignItems: "center" }}>
             <View style={{marginRight: 10}}> 
               {/* TODO: Not sure where to get values for amount or belt */}
