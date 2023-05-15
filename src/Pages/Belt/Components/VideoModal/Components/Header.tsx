@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { HEADER_HEIGHT } from "../../../../../Components/AppBar/AppBar";
 import { F_TLV_BLUE, F_TLV_PINK } from "../../../../Home/HomeScreen";
 import {ModalProps} from '../VideoModal'
+import ChooseStripeIcon from "../../../../../Components/ChooseStripeIcon/ChooseStripeIcon";
 
 
 const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, closeCB}: ModalProps) => {
@@ -33,9 +34,13 @@ const ModalHeader = ({selectedVideo, visible, selectedSection, changeVideo, clos
       }}
     >
       {/* -----breadcrumbs section ------*/}
-        <View style={{ marginLeft: 8 }}>
-          <Text style={{ color: "black", fontSize: 15 }}>
-            {selectedVideo.stripe} {">"} {selectedVideo.section}
+        <View style={{ marginLeft: 8, borderColor: "white"  }}>
+          <Text style={{ color: "black", fontSize: 15, fontWeight: "bold", display: "flex", alignItems: "center" }}>
+            <View style={{marginRight: 10}}> 
+              {/* TODO: Not sure where to get values for amount or belt */}
+              <ChooseStripeIcon amount={selectedVideo.stripe + 1} belt={0}/>
+            </View>
+            {selectedVideo.titleEN}
           </Text>
         </View>
       {/* -----------------------------*/}
