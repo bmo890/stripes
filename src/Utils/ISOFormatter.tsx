@@ -16,6 +16,6 @@ export default function formatDate(isoString: string): string {
   
     const formattedDate = `${day} ${timeOfDay} - ${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear().toString().substr(-2)}`;
   
-    return formattedDate;
+    return formattedDate.toString();
   }
   

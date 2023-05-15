@@ -7,7 +7,9 @@ import {
   List,
   IconButton,
   Avatar,
+  Chip,
 } from "react-native-paper";
+import HomeCardTitle from "../Home/Components/HomeCardTitle";
 // import Avatar from "react-native-paper/lib/typescript/src/components/Avatar/AvatarIcon";
 
 const CoachCornerCard = () => {
@@ -20,45 +22,29 @@ const CoachCornerCard = () => {
 
   return (
     <Card>
-      <Card.Title
-        title={
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <List.Icon icon="bullhorn-outline" />
-              <Text style={{ fontWeight: "bold" }}>Coach's Corner</Text>
-            </View>
-          </View>
-        }
-        right={(props) => (
-          <IconButton
-            {...props}
-            icon="chevron-right"
-            onPress={() => {
-              return;
-            }}
-          />
-        )}
-        subtitle={
-          <View
-            style={{
-              marginBottom: 10,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Avatar.Image
-              size={45}
-              source={require("../../../assets/gal_avatar.png")}
-            />
-            <View style={{paddingLeft: 5}}>
-              <Text style={{fontWeight: "bold" }}>Gal</Text>
-              <Text>{date.toDateString()}</Text>
-            </View>
-          </View>
-        }
-        // left={LeftContent}
+      <HomeCardTitle
+        page={"Coach"}
+        icon={"bullhorn-outline"}
+        title={"Coach's Corner"}
       />
 
+      <View
+        style={{
+          // marginBottom: 10,
+          padding: 10,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Avatar.Image
+          size={45}
+          source={require("../../../assets/gal_avatar.png")}
+        />
+        <View style={{ paddingLeft: 5 }}>
+          <Text style={{ fontWeight: "bold" }}>Gal</Text>
+          <Text>{date.toDateString()}</Text>
+        </View>
+      </View>
       <Card.Content>
         {/* <View style={{marginBottom: 5, flexDirection: 'row', alignItems: 'center'}}>
         <Avatar.Image  size={45} source={require("../../../assets/gal_avatar.png")} />

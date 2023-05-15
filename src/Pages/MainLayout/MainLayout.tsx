@@ -17,6 +17,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Belt: {beltPage: BeltLevel} 
   Log: undefined
+  Coach: undefined
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;

@@ -14,6 +14,7 @@ import { Log } from "./index";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import formatDate from "../../Utils/ISOFormatter";
+import HomeCardTitle from '../Home/Components/HomeCardTitle'
 
 interface JournalEntryProps {
   log: Log;
@@ -34,48 +35,23 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
   const formattedDate = formatDate(log.date);
   return (
     <Card>
+      {!fromJournalPage && (
+        <HomeCardTitle page={"Log"} icon={"book-open"} title={"Training Journal"}/>
+      )}
       <Card.Title
-        title={
-          <View>
-            {!fromJournalPage && (
-              <Pressable onPress={() => navigation.navigate("Log")}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <List.Icon icon="book-open" />
-                  <Text style={{ marginLeft: 2, fontWeight: "bold" }}>
-                    Training Journal
-                  </Text>
-                </View>
-              </Pressable>
-            )}
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text>{log.title ? log.title : formattedDate}</Text>
-              </View>
-            </View>
-          </View>
-        }
+        title={log.title ? log.title : formattedDate}
         right={(props) => {
           return !fromJournalPage ? (
             <IconButton
               mode="contained-tonal"
               icon="plus"
-              iconColor="white"
-              style={{ backgroundColor: theme.colors.primary }}
+              // iconColor="white"
+              // style={{ backgroundColor: theme.colors.primary }}
               onPress={() => {
                 return;
               }}
             />
           ) : (
-            //  <IconButton
-            //   {...props}
-            //   icon="chevron-right"
-            //   onPress={() => navigation.navigate("Log")}
-            //   />
             <IconButton
               {...props}
               icon="pencil-outline"
@@ -83,7 +59,7 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
             />
           );
         }}
-        subtitle={log.title.length > 0 ? formattedDate : ""}
+        // subtitle={log.title.length > 0 ? formattedDate : ""}
       />
       <Card.Content>
         {log.tags.length > 0 && (
