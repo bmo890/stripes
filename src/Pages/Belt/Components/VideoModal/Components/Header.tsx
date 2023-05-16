@@ -44,11 +44,10 @@ const ModalHeader = ({
         style={{ marginLeft: 8, flexDirection: "row", alignItems: "center" }}
       >
         <View style={{ marginRight: 10 }}>
-          {/* TODO: Not sure where to get values for amount or belt */}
           <ChooseStripeIcon amount={selectedVideo.stripe + 1} belt={0} />
         </View>
         <Text style={{ color: "black", fontSize: 15, fontWeight: "bold" }}>
-          {selectedVideo.titleEN}
+          {selectedSection.nameEN}
         </Text>
       </View>
       {/* -----------------------------*/}
