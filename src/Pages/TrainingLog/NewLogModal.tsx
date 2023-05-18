@@ -1,4 +1,3 @@
-// AddLogModal.tsx
 import React, { useState } from "react";
 import {
   View,
@@ -22,9 +21,9 @@ import {
 import { Log } from "./index";
 import formatDate from "../../Utils/ISOFormatter";
 import HomeCardTitle from "../Home/Components/HomeCardTitle";
-import ISOFormatter from "../../Utils/ISOFormatter"
-import TagHandler from './Components/TagHandler'
-
+import ISOFormatter from "../../Utils/ISOFormatter";
+import TagHandler from "./Components/TagHandler";
+import SingleDatePicker from "../../Components/DateTimePickers/SingleDatePicker";
 interface Props {
   visible: boolean;
   onClose: () => void;
@@ -39,7 +38,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
     title: currentEntryTime,
     tags: ["haha", "heehee", "lol"],
     entry: "",
-    date: "",
+    date: time,
   };
   const [log, setLog] = useState<Log>(defaultLog);
   const [isChanged, setIsChanged] = useState(false);
@@ -50,8 +49,8 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   const addTag = (newTag: string) => {
-    setLog((prevState) => ({ ...prevState, ['tags']: [...log.tags, newTag] }));
-  }
+    setLog((prevState) => ({ ...prevState, ["tags"]: [newTag, ...log.tags] }));
+  };
 
   const handleModalClose = () => {
     if (isChanged) {
@@ -74,6 +73,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   const handleLogSubmit = () => {
+    console.log(log);
     onSubmit(log);
     setLog(defaultLog);
     setIsChanged(false);
@@ -100,8 +100,10 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
               titleStyle={{ minHeight: 0, fontWeight: "bold" }}
               style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
               title={"New Journal Entry"}
-            subtitle={ISOFormatter(dateOnOpen.toString())}
+              subtitle={ISOFormatter(dateOnOpen.toString())}
             />
+            {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
+            {/* <SingleDatePicker /> */}
             <Card.Content>
               <TextInput
                 label="Title"
@@ -119,54 +121,25 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                   )
                 }
               />
-              <TagHandler tags={log.tags} addTagCB={(tag: string) => addTag(tag) }/>
-              <View style={{ flexDirection: "row", marginVertical: 10 }}>
-                <List.Icon icon="tag-multiple-outline" />
-                <Chip
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: theme.colors.backdrop,
-                    borderStyle: "dashed",
-                    borderWidth: 2,
-                    marginHorizontal: 2,
-                  }}
-                  onPress={() => {
-                    return;
-                  }}
-                >
-                  <Text>+</Text>
-                </Chip>
-                <ScrollView horizontal style={{ flexDirection: "row" }}>
-                  {log.tags.map((tag, index) => (
-                    <Chip key={index} style={{ marginLeft: 2 }}>
-                      {tag}
-                    </Chip>
-                  ))}
-                </ScrollView>
-              </View>
+              <TagHandler
+                tags={log.tags}
+                addTagCB={(tag: string) => addTag(tag)}
+              />
               {/* <Text>{entryPreview}</Text> */}
+              <Text>Entry</Text>
+              <TextInput
+                value={log.entry}
+                onChangeText={(value) => handleChange("entry", value)}
+                numberOfLines={10}
+                multiline
+              />
             </Card.Content>
+
+            <Card.Actions>
+              <Button onPress={handleModalClose}>Close</Button>
+              <Button onPress={handleLogSubmit}>Save</Button>
+            </Card.Actions>
           </Card>
-          {/* <Text>Title</Text>
-          <TextInput
-            value={log.title}
-            onChangeText={(value) => handleChange("title", value)}
-          />
-
-          <Text>Tags</Text>
-          {log.tags.map((tag, index) => (
-            <Chip key={index}>{tag}</Chip>
-          ))}
-
-          <Text>Entry</Text>
-          <TextInput
-            value={log.entry}
-            onChangeText={(value) => handleChange("entry", value)}
-            multiline
-          /> */}
-
-          <Button onPress={handleModalClose}>Close</Button>
-          <Button onPress={handleLogSubmit}>Submit</Button>
         </View>
       </SafeAreaView>
     </Modal>

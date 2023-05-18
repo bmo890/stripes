@@ -1,0 +1,58 @@
+import React, {useState, useEffect} from 'react'
+import { View } from 'react-native';
+import {Button} from 'react-native-paper'
+import Filter from './Filter'
+import {FilterOption, FilterBarProps} from './index'
+
+interface ClearAllProps {
+  removeFilters: ()=>void;
+  noFilterSelected: boolean
+}
+
+const ClearAllFiltersIcon = ( {removeFilters, noFilterSelected}: ClearAllProps) => {
+  const style = {
+    backgroundColor: '#1F96F3',
+    color: 'white',
+    marginRight: '.5rem',
+    borderRadius: '.5rem',
+  };
+  return (
+    <div>
+      {!noFilterSelected && (
+        <div style={{ width: '5rem' }}>
+            <Button onPress={removeFilters}>Clear All</Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const FilterBar = ({ filterOptions, filterCB, noFilterSelected }: FilterBarProps) => {
+    const clear = 'clearSelected';
+    const removeFilters = () => {
+        filterCB('', 'all', clear);
+      };
+    
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {filterOptions.map((filter: FilterOption, i: number) => {
+          const name = filter.filterName;
+          const items = filter.availableItems
+          const type = filter.filterType;
+          return (
+            <Filter
+              key={i}
+              filterCB={filterCB}
+              filterName={name}
+              filterOptions={items}
+              filterType={type}
+              noFilterSelected={noFilterSelected}
+            />
+          );
+        })}
+        <ClearAllFiltersIcon removeFilters={removeFilters} noFilterSelected={noFilterSelected}/>
+      </View>
+    );
+  };
+
+  export default FilterBar

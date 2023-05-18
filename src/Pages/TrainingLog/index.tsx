@@ -1,9 +1,19 @@
+import { VideoType } from "../../Stripe Playlist/index";
+import { W1_PLAYLIST } from "../../Stripe Playlist/WhiteBeltPlaylist";
+
 export interface Log {
   title: string;
-  tags: string[];
   entry: string;
   date: string;
   arboxGenerated?: boolean;
+  tags: string[]
+  // tags: Tag[];
+  // videos?: VideoType[];
+}
+
+export interface Tag {
+  name: string;
+  id: number;
 }
 
 const date1 = new Date();
@@ -18,20 +28,31 @@ const date3 = new Date();
 date3.setFullYear(2023, 4, 126); // Sets the date to May 13, 2023
 date3.setHours(14, 15, 0); // Sets the time to 14:15:00
 
+export const fakeTags: Tag[] = [
+  { name: "armbar", id: 1 },
+  { name: "kimura", id: 2 },
+  { name: "kneeslide", id: 3 },
+];
+
 export const fakeLogs: Log[] = [
   {
     title: "",
     date: date1.toISOString(),
     entry:
       "Had a great training session this morning!\nWorked on my armbars.\n\nFeeling strong and ready for the next one!",
-    tags: ["armbar"],
+    tags: ['armbar'],
+    // videos: [
+    //   W1_PLAYLIST.sections[0].playlist[1],
+    //   W1_PLAYLIST.sections[1].playlist[1],
+    // ],
   },
   {
     title: "Kimura Day",
     date: date2.toISOString(),
     entry:
       "Today was all about drilling.\nKneeslides are improving but need more work.\n\nAlso practiced some kimura setups.",
-    tags: ["kimura", "kneeslide"],
+    tags: ['kimura', 'kneeslide'],
+    // videos: [],
   },
   {
     title: "Conditioning",
@@ -39,5 +60,6 @@ export const fakeLogs: Log[] = [
     entry:
       "Evening session done. Focused on conditioning.\n\nNo specific techniques worked on. \n\n Had some good rolling sessions and didn't get too tired out. Managed to hit a round with Gal without tapping. \n\nReady for a good night’s sleep and another day of training tomorrow!",
     tags: [],
+    // videos: [W1_PLAYLIST.sections[2].playlist[2]],
   },
 ];
