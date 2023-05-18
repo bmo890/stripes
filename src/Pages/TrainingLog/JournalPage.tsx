@@ -10,6 +10,7 @@ import {
   useUpdateOpenFilters,
   useGetFilters,
   getFilterSelectionItems,
+  useCompareFilteredItem
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
 
@@ -31,10 +32,14 @@ const JournalPage: React.FC = () => {
 
   useEffect(() => {
     const newLogs = [...fakeLogs]
-    setLogs(newLogs)
     const resetFilters = useGetFilters(newLogs, JOURNAL_FILTERS);
+    setLogs(newLogs)
     setFilterOptions(resetFilters);
   }, []);
+
+  const filteredData = useMemo(() => {
+    return logs.filter(log => useCompareFilteredItem(filterOptions, log))
+  }, [filterOptions])
 
   const handleLogSubmit = (log: Log) => {
     setLogs((prevState) => [log, ...prevState]);
@@ -51,9 +56,9 @@ const JournalPage: React.FC = () => {
       type,
       reason
     );
-    console.log(updatedFilters)
     setFilterOptions(updatedFilters);
   };
+
   const noFilterSelected = filterOptions.every(
     (filter) => filter.selectedItems.length === 0
   );
@@ -83,7 +88,7 @@ const JournalPage: React.FC = () => {
         </Button>
       </View>
       <ScrollView>
-        {logs.map((log, index) => (
+        {filteredData.map((log, index) => (
           <View key={index} style={{ marginTop: 10, marginHorizontal: 10 }}>
             <TrainingLogCard log={log} fromJournalPage={true} />
           </View>

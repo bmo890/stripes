@@ -7,6 +7,8 @@ export const useCompareFilteredItem = (
 ) => {
   let i = 0;
   for (const filter of openFilters) {
+    console.log(filter.filterType)
+    // console.log(issue)
     i++;
     if (filter.selectedItems.length === 0) continue;
     if (filter.selectedItems.includes(issue[filter.filterType])) {

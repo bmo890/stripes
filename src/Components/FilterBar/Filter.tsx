@@ -20,10 +20,7 @@ export default function Filter({
   //       onFilterChange(selectedOption);
   //     }
   //   }, [selectedOption, onFilterChange]);
-  // console.log(filterOptions);
-  // console.log(filterName);
-  // console.log(filterType);
-  // console.log(noFilterSelected);
+
 
   const handlePress = (item: string) => {
     let reason = SELECT_OPTION
