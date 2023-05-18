@@ -19,6 +19,10 @@ export const useCompareFilteredItem = (
   return true;
 };
 
+export const SELECT_OPTION = 'selectOption'
+export const REMOVE_OPTION = 'removeOption'
+export const CLEAR_SELECTED = 'clearSelected'
+
 //updates state of selected filter items on a subject
 export const useUpdateOpenFilters = (
   openFilters: FilterOption[],
@@ -27,7 +31,7 @@ export const useUpdateOpenFilters = (
   reason: string
 ) => {
   const updatedOpenFilters: FilterOption[] = [...openFilters];
-  if (type === "all" && reason === "clearSelected") {
+  if (type === "all" && reason === CLEAR_SELECTED) {
     for (const filter of updatedOpenFilters) {
       filter.selectedItems = [];
     }
@@ -38,16 +42,16 @@ export const useUpdateOpenFilters = (
   );
   if (!affectedFilter) return updatedOpenFilters;
   switch (reason) {
-    case "selectOption":
+    case SELECT_OPTION:
       affectedFilter.selectedItems.push(filterQueryItem);
       break;
-    case "removeOption":
+    case REMOVE_OPTION:
       const splicedArray = affectedFilter.selectedItems.filter(
         (item) => item !== filterQueryItem
       );
       affectedFilter.selectedItems = [...splicedArray];
       break;
-    case "clearSelected":
+    case CLEAR_SELECTED:
       affectedFilter.selectedItems = [];
       break;
   }
@@ -83,3 +87,4 @@ export const getFilterSelectionItems = (data: any[], field: string) => {
   const filterItemsArray = Array.from(filterItems);
   return filterItemsArray;
 };
+

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Button, Menu, Divider } from "react-native-paper";
 import { FilterProps } from "./index";
+import FilterItem from "./FilterItem";
+import {SELECT_OPTION, REMOVE_OPTION, CLEAR_SELECTED} from './FilterBarHooks'
 
 export default function Filter({
   filterCB,
@@ -10,24 +12,57 @@ export default function Filter({
   filterType,
   noFilterSelected,
 }: FilterProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [visible, setVisible] = useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
-//   useEffect(() => {
-//     if (selectedOption) {
-//       onFilterChange(selectedOption);
-//     }
-//   }, [selectedOption, onFilterChange]);
+
+  //   useEffect(() => {
+  //     if (selectedOption) {
+  //       onFilterChange(selectedOption);
+  //     }
+  //   }, [selectedOption, onFilterChange]);
+  // console.log(filterOptions);
+  // console.log(filterName);
+  // console.log(filterType);
+  // console.log(noFilterSelected);
+
+  const handlePress = (item: string) => {
+    let reason = SELECT_OPTION
+    const openOptions = selectedOptions.map(string => string.toLowerCase());
+    const itemIndex = openOptions.indexOf(item)
+    let adjustedOptions: string[] = []
+    if (itemIndex !== -1) {
+      reason = REMOVE_OPTION
+      openOptions.splice(itemIndex, 1)
+      adjustedOptions = [...openOptions]
+    } else if (itemIndex === -1) {
+      adjustedOptions = [...openOptions, item]
+    }
+    setSelectedOptions(adjustedOptions)
+    filterCB(item, filterType, reason)
+    return
+  };
   return (
     <View>
       <Menu
         visible={visible}
-        onDismiss={closeMenu}
-        anchor={<Button onPress={openMenu}>{filterName}</Button>}
+        onDismiss={() => setVisible(false)}
+        anchorPosition="bottom"
+        anchor={
+          <FilterItem
+            openCB={() => setVisible(true)}
+            filterName={filterName}
+            notSelected={noFilterSelected}
+          />
+        }
       >
         {filterOptions.map((item, index) => (
-          <Menu.Item key={index} onPress={() => {console.log(item)}} title={item} />
+          <Menu.Item
+            key={index}
+            onPress={() => {
+              handlePress(item);
+            }}
+            title={<Button>{item}</Button>}
+          />
         ))}
       </Menu>
     </View>

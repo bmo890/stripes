@@ -29,7 +29,6 @@ const JournalPage: React.FC = () => {
   const [logs, setLogs] = useState<Log[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
 
-
   useEffect(() => {
     const newLogs = [...fakeLogs]
     setLogs(newLogs)
@@ -52,6 +51,7 @@ const JournalPage: React.FC = () => {
       type,
       reason
     );
+    console.log(updatedFilters)
     setFilterOptions(updatedFilters);
   };
   const noFilterSelected = filterOptions.every(
@@ -64,7 +64,7 @@ const JournalPage: React.FC = () => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          // justifyContent: 'space-b',
+          justifyContent: 'space-between',
           padding: 10,
         }}
       >
