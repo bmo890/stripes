@@ -52,6 +52,14 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
     setLog((prevState) => ({ ...prevState, ["tags"]: [newTag, ...log.tags] }));
   };
 
+  const removeTag = (removedTag: string) => {
+    console.log(removedTag);
+    setLog((prevState) => ({
+      ...prevState,
+      ["tags"]: [...log.tags.filter((tag) => tag !== removedTag)],
+    }));
+  };
+
   const handleModalClose = () => {
     if (isChanged) {
       Alert.alert(
@@ -73,7 +81,6 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   const handleLogSubmit = () => {
-    console.log(log);
     onSubmit(log);
     setLog(defaultLog);
     setIsChanged(false);
@@ -109,7 +116,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                 label="Title"
                 mode={"outlined"}
                 autoCapitalize={"words"}
-                style={{ fontWeight: "bold" }}
+                style={{ fontWeight: "bold", marginBottom: 4 }}
                 value={log.title}
                 onChangeText={(text) => handleChange("title", text)}
                 right={
@@ -121,10 +128,11 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                   )
                 }
               />
-              <TagHandler
-                tags={log.tags}
-                addTagCB={(tag: string) => addTag(tag)}
-              />
+                <TagHandler
+                  tags={log.tags}
+                  addTagCB={(tag: string) => addTag(tag)}
+                  removeTagCB={(tag: string) => removeTag(tag)}
+                />
               {/* <Text>{entryPreview}</Text> */}
               <Text>Entry</Text>
               <TextInput

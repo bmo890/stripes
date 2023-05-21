@@ -18,6 +18,7 @@ import {
   TextInput,
   useTheme,
   TouchableRipple,
+  Badge,
 } from "react-native-paper";
 import { Log } from "../index";
 import HomeCardTitle from "../../Home/Components/HomeCardTitle";
@@ -26,21 +27,28 @@ import ISOFormatter from "../../../Utils/ISOFormatter";
 interface TagHandlerProps {
   tags: string[];
   addTagCB: (newTag: string) => void;
+  removeTagCB: (tag: string) => void;
 }
 
-const TagHandler = ({ tags, addTagCB }: TagHandlerProps) => {
+const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
   const [editing, setEditing] = useState(false);
   const [currentTag, setCurrentTag] = useState<string>("");
+  const [removingTags, setRemovingTags] = useState<boolean>(false);
   const theme = useTheme();
 
   const handleAddNew = (newTag: string) => {
     setCurrentTag("");
     addTagCB(newTag);
+    setEditing(false);
   };
+
+  const handleTagLongPress = () => {
+    !removingTags && setRemovingTags(true);
+  };
+
   return (
-    <View
-    >
-      <View style={{ flexDirection: "row", marginVertical: 10 }}>
+    <View>
+      <View style={{ flexDirection: "row", paddingTop: 10 }}>
         <List.Icon icon="tag-multiple-outline" />
         <Chip
           style={{
@@ -55,13 +63,62 @@ const TagHandler = ({ tags, addTagCB }: TagHandlerProps) => {
           <Text>+</Text>
         </Chip>
         {/* TODO: fix horizontal scrolling on add tag */}
-        <ScrollView horizontal style={{ flexDirection: "row" }}>
+        <ScrollView
+          horizontal
+          style={{ flexDirection: "row", position: "relative" }}
+        >
           {tags.map((tag, index) => (
-            <Chip key={index} style={{ marginLeft: 2 }}>
-              {tag}
-            </Chip>
+            <View
+              key={index}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginLeft: 6,
+                paddingRight: 5,
+              }}
+            >
+              <TouchableRipple style={{ borderRadius: 5 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    position: "relative",
+                  }}
+                >
+                  <Chip
+                    key={index}
+                    onPress={() =>
+                      setTimeout(() => {
+                        removeTagCB(tag);
+                      }, 200)
+                    }
+                  >
+                    {tag}
+                  </Chip>
+                  <Badge
+                    onPress={() =>
+                      setTimeout(() => {
+                        removeTagCB(tag);
+                      }, 200)
+                    }
+                    visible={true}
+                    size={16}
+                    style={{
+                      position: "absolute",
+                      right: -4,
+                      bottom: 16,
+                      backgroundColor: theme.colors.primary,
+                      color: "white",
+                    }}
+                  >
+                    X
+                  </Badge>
+                </View>
+              </TouchableRipple>
+            </View>
           ))}
         </ScrollView>
+        {/*  */}
       </View>
       {editing && (
         <View>

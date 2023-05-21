@@ -14,20 +14,14 @@ const ClearAllFiltersIcon = ({
   removeFilters,
   noFilterSelected,
 }: ClearAllProps) => {
-  const style = {
-    backgroundColor: "#1F96F3",
-    color: "white",
-    marginRight: ".5rem",
-    borderRadius: ".5rem",
-  };
   return (
-    <div>
+    <View>
       {!noFilterSelected && (
-        <div style={{ width: "5rem" }}>
+        <View>
           <Button onPress={removeFilters}>Clear All</Button>
-        </div>
+        </View>
       )}
-    </div>
+    </View>
   );
 };
 

@@ -34,7 +34,7 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
       : log.entry;
   const formattedDate = formatDate(log.date);
   return (
-    <Card>
+    <Card style={{marginBottom: 4}}>
       {!fromJournalPage && (
         <HomeCardTitle
           page={"Log"}

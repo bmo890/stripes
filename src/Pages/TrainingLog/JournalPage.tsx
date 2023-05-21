@@ -10,7 +10,7 @@ import {
   useUpdateOpenFilters,
   useGetFilters,
   getFilterSelectionItems,
-  useCompareFilteredItem
+  useCompareFilteredItem,
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
 
@@ -31,15 +31,20 @@ const JournalPage: React.FC = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
 
   useEffect(() => {
-    const newLogs = [...fakeLogs]
+    const newLogs = [...fakeLogs];
     const resetFilters = useGetFilters(newLogs, JOURNAL_FILTERS);
-    setLogs(newLogs)
+    setLogs(newLogs);
     setFilterOptions(resetFilters);
   }, []);
 
+  useEffect(() => {
+    const resetFilters = useGetFilters(logs, JOURNAL_FILTERS);
+    setFilterOptions(resetFilters);
+  }, [logs]);
+
   const filteredData = useMemo(() => {
-    return logs.filter(log => useCompareFilteredItem(filterOptions, log))
-  }, [filterOptions])
+    return logs.filter((log) => useCompareFilteredItem(filterOptions, log));
+  }, [filterOptions, logs]);
 
   const handleLogSubmit = (log: Log) => {
     setLogs((prevState) => [log, ...prevState]);
@@ -69,7 +74,7 @@ const JournalPage: React.FC = () => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: 'space-between',
+          justifyContent: "space-between",
           padding: 10,
         }}
       >
