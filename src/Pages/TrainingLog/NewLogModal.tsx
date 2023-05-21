@@ -101,7 +101,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
             justifyContent: "center",
           }}
         >
-          <Card style={{ width: "90%", height: "60%" }}>
+          <Card style={{ width: "95%", maxHeight: "90%" }}>
             <Card.Title
               titleStyle={{ minHeight: 0, fontWeight: "bold" }}
               style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
@@ -110,8 +110,8 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
             />
             {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
             {/* <SingleDatePicker /> */}
-            <Card.Content>
-              <ScrollView>
+            <ScrollView>
+              <Card.Content>
                 <TextInput
                   label="Title"
                   mode={"outlined"}
@@ -132,21 +132,26 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                   tags={log.tags}
                   addTagCB={(tag: string) => addTag(tag)}
                   removeTagCB={(tag: string) => {
-                    console.log(tag);
                     removeTag(tag);
                   }}
                 />
-                {/* <Text>{entryPreview}</Text> */}
                 <Text>Entry</Text>
                 <TextInput
                   value={log.entry}
                   onChangeText={(value) => handleChange("entry", value)}
-                  numberOfLines={10}
+                  numberOfLines={7}
                   multiline
+                  right={
+                    log.title.length > 0 && (
+                      <TextInput.Icon
+                        icon="close-circle-outline"
+                        onPress={() => handleChange("entry", "")}
+                      />
+                    )
+                  }
                 />
-              </ScrollView>
-            </Card.Content>
-
+              </Card.Content>
+            </ScrollView>
             <Card.Actions>
               <Button onPress={handleModalClose}>Close</Button>
               <Button onPress={handleLogSubmit}>Save</Button>
