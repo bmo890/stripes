@@ -36,7 +36,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   const currentEntryTime = ISOFormatter(time);
   const defaultLog: Log = {
     title: currentEntryTime,
-    tags: ["haha", "heehee", "lol"],
+    tags: ["haha"],
     entry: "",
     date: time,
   };
@@ -53,7 +53,6 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   const removeTag = (removedTag: string) => {
-    console.log(removedTag);
     setLog((prevState) => ({
       ...prevState,
       ["tags"]: [...log.tags.filter((tag) => tag !== removedTag)],
@@ -112,35 +111,40 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
             {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
             {/* <SingleDatePicker /> */}
             <Card.Content>
-              <TextInput
-                label="Title"
-                mode={"outlined"}
-                autoCapitalize={"words"}
-                style={{ fontWeight: "bold", marginBottom: 4 }}
-                value={log.title}
-                onChangeText={(text) => handleChange("title", text)}
-                right={
-                  log.title.length > 0 && (
-                    <TextInput.Icon
-                      icon="close-circle-outline"
-                      onPress={() => handleChange("title", "")}
-                    />
-                  )
-                }
-              />
+              <ScrollView>
+                <TextInput
+                  label="Title"
+                  mode={"outlined"}
+                  autoCapitalize={"words"}
+                  style={{ fontWeight: "bold", marginBottom: 4 }}
+                  value={log.title}
+                  onChangeText={(text) => handleChange("title", text)}
+                  right={
+                    log.title.length > 0 && (
+                      <TextInput.Icon
+                        icon="close-circle-outline"
+                        onPress={() => handleChange("title", "")}
+                      />
+                    )
+                  }
+                />
                 <TagHandler
                   tags={log.tags}
                   addTagCB={(tag: string) => addTag(tag)}
-                  removeTagCB={(tag: string) => removeTag(tag)}
+                  removeTagCB={(tag: string) => {
+                    console.log(tag);
+                    removeTag(tag);
+                  }}
                 />
-              {/* <Text>{entryPreview}</Text> */}
-              <Text>Entry</Text>
-              <TextInput
-                value={log.entry}
-                onChangeText={(value) => handleChange("entry", value)}
-                numberOfLines={10}
-                multiline
-              />
+                {/* <Text>{entryPreview}</Text> */}
+                <Text>Entry</Text>
+                <TextInput
+                  value={log.entry}
+                  onChangeText={(value) => handleChange("entry", value)}
+                  numberOfLines={10}
+                  multiline
+                />
+              </ScrollView>
             </Card.Content>
 
             <Card.Actions>

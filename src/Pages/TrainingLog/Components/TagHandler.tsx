@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
+  Vibration,
 } from "react-native";
 import {
   Button,
@@ -33,17 +34,12 @@ interface TagHandlerProps {
 const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
   const [editing, setEditing] = useState(false);
   const [currentTag, setCurrentTag] = useState<string>("");
-  const [removingTags, setRemovingTags] = useState<boolean>(false);
   const theme = useTheme();
 
   const handleAddNew = (newTag: string) => {
     setCurrentTag("");
     addTagCB(newTag);
     setEditing(false);
-  };
-
-  const handleTagLongPress = () => {
-    !removingTags && setRemovingTags(true);
   };
 
   return (
@@ -77,7 +73,13 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
                 paddingRight: 5,
               }}
             >
-              <TouchableRipple style={{ borderRadius: 5 }}>
+              <TouchableRipple
+                style={{ borderRadius: 5 }}
+                onPress={() => {
+                  Vibration.vibrate(10);
+                  removeTagCB(tag);
+                }}
+              >
                 <View
                   style={{
                     flexDirection: "row",
@@ -85,22 +87,8 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
                     position: "relative",
                   }}
                 >
-                  <Chip
-                    key={index}
-                    onPress={() =>
-                      setTimeout(() => {
-                        removeTagCB(tag);
-                      }, 200)
-                    }
-                  >
-                    {tag}
-                  </Chip>
+                  <Chip key={index}>{tag}</Chip>
                   <Badge
-                    onPress={() =>
-                      setTimeout(() => {
-                        removeTagCB(tag);
-                      }, 200)
-                    }
                     visible={true}
                     size={16}
                     style={{

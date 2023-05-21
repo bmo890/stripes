@@ -18,7 +18,7 @@ const ClearAllFiltersIcon = ({
     <View>
       {!noFilterSelected && (
         <View>
-          <Button onPress={removeFilters}>Clear All</Button>
+          <Button onPress={() => removeFilters}>Clear All</Button>
         </View>
       )}
     </View>

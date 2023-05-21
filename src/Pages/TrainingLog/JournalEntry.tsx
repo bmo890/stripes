@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView, Pressable } from "react-native";
+import { View, ScrollView, Pressable, Vibration } from "react-native";
 import {
   Avatar,
   Card,
@@ -34,7 +34,7 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
       : log.entry;
   const formattedDate = formatDate(log.date);
   return (
-    <Card style={{marginBottom: 4}}>
+    <Card style={{ marginBottom: 4 }}>
       {!fromJournalPage && (
         <HomeCardTitle
           page={"Log"}
@@ -52,7 +52,10 @@ const JournalEntry = ({ log, fromJournalPage }: JournalEntryProps) => {
             <IconButton
               {...props}
               icon="pencil-outline"
-              onPress={() => setEditing(true)}
+              onPress={() => {
+                Vibration.vibrate(10);
+                setEditing(true);
+              }}
             />
           );
         }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Vibration} from "react-native";
 import { IconButton, Button, Text, TouchableRipple } from "react-native-paper";
 import AddLogModal from "./NewLogModal";
 import TrainingLogCard from "./JournalEntry";
@@ -87,7 +87,7 @@ const JournalPage: React.FC = () => {
         <Button
           icon="plus"
           mode="contained"
-          onPress={() => setModalVisible(true)}
+          onPress={() => {Vibration.vibrate(50); setModalVisible(true)}}
         >
           New
         </Button>
