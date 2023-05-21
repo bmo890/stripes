@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Button, Menu, Divider } from "react-native-paper";
+import { Button, Menu, Divider, List } from "react-native-paper";
 import { FilterProps } from "./index";
 import FilterItem from "./FilterItem";
-import {SELECT_OPTION, REMOVE_OPTION, CLEAR_SELECTED} from './FilterBarHooks'
+import { SELECT_OPTION, REMOVE_OPTION, CLEAR_SELECTED } from "./FilterBarHooks";
 
 export default function Filter({
   filterCB,
@@ -21,22 +21,21 @@ export default function Filter({
   //     }
   //   }, [selectedOption, onFilterChange]);
 
-
   const handlePress = (item: string) => {
-    let reason = SELECT_OPTION
-    const openOptions = selectedOptions.map(string => string.toLowerCase());
-    const itemIndex = openOptions.indexOf(item)
-    let adjustedOptions: string[] = []
+    let reason = SELECT_OPTION;
+    const openOptions = selectedOptions.map((string) => string.toLowerCase());
+    const itemIndex = openOptions.indexOf(item);
+    let adjustedOptions: string[] = [];
     if (itemIndex !== -1) {
-      reason = REMOVE_OPTION
-      openOptions.splice(itemIndex, 1)
-      adjustedOptions = [...openOptions]
+      reason = REMOVE_OPTION;
+      openOptions.splice(itemIndex, 1);
+      adjustedOptions = [...openOptions];
     } else if (itemIndex === -1) {
-      adjustedOptions = [...openOptions, item]
+      adjustedOptions = [...openOptions, item];
     }
-    setSelectedOptions(adjustedOptions)
-    filterCB(item, filterType, reason)
-    return
+    setSelectedOptions(adjustedOptions);
+    filterCB(item, filterType, reason);
+    return;
   };
   return (
     <View>
@@ -58,7 +57,14 @@ export default function Filter({
             onPress={() => {
               handlePress(item);
             }}
-            title={<Button>{item}</Button>}
+            title={
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'flex-end' }}>
+                {selectedOptions.includes(item.toLowerCase()) && (
+                  <List.Icon icon={"check"} />
+                )}
+                <Button>{item}</Button>
+              </View>
+            }
           />
         ))}
       </Menu>
