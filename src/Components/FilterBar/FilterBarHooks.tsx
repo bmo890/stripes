@@ -3,18 +3,19 @@ import { FilterOption, FilterBuilder } from "../FilterBar/index";
 //checks users filter choices if object should be displayed or filtered out in current subject
 export const useCompareFilteredItem = (
   openFilters: FilterOption[],
-  issue: any
+  item: any
 ) => {
-  let i = 0;
   for (const filter of openFilters) {
-    console.log(filter.filterType)
-    // console.log(issue)
-    i++;
-    if (filter.selectedItems.length === 0) continue;
-    if (filter.selectedItems.includes(issue[filter.filterType])) {
-      if (i < openFilters.length - 1) {
+    if (filter.selectedItems.length === 0) {
+      continue;
+    }
+    const fieldValue = item[filter.filterType];
+    if (Array.isArray(fieldValue)) {
+      if (fieldValue.some((value: any) => filter.selectedItems.includes(value))) {
         continue;
-      } else return true;
+      }
+    } else if (filter.selectedItems.includes(fieldValue)) {
+      continue;
     }
     return false;
   }
