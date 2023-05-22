@@ -111,6 +111,7 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
         {editing && (
           <View>
             <TextInput
+            autoFocus
               label="New Tag"
               mode={"outlined"}
               autoCapitalize={"words"}
