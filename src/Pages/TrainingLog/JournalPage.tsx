@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, ScrollView, Vibration} from "react-native";
+import { View, ScrollView, Vibration, Pressable, Platform } from "react-native";
 import { IconButton, Button, Text, TouchableRipple } from "react-native-paper";
 import AddLogModal from "./NewLogModal";
 import TrainingLogCard from "./JournalEntry";
@@ -13,6 +13,8 @@ import {
   useCompareFilteredItem,
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
+import { LinearGradient } from "expo-linear-gradient";
+import { F_TLV_BLUE, F_TLV_PINK } from "../../../App";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {
@@ -29,6 +31,8 @@ const JournalPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [logs, setLogs] = useState<Log[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
+  const [deletingLogs, setDeletingLogs] = useState(false);
+  const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
 
   useEffect(() => {
     const newLogs = [...fakeLogs];
@@ -68,6 +72,36 @@ const JournalPage: React.FC = () => {
     (filter) => filter.selectedItems.length === 0
   );
 
+  const handleSelectToRemove = (logID: number) => {
+    if (deletingLogs) return;
+    setDeletingLogs(true);
+    setSelectedLogs([logID]);
+  };
+
+  const handleAddToRemove = (logID: number) => {
+    if (!deletingLogs) return;
+    const isLogSelected = selectedLogs.includes(logID);
+    const newSelectedLogs = isLogSelected
+      ? selectedLogs.filter((id) => id !== logID)
+      : [...selectedLogs, logID];
+
+    setSelectedLogs(newSelectedLogs);
+    if (newSelectedLogs.length === 0) {
+      setDeletingLogs(false);
+    }
+  };
+
+  const selectedBorderStyle = (selected: boolean) => {
+    if (selected)
+      return {
+        borderColor: "thistle",
+        borderStyle: "dashed" as "dotted" | "dashed" | "solid",
+        borderWidth: 2,
+        borderRadius: 15,
+      };
+    return {};
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -87,17 +121,44 @@ const JournalPage: React.FC = () => {
         <Button
           icon="plus"
           mode="contained"
-          onPress={() => {Vibration.vibrate(50); setModalVisible(true)}}
+          onPress={() => {
+            Vibration.vibrate(50);
+            setModalVisible(true);
+          }}
         >
           New
         </Button>
       </View>
       <ScrollView>
-        {filteredData.map((log, index) => (
-          <View key={index} style={{ marginTop: 10, marginHorizontal: 10 }}>
-            <TrainingLogCard log={log} fromJournalPage={true} />
-          </View>
-        ))}
+        {filteredData.map((log, index) => {
+          const isSelected = selectedLogs.includes(log.id);
+          return (
+            <View
+              key={index}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 10,
+                ...selectedBorderStyle(isSelected),
+              }}
+            >
+              <Pressable
+                onPress={() => handleAddToRemove(log.id)}
+                onLongPress={() => handleSelectToRemove(log.id)}
+              >
+                {isSelected ? (
+                  <LinearGradient
+                    colors={[F_TLV_BLUE, F_TLV_PINK]}
+                    style={{ borderRadius: 15, padding: 5 }}
+                  >
+                    <TrainingLogCard log={log} fromJournalPage={true} />
+                  </LinearGradient>
+                ) : (
+                  <TrainingLogCard log={log} fromJournalPage={true} />
+                )}
+              </Pressable>
+            </View>
+          );
+        })}
       </ScrollView>
       <AddLogModal
         visible={modalVisible}

@@ -1,5 +1,5 @@
 // AddLogModal.tsx
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import {
   View,
   Alert,
@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
-  Vibration
+  Vibration,
 } from "react-native";
 import {
   Button,
@@ -21,6 +21,7 @@ import {
   TouchableRipple,
   Badge,
 } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Log } from "../index";
 import HomeCardTitle from "../../Home/Components/HomeCardTitle";
 import ISOFormatter from "../../../Utils/ISOFormatter";
@@ -42,80 +43,94 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
     setEditing(false);
   };
 
+  const handleBlur = () => {
+    currentTag.length === 0 && setEditing(false);
+  };
   return (
-      <View>
-        <View style={{ flexDirection: "row", paddingTop: 10 }}>
-          <List.Icon icon="tag-multiple-outline" />
-          <Chip
-            style={{
-              backgroundColor: "transparent",
-              borderColor: theme.colors.backdrop,
-              borderStyle: "dashed",
-              borderWidth: 2,
-              marginHorizontal: 2,
-            }}
-            onPress={() => !editing && setEditing(true)}
-          >
-            <Text>+</Text>
-          </Chip>
-          {/* TODO: fix horizontal scrolling on add tag */}
-          <ScrollView
-            horizontal
-            style={{ flexDirection: "row", position: "relative" }}
-          >
-            {tags.map((tag, index) => (
-              <View
-                key={index}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginLeft: 6,
-                  paddingRight: 5,
+    <View>
+      <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+        <List.Icon icon="tag-multiple-outline" />
+        <Chip
+          style={{
+            backgroundColor: "transparent",
+            borderColor: theme.colors.backdrop,
+            borderStyle: "dashed",
+            borderWidth: 2,
+            marginHorizontal: 2,
+            padding: 0,
+          }}
+          onPress={() => !editing && setEditing(true)}
+        >
+          <MaterialCommunityIcons name="plus" color="#000" size={15} />
+        </Chip>
+        {/* TODO: fix horizontal scrolling on add tag */}
+        <ScrollView
+          horizontal
+          style={{ flexDirection: "row", position: "relative" }}
+        >
+          {tags.map((tag, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginLeft: 6,
+                paddingRight: 5,
+              }}
+            >
+              <TouchableRipple
+                style={{ borderRadius: 5 }}
+                onPress={() => {
+                  Vibration.vibrate(10);
+                  removeTagCB(tag);
                 }}
               >
-                <TouchableRipple
-                  style={{ borderRadius: 5 }}
-                  onPress={() => {
-                    Vibration.vibrate(10);
-                    removeTagCB(tag);
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    position: "relative",
                   }}
                 >
-                  <View
+                  <Chip key={index}>{tag}</Chip>
+                  <Badge
+                    visible={true}
+                    size={16}
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      position: "relative",
+                      position: "absolute",
+                      right: -4,
+                      bottom: 16,
+                      backgroundColor: theme.colors.primary,
+                      color: "white",
                     }}
                   >
-                    <Chip key={index}>{tag}</Chip>
-                    <Badge
-                      visible={true}
-                      size={16}
-                      style={{
-                        position: "absolute",
-                        right: -4,
-                        bottom: 16,
-                        backgroundColor: theme.colors.primary,
-                        color: "white",
-                      }}
-                    >
-                      X
-                    </Badge>
-                  </View>
-                </TouchableRipple>
-              </View>
-            ))}
-          </ScrollView>
-          {/*  */}
-        </View>
-        {editing && (
-          <View>
+                    X
+                  </Badge>
+                </View>
+              </TouchableRipple>
+            </View>
+          ))}
+        </ScrollView>
+        {/*  */}
+      </View>
+      {editing && (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: 'space-between',
+            marginVertical: 10,
+          }}
+        >
+          <View style={{width: "75%"}}>
             <TextInput
-            autoFocus
+              autoFocus
+              onBlur={handleBlur}
               label="New Tag"
               mode={"outlined"}
               autoCapitalize={"words"}
-              style={{ fontWeight: "bold", marginTop: 10 }}
+              style={{ fontWeight: "bold"}}
               value={currentTag}
               onChangeText={(text) => setCurrentTag(text)}
               right={
@@ -129,8 +144,18 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
                 )
               }
             />
+          </View>
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: 2
+            }}
+          >
             {currentTag.length > 0 && (
               <Button
+                mode="elevated"
                 onPress={() => {
                   handleAddNew(currentTag);
                 }}
@@ -139,8 +164,9 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
               </Button>
             )}
           </View>
-        )}
-      </View>
+        </View>
+      )}
+    </View>
   );
 };
 

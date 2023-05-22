@@ -2,6 +2,7 @@ import { VideoType } from "../../Stripe Playlist/index";
 import { W1_PLAYLIST } from "../../Stripe Playlist/WhiteBeltPlaylist";
 
 export interface Log {
+  id: number;
   title: string;
   entry: string;
   date: string;
@@ -36,6 +37,7 @@ export const fakeTags: Tag[] = [
 
 export const fakeLogs: Log[] = [
   {
+    id: 1,
     title: "",
     date: date1.toISOString(),
     entry:
@@ -47,6 +49,7 @@ export const fakeLogs: Log[] = [
     // ],
   },
   {
+    id: 2,
     title: "Kimura Day",
     date: date2.toISOString(),
     entry:
@@ -55,6 +58,7 @@ export const fakeLogs: Log[] = [
     // videos: [],
   },
   {
+    id: 3,
     title: "Conditioning",
     date: date3.toISOString(),
     entry:

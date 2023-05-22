@@ -39,6 +39,7 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   const time = new Date().toString();
   const currentEntryTime = ISOFormatter(time);
   const defaultLog: Log = {
+    id: Date.now(),
     title: currentEntryTime,
     tags: ["haha"],
     entry: "",
