@@ -37,7 +37,7 @@ const FilterBar = ({
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 5 }}>
+      <View style={{ alignItems: 'center', justifyContent: 'center', marginRight: 10 }}>
         <MaterialIcons name="filter-list" size={20} />
         <Text style={{ fontSize: 10 }}>Filters</Text>
       </View>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { View, ScrollView, Vibration, Pressable, Platform } from "react-native";
-import { IconButton, Button, Text, TouchableRipple } from "react-native-paper";
+import {
+  IconButton,
+  Button,
+  Text,
+  TouchableRipple,
+  useTheme,
+} from "react-native-paper";
 import AddLogModal from "./NewLogModal";
 import TrainingLogCard from "./JournalEntry";
 import { Log, fakeLogs } from "./index";
@@ -14,7 +20,7 @@ import {
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
 import { LinearGradient } from "expo-linear-gradient";
-import { F_TLV_BLUE, F_TLV_PINK } from "../../../App";
+import { F_TLV_BLUE, F_TLV_PINK } from "../MainLayout/index";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {
@@ -33,6 +39,7 @@ const JournalPage: React.FC = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [deletingLogs, setDeletingLogs] = useState(false);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
+  const theme = useTheme();
 
   useEffect(() => {
     const newLogs = [...fakeLogs];
@@ -91,6 +98,12 @@ const JournalPage: React.FC = () => {
     }
   };
 
+  const handleDeleteLogs = () => {
+    setLogs((logs) => logs.filter((log) => !selectedLogs.includes(log.id)));
+    setSelectedLogs([]);
+    setDeletingLogs(false);
+  };
+
   const selectedBorderStyle = (selected: boolean) => {
     if (selected)
       return {
@@ -117,17 +130,44 @@ const JournalPage: React.FC = () => {
           filterOptions={filterOptions}
           noFilterSelected={noFilterSelected}
         />
-
-        <Button
-          icon="plus"
-          mode="contained"
-          onPress={() => {
-            Vibration.vibrate(50);
-            setModalVisible(true);
-          }}
-        >
-          New
-        </Button>
+        {deletingLogs ? (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              mode="elevated"
+              onPress={() => {
+                setDeletingLogs(false);
+                setSelectedLogs([]);
+              }}
+            >
+              Unselect All
+            </Button>
+            <IconButton
+              icon="trash-can-outline"
+              mode="contained-tonal"
+              iconColor={"white"}
+              containerColor={theme.colors.primary}
+              onPress={() => {
+                Vibration.vibrate(50);
+                handleDeleteLogs();
+              }}
+            />
+          </View>
+        ) : (
+          <IconButton
+            icon="plus"
+            mode="contained-tonal"
+            onPress={() => {
+              Vibration.vibrate(50);
+              setModalVisible(true);
+            }}
+          />
+        )}
       </View>
       <ScrollView>
         {filteredData.map((log, index) => {
