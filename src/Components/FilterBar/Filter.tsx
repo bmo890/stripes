@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { View } from "react-native";
 import { Button, Menu, Divider, List } from "react-native-paper";
 import { FilterProps } from "./index";
@@ -37,9 +37,18 @@ export default function Filter({
     filterCB(item, filterType, reason);
     return;
   };
+
+  useEffect(() => {
+    console.log(noFilterSelected);
+    if (noFilterSelected) {
+      selectedOptions.length > 0 && setSelectedOptions([]);
+    }
+  }, [noFilterSelected]);
+
   return (
     <View>
       <Menu
+        style={{ marginTop: 5 }}
         visible={visible}
         onDismiss={() => setVisible(false)}
         anchorPosition="bottom"
@@ -51,24 +60,30 @@ export default function Filter({
           />
         }
       >
-        {filterOptions.map((item, index) => (
-          <Menu.Item
-            key={index}
-            onPress={() => {
-              handlePress(item);
-            }}
-            title={
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'flex-end' }}>
-                {selectedOptions.includes(item.toLowerCase()) && (
-                  <List.Icon icon={"check"} />
-                )}
-                <Button>{item}</Button>
-              </View>
-            }
-          />
-        ))}
+        {filterOptions.map((item, index) => {
+          const isIncluded = selectedOptions.includes(item.toLowerCase());
+          return (
+            <Menu.Item
+              key={index}
+              onPress={() => {
+                handlePress(item);
+              }}
+              title={
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {isIncluded && <List.Icon icon={"check"} />}
+                  <Button>{item}</Button>
+                </View>
+              }
+            />
+          );
+        })}
       </Menu>
     </View>
-    //when an option is selected, call setSelectedOption(option)
   );
 }
