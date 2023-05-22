@@ -15,12 +15,6 @@ export default function Filter({
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [visible, setVisible] = useState(false);
 
-  //   useEffect(() => {
-  //     if (selectedOption) {
-  //       onFilterChange(selectedOption);
-  //     }
-  //   }, [selectedOption, onFilterChange]);
-
   const handlePress = (item: string) => {
     let reason = SELECT_OPTION;
     const openOptions = selectedOptions.map((string) => string.toLowerCase());
@@ -39,7 +33,6 @@ export default function Filter({
   };
 
   useEffect(() => {
-    console.log(noFilterSelected);
     if (noFilterSelected) {
       selectedOptions.length > 0 && setSelectedOptions([]);
     }

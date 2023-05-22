@@ -6,6 +6,10 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
 } from "react-native";
 import {
   Button,
@@ -87,30 +91,35 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   return (
-    <Modal
-      animationType={"slide"}
-      visible={visible}
-      transparent
-      onRequestClose={handleModalClose}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <SafeAreaView style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+      <Modal
+        animationType={"slide"}
+        visible={visible}
+        transparent
+        onRequestClose={handleModalClose}
+      >
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         >
-          <Card style={{ width: "95%", maxHeight: "90%" }}>
-            <Card.Title
-              titleStyle={{ minHeight: 0, fontWeight: "bold" }}
-              style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
-              title={"New Journal Entry"}
-              subtitle={ISOFormatter(dateOnOpen.toString())}
-            />
-            {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
-            {/* <SingleDatePicker /> */}
-            <ScrollView>
+          {/* <Card style={{ width: "95%", maxHeight: "90%" }}> */}
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Card style={{width: '90%', alignSelf: 'center'}}>
+              <Card.Title
+                titleStyle={{ minHeight: 0, fontWeight: "bold" }}
+                style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
+                title={"New Journal Entry"}
+                subtitle={ISOFormatter(dateOnOpen.toString())}
+              />
+              {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
+              {/* <SingleDatePicker /> */}
               <Card.Content>
                 <TextInput
                   label="Title"
@@ -128,13 +137,15 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                     )
                   }
                 />
-                <TagHandler
-                  tags={log.tags}
-                  addTagCB={(tag: string) => addTag(tag)}
-                  removeTagCB={(tag: string) => {
-                    removeTag(tag);
-                  }}
-                />
+                <View>
+                  <TagHandler
+                    tags={log.tags}
+                    addTagCB={(tag: string) => addTag(tag)}
+                    removeTagCB={(tag: string) => {
+                      removeTag(tag);
+                    }}
+                  />
+                </View>
                 <Text>Entry</Text>
                 <TextInput
                   value={log.entry}
@@ -151,15 +162,15 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                   }
                 />
               </Card.Content>
-            </ScrollView>
-            <Card.Actions>
-              <Button onPress={handleModalClose}>Close</Button>
-              <Button onPress={handleLogSubmit}>Save</Button>
-            </Card.Actions>
-          </Card>
-        </View>
-      </SafeAreaView>
-    </Modal>
+              <Card.Actions>
+                <Button onPress={handleModalClose}>Close</Button>
+                <Button onPress={handleLogSubmit}>Save</Button>
+              </Card.Actions>
+            </Card>
+          </View>
+        </SafeAreaView>
+      </Modal>
+    </KeyboardAvoidingView>
   );
 };
 

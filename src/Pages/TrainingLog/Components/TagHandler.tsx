@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
-  Vibration,
+  Vibration
 } from "react-native";
 import {
   Button,
@@ -43,95 +43,103 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
   };
 
   return (
-    <View>
-      <View style={{ flexDirection: "row", paddingTop: 10 }}>
-        <List.Icon icon="tag-multiple-outline" />
-        <Chip
-          style={{
-            backgroundColor: "transparent",
-            borderColor: theme.colors.backdrop,
-            borderStyle: "dashed",
-            borderWidth: 2,
-            marginHorizontal: 2,
-          }}
-          onPress={() => !editing && setEditing(true)}
-        >
-          <Text>+</Text>
-        </Chip>
-        {/* TODO: fix horizontal scrolling on add tag */}
-        <ScrollView
-          horizontal
-          style={{ flexDirection: "row", position: "relative" }}
-        >
-          {tags.map((tag, index) => (
-            <View
-              key={index}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 6,
-                paddingRight: 5,
-              }}
-            >
-              <TouchableRipple
-                style={{ borderRadius: 5 }}
-                onPress={() => {
-                  Vibration.vibrate(10);
-                  removeTagCB(tag);
+      <View>
+        <View style={{ flexDirection: "row", paddingTop: 10 }}>
+          <List.Icon icon="tag-multiple-outline" />
+          <Chip
+            style={{
+              backgroundColor: "transparent",
+              borderColor: theme.colors.backdrop,
+              borderStyle: "dashed",
+              borderWidth: 2,
+              marginHorizontal: 2,
+            }}
+            onPress={() => !editing && setEditing(true)}
+          >
+            <Text>+</Text>
+          </Chip>
+          {/* TODO: fix horizontal scrolling on add tag */}
+          <ScrollView
+            horizontal
+            style={{ flexDirection: "row", position: "relative" }}
+          >
+            {tags.map((tag, index) => (
+              <View
+                key={index}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginLeft: 6,
+                  paddingRight: 5,
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    position: "relative",
+                <TouchableRipple
+                  style={{ borderRadius: 5 }}
+                  onPress={() => {
+                    Vibration.vibrate(10);
+                    removeTagCB(tag);
                   }}
                 >
-                  <Chip key={index}>{tag}</Chip>
-                  <Badge
-                    visible={true}
-                    size={16}
+                  <View
                     style={{
-                      position: "absolute",
-                      right: -4,
-                      bottom: 16,
-                      backgroundColor: theme.colors.primary,
-                      color: "white",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      position: "relative",
                     }}
                   >
-                    X
-                  </Badge>
-                </View>
-              </TouchableRipple>
-            </View>
-          ))}
-        </ScrollView>
-        {/*  */}
-      </View>
-      {editing && (
-        <View>
-          <TextInput
-            label="New Tag"
-            mode={"outlined"}
-            autoCapitalize={"words"}
-            style={{ fontWeight: "bold" }}
-            value={currentTag}
-            onChangeText={(text) => setCurrentTag(text)}
-            right={
-              currentTag.length > 0 && (
-                <TextInput.Icon
-                  icon="close-circle-outline"
-                  onPress={() => setCurrentTag("")}
-                />
-              )
-            }
-          />
-          {currentTag.length > 0 && (
-            <Button onPress={() => handleAddNew(currentTag)}>Add</Button>
-          )}
+                    <Chip key={index}>{tag}</Chip>
+                    <Badge
+                      visible={true}
+                      size={16}
+                      style={{
+                        position: "absolute",
+                        right: -4,
+                        bottom: 16,
+                        backgroundColor: theme.colors.primary,
+                        color: "white",
+                      }}
+                    >
+                      X
+                    </Badge>
+                  </View>
+                </TouchableRipple>
+              </View>
+            ))}
+          </ScrollView>
+          {/*  */}
         </View>
-      )}
-    </View>
+        {editing && (
+          <View>
+            <TextInput
+              label="New Tag"
+              mode={"outlined"}
+              autoCapitalize={"words"}
+              style={{ fontWeight: "bold", marginTop: 10 }}
+              value={currentTag}
+              onChangeText={(text) => setCurrentTag(text)}
+              right={
+                currentTag.length > 0 && (
+                  <TextInput.Icon
+                    icon="close-circle-outline"
+                    onPress={() => {
+                      setCurrentTag("");
+                    }}
+                  />
+                )
+              }
+            />
+            {currentTag.length > 0 && (
+              <Button
+                onPress={() => {
+                  handleAddNew(currentTag);
+                }}
+              >
+                Add
+              </Button>
+            )}
+          </View>
+        )}
+      </View>
   );
 };
 
