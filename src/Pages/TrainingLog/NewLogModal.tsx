@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Alert,
@@ -30,26 +30,37 @@ import TagHandler from "./Components/TagHandler";
 import SingleDatePicker from "../../Components/DateTimePickers/SingleDatePicker";
 interface Props {
   visible: boolean;
+  currentLog: Log | undefined;
   onClose: () => void;
   onSubmit: (log: Log) => void;
 }
 
-const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
+const NewLogModal: React.FC<Props> = ({
+  visible,
+  currentLog,
+  onClose,
+  onSubmit,
+}) => {
   const theme = useTheme();
   const time = new Date().toString();
   const currentEntryTime = ISOFormatter(time);
   const defaultLog: Log = {
     id: Date.now(),
     title: currentEntryTime,
-    tags: ["haha"],
+    tags: ["log"],
     entry: "",
     date: time,
   };
-  const [log, setLog] = useState<Log>(defaultLog);
+  const [log, setLog] = useState<Log>(currentLog || defaultLog);
+  const [editingEntry, setEditingEntry] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const dateOnOpen = new Date();
+
+  useEffect(() => {
+    setLog(currentLog || defaultLog);
+  }, [visible]);
+
   const handleChange = (field: keyof Log, value: string) => {
-    // setIsChanged(true);
     setLog((prevState) => ({ ...prevState, [field]: value }));
   };
 
@@ -65,23 +76,26 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
   };
 
   const handleModalClose = () => {
-    if (isChanged) {
-      Alert.alert(
-        "Discard changes?",
-        "Your changes will be lost.",
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-          },
-          { text: "OK", onPress: onClose },
-        ],
-        { cancelable: false }
-      );
-    } else {
-      setLog(() => defaultLog);
-      onClose();
-    }
+    // if (isChanged) {
+    //   Alert.alert(
+    //     "Discard changes?",
+    //     "Your changes will be lost.",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: onClose },
+    //     ],
+    //     { cancelable: false }
+    //   );
+    // } else {
+    //   setLog(() => defaultLog);
+    //   onClose();
+    // }
+
+    setLog(() => defaultLog);
+    onClose();
   };
 
   const handleLogSubmit = () => {
@@ -104,7 +118,6 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
         <SafeAreaView
           style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
         >
-          {/* <Card style={{ width: "95%", maxHeight: "90%" }}> */}
           <View
             style={{
               flex: 1,
@@ -112,12 +125,14 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
               justifyContent: "center",
             }}
           >
-            <Card style={{width: '90%', alignSelf: 'center'}}>
+            <Card style={{ width: "90%", alignSelf: "center", paddingTop: 4 }}>
               <Card.Title
                 titleStyle={{ minHeight: 0, fontWeight: "bold" }}
                 style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
-                title={"New Journal Entry"}
-                subtitle={ISOFormatter(dateOnOpen.toString())}
+                title={currentLog ? " " : "New Journal Entry"}
+                subtitle={ISOFormatter(
+                  currentLog ? currentLog.date : dateOnOpen.toString()
+                )}
               />
               {/* TODO:  fix date time picker according to react-native-paper-dates package options*/}
               {/* <SingleDatePicker /> */}
@@ -147,20 +162,36 @@ const NewLogModal: React.FC<Props> = ({ visible, onClose, onSubmit }) => {
                     }}
                   />
                 </View>
-                <Text>Entry</Text>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingHorizontal: 4,
+                    height: 40,
+                  }}
+                >
+                  <Text variant="titleMedium">Entry</Text>
+                  {log.entry.length > 0 && editingEntry && (
+                    <IconButton
+                      rippleColor={theme.colors.backdrop}
+                      icon="eraser"
+                      onPress={() => handleChange("entry", "")}
+                    />
+                  )}
+                </View>
                 <TextInput
                   value={log.entry}
-                  onChangeText={(value) => handleChange("entry", value)}
-                  numberOfLines={7}
-                  multiline
-                  right={
-                    log.title.length > 0 && (
-                      <TextInput.Icon
-                        icon="close-circle-outline"
-                        onPress={() => handleChange("entry", "")}
-                      />
-                    )
+                  onFocus={() => setEditingEntry(true)}
+                  onBlur={() =>
+                    setTimeout(() => {
+                      setEditingEntry(false);
+                    }, 50)
                   }
+                  onChangeText={(value) => handleChange("entry", value)}
+                  numberOfLines={8}
+                  multiline
                 />
               </Card.Content>
               <Card.Actions>

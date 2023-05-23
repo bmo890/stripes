@@ -120,7 +120,6 @@ const TagHandler = ({ tags, addTagCB, removeTagCB }: TagHandlerProps) => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: 'space-between',
-            marginVertical: 10,
           }}
         >
           <View style={{width: "75%"}}>

@@ -37,6 +37,7 @@ const JournalPage: React.FC = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [deletingLogs, setDeletingLogs] = useState(false);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
+  const [currentLog, setCurrentLog] = useState<Log | undefined>(undefined);
   const theme = useTheme();
 
   useEffect(() => {
@@ -55,8 +56,20 @@ const JournalPage: React.FC = () => {
     return logs.filter((log) => useCompareFilteredItem(filterOptions, log));
   }, [filterOptions, logs]);
 
-  const handleLogSubmit = (log: Log) => {
-    setLogs((prevState) => [log, ...prevState]);
+  const closeLog = () => {
+    currentLog && setCurrentLog(undefined)
+    setModalVisible(false)
+  }
+
+  const handleLogSubmit = (newLog: Log) => {
+    if (currentLog) {
+      setLogs((logs) =>
+        logs.map((log) => (log.id === currentLog.id ? newLog : log))
+      );
+      setCurrentLog(undefined);
+    } else {
+      setLogs((prevState) => [newLog, ...prevState]);
+    }
   };
 
   const handleFilterChange = (
@@ -113,7 +126,10 @@ const JournalPage: React.FC = () => {
     return {};
   };
 
-  const handleEditJournal = (logID: number) => {};
+  const handleEditJournal = (logID: number) => {
+    setCurrentLog(logs.find((log) => log.id === logID));
+    setModalVisible(true);
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -198,7 +214,8 @@ const JournalPage: React.FC = () => {
       </ScrollView>
       <AddLogModal
         visible={modalVisible}
-        onClose={() => setModalVisible(false)}
+        currentLog={currentLog}
+        onClose={closeLog}
         onSubmit={handleLogSubmit}
       />
     </View>

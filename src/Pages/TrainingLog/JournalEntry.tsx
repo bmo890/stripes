@@ -41,8 +41,8 @@ const JournalEntry = ({
   };
 
   const entryPreview =
-    !expanded && log.entry.length > 50
-      ? log.entry.substring(0, 50) + "..."
+    !expanded && log.entry.length > 200
+      ? log.entry.substring(0, 200) + "..."
       : log.entry;
   const formattedDate = formatDate(log.date);
 
