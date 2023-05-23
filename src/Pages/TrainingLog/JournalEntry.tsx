@@ -42,7 +42,7 @@ const JournalEntry = ({
 
   const entryPreview =
     !expanded && log.entry.length > 200
-      ? log.entry.substring(0, 200) + "..."
+      ? log.entry.substring(0, 150) + "..."
       : log.entry;
   const formattedDate = formatDate(log.date);
 
@@ -88,9 +88,11 @@ const JournalEntry = ({
           </View>
         )}
         <Text>{entryPreview}</Text>
-        <Button onPress={() => setExpanded(!expanded)}>
-          {expanded ? "Show Less" : "Show More"}
-        </Button>
+        {log.entry.length > 200 && (
+          <Button onPress={() => setExpanded(!expanded)}>
+            {expanded ? "Show Less" : "Show More"}
+          </Button>
+        )}
       </Card.Content>
     </Card>
   );
