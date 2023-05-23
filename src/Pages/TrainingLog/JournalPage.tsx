@@ -19,8 +19,6 @@ import {
   useCompareFilteredItem,
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
-import { LinearGradient } from "expo-linear-gradient";
-import { F_TLV_BLUE, F_TLV_PINK } from "../MainLayout/index";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {
@@ -115,6 +113,8 @@ const JournalPage: React.FC = () => {
     return {};
   };
 
+  const handleEditJournal = (logID: number) => {};
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -185,16 +185,12 @@ const JournalPage: React.FC = () => {
                 onPress={() => handleAddToRemove(log.id)}
                 onLongPress={() => handleSelectToRemove(log.id)}
               >
-                {isSelected ? (
-                  <LinearGradient
-                    colors={[F_TLV_BLUE, F_TLV_PINK]}
-                    style={{ borderRadius: 15, padding: 5 }}
-                  >
-                    <TrainingLogCard log={log} fromJournalPage={true} />
-                  </LinearGradient>
-                ) : (
-                  <TrainingLogCard log={log} fromJournalPage={true} />
-                )}
+                <TrainingLogCard
+                  log={log}
+                  fromJournalPage={true}
+                  isSelected={isSelected}
+                  editCB={handleEditJournal}
+                />
               </Pressable>
             </View>
           );
