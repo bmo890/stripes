@@ -24,7 +24,6 @@ import {
 } from "react-native-paper";
 import { Log } from "../../Types/Logs/LogsType";
 import formatDate from "../../Utils/ISOFormatter";
-import HomeCardTitle from "../Home/Components/HomeCardTitle";
 import ISOFormatter from "../../Utils/ISOFormatter";
 import TagHandler from "../../Components/Tags/TagHandler";
 import SingleDatePicker from "../../Components/DateTimePickers/SingleDatePicker";

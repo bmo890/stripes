@@ -22,8 +22,6 @@ import {
   Badge,
 } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Log } from "../../Pages/TrainingLog/index";
-import HomeCardTitle from "../../Pages/Home/Components/HomeCardTitle";
 import ISOFormatter from "../../Utils/ISOFormatter";
 
 interface TagHandlerProps {

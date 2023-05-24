@@ -4,13 +4,13 @@ import { Card, List, Text, useTheme, Divider } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenProps } from "../../MainLayout/MainLayout";
 
-interface JournalEntryProps {
+interface HomeCardTitleProps {
   page: "Journal" | "Announcements" | "AdminAnnouncements";
   icon: string;
   title: string;
 }
 
-const HomeCardTitle = ({ page, icon, title }: JournalEntryProps) => {
+const HomeCardTitle = ({ page, icon, title }: HomeCardTitleProps) => {
   const navigation = useNavigation<ScreenProps["navigation"]>();
   const theme = useTheme();
 

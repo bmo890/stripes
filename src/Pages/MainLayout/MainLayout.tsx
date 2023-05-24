@@ -19,6 +19,7 @@ export type RootStackParamList = {
   Belt: { beltPage: BeltLevel };
   Journal: undefined;
   Announcements: undefined;
+  AdminAnnouncements: undefined
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;

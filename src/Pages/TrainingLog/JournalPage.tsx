@@ -9,7 +9,8 @@ import {
 } from "react-native-paper";
 import AddLogModal from "./NewLogModal";
 import TrainingLogCard from "./JournalEntry";
-import { Log, fakeLogs } from "./index";
+import { Log } from "../../Types/Logs/LogsType";
+import {fakeLogs} from './index'
 import { FilterOption } from "../../Components/FilterBar/index";
 import FilterBar from "../../Components/FilterBar/FilterBar";
 import {
