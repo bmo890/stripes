@@ -10,7 +10,7 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
-import { Log } from "../../Types/Logs/LogsType";
+import { Announcement } from "../../Types/Announcements/AnnouncementsType";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import formatDate from "../../Utils/ISOFormatter";
@@ -19,7 +19,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { F_TLV_BLUE, F_TLV_PINK } from "../MainLayout/index";
 
 interface JournalEntryProps {
-  log: Log;
+  log: Announcement;
   fromJournalPage?: boolean;
   isSelected: boolean;
   editCB: (logID: number) => void;
@@ -46,11 +46,11 @@ const JournalEntry = ({
       : log.entry;
   const formattedDate = formatDate(log.date);
 
-  const JournalCard = () => (
+  const AnnouncementCard = () => (
     <Card style={{ marginBottom: 4 }}>
       {!fromJournalPage && (
         <HomeCardTitle
-          page={"Journal"}
+          page={"Announcements"}
           icon={"book-open"}
           title={"Training Journal"}
         />
@@ -59,7 +59,8 @@ const JournalEntry = ({
         subtitleStyle={{ fontStyle: "italic" }}
         titleStyle={{ minHeight: 0, fontWeight: "bold" }}
         style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
-        title={log.title ? log.title : formattedDate}
+        // title={log.title ? log.title : formattedDate}
+        title='halp'
         right={(props) => {
           return !fromJournalPage ? null : (
             <IconButton
@@ -72,7 +73,7 @@ const JournalEntry = ({
             />
           );
         }}
-        subtitle={log.title.length > 0 ? formattedDate : " "}
+        // subtitle={log.title.length > 0 ? formattedDate : " "}
       />
       <Card.Content>
         {log.tags.length > 0 && (
@@ -101,10 +102,10 @@ const JournalEntry = ({
       colors={[F_TLV_BLUE, F_TLV_PINK]}
       style={{ borderRadius: 15, padding: 5 }}
     >
-      <JournalCard />
+      <AnnouncementCard />
     </LinearGradient>
   ) : (
-    <JournalCard />
+    <AnnouncementCard />
   );
 };
 

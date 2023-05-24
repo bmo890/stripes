@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenProps } from "../../MainLayout/MainLayout";
 
 interface JournalEntryProps {
-  page: "Log" | "Coach";
+  page: "Journal" | "Announcements" | "AdminAnnouncements";
   icon: string;
   title: string;
 }

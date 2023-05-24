@@ -24,7 +24,7 @@ const CoachCornerCard = () => {
   return (
     <Card>
       <HomeCardTitle
-        page={"Coach"}
+        page={"Announcements"}
         icon={"bullhorn-outline"}
         title={"Coach's Corner"}
       />
