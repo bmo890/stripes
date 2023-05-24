@@ -10,6 +10,7 @@ import {
   Chip,
   useTheme
 } from "react-native-paper";
+import {isAdmin} from '../MainLayout/index'
 import HomeCardTitle from "../Home/Components/HomeCardTitle";
 // import Avatar from "react-native-paper/lib/typescript/src/components/Avatar/AvatarIcon";
 
@@ -24,7 +25,7 @@ const CoachCornerCard = () => {
   return (
     <Card>
       <HomeCardTitle
-        page={"Announcements"}
+        page={isAdmin ? "AdminAnnouncements" : "Announcements"}
         icon={"bullhorn-outline"}
         title={"Coach's Corner"}
       />

@@ -33,7 +33,6 @@ const JOURNAL_FILTERS: FilterBuilder[] = [
 ];
 
 const AnnouncementsPage: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [logs, setLogs] = useState<Announcement[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [deletingLogs, setDeletingLogs] = useState(false);
@@ -57,22 +56,6 @@ const AnnouncementsPage: React.FC = () => {
     return logs.filter((log) => useCompareFilteredItem(filterOptions, log));
   }, [filterOptions, logs]);
 
-  const closeLog = () => {
-    currentLog && setCurrentLog(undefined)
-    setModalVisible(false)
-  }
-
-  const handleLogSubmit = (newLog: Announcement) => {
-    if (currentLog) {
-      setLogs((logs) =>
-        logs.map((log) => (log.id === currentLog.id ? newLog : log))
-      );
-      setCurrentLog(undefined);
-    } else {
-      setLogs((prevState) => [newLog, ...prevState]);
-    }
-  };
-
   const handleFilterChange = (
     filterQueryItem: string,
     type: string,
@@ -91,31 +74,6 @@ const AnnouncementsPage: React.FC = () => {
     (filter) => filter.selectedItems.length === 0
   );
 
-  const handleSelectToRemove = (logID: number) => {
-    if (deletingLogs) return;
-    setDeletingLogs(true);
-    setSelectedLogs([logID]);
-  };
-
-  const handleAddToRemove = (logID: number) => {
-    if (!deletingLogs) return;
-    const isLogSelected = selectedLogs.includes(logID);
-    const newSelectedLogs = isLogSelected
-      ? selectedLogs.filter((id) => id !== logID)
-      : [...selectedLogs, logID];
-
-    setSelectedLogs(newSelectedLogs);
-    if (newSelectedLogs.length === 0) {
-      setDeletingLogs(false);
-    }
-  };
-
-  const handleDeleteLogs = () => {
-    setLogs((logs) => logs.filter((log) => !selectedLogs.includes(log.id)));
-    setSelectedLogs([]);
-    setDeletingLogs(false);
-  };
-
   const selectedBorderStyle = (selected: boolean) => {
     if (selected)
       return {
@@ -125,11 +83,6 @@ const AnnouncementsPage: React.FC = () => {
         borderRadius: 15,
       };
     return {};
-  };
-
-  const handleEditJournal = (logID: number) => {
-    setCurrentLog(logs.find((log) => log.id === logID));
-    setModalVisible(true);
   };
 
   return (
@@ -147,44 +100,6 @@ const AnnouncementsPage: React.FC = () => {
           filterOptions={filterOptions}
           noFilterSelected={noFilterSelected}
         />
-        {deletingLogs ? (
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              mode="elevated"
-              onPress={() => {
-                setDeletingLogs(false);
-                setSelectedLogs([]);
-              }}
-            >
-              Unselect All
-            </Button>
-            <IconButton
-              icon="trash-can-outline"
-              mode="contained-tonal"
-              iconColor={"white"}
-              containerColor={theme.colors.primary}
-              onPress={() => {
-                Vibration.vibrate(50);
-                handleDeleteLogs();
-              }}
-            />
-          </View>
-        ) : (
-          <IconButton
-            icon="plus"
-            mode="contained-tonal"
-            onPress={() => {
-              Vibration.vibrate(50);
-              setModalVisible(true);
-            }}
-          />
-        )}
       </View>
       <ScrollView>
         {filteredData.map((log, index) => {
@@ -198,27 +113,16 @@ const AnnouncementsPage: React.FC = () => {
                 ...selectedBorderStyle(isSelected),
               }}
             >
-              <Pressable
-                onPress={() => handleAddToRemove(log.id)}
-                onLongPress={() => handleSelectToRemove(log.id)}
-              >
                 <AnnouncementEntry
                   log={log}
                   fromJournalPage={true}
                   isSelected={isSelected}
-                  editCB={handleEditJournal}
+                  editCB={()=> {return}}
                 />
-              </Pressable>
             </View>
           );
         })}
       </ScrollView>
-      {/* <AddLogModal
-        visible={modalVisible}
-        currentLog={currentLog}
-        onClose={closeLog}
-        onSubmit={handleLogSubmit}
-      /> */}
     </View>
   );
 };

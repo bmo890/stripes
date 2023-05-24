@@ -8,18 +8,18 @@ import {
   useTheme,
 } from "react-native-paper";
 // import AddLogModal from "./NewLogModal";
-import AnnouncementEntry from "./AnnouncementEntry";
-import {Announcement} from '../../Types/Announcements/AnnouncementsType'
-import { fakeAnnouncements } from "./index";
-import { FilterOption } from "../../Components/FilterBar/index";
-import FilterBar from "../../Components/FilterBar/FilterBar";
+import AnnouncementEntry from "../AnnouncementEntry";
+import {Announcement} from '../../../Types/Announcements/AnnouncementsType'
+import { fakeAnnouncements } from "../index";
+import { FilterOption } from "../../../Components/FilterBar/index";
+import FilterBar from "../../../Components/FilterBar/FilterBar";
 import {
   useUpdateOpenFilters,
   useGetFilters,
   getFilterSelectionItems,
   useCompareFilteredItem,
-} from "../../Components/FilterBar/FilterBarHooks";
-import { FilterBuilder } from "../../Components/FilterBar/index";
+} from "../../../Components/FilterBar/FilterBarHooks";
+import { FilterBuilder } from "../../../Components/FilterBar/index";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {

@@ -12,6 +12,7 @@ import BeltPage from "../Belt/BeltPage";
 import { BeltLevel } from "../../Stripe Playlist/index";
 import JournalPage from "../TrainingLog/JournalPage";
 import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
+import CoachAdminPage from '../CoachsCorner/AdminOnly/AdminAnnouncementsPage'
 
 export type RootStackParamList = {
   Home: undefined;
@@ -39,6 +40,7 @@ export default function MainLayout() {
         <RootStack.Screen name="Belt" component={BeltPage} />
         <RootStack.Screen name="Journal" component={JournalPage} />
         <RootStack.Screen name="Announcements" component={AnnouncementsPage} />
+        <RootStack.Screen name="AdminAnnouncements" component={CoachAdminPage} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -16,7 +16,7 @@ import { ScreenProps } from "../MainLayout/MainLayout";
 import formatDate from "../../Utils/ISOFormatter";
 import HomeCardTitle from "../Home/Components/HomeCardTitle";
 import { LinearGradient } from "expo-linear-gradient";
-import { F_TLV_BLUE, F_TLV_PINK } from "../MainLayout/index";
+import { F_TLV_BLUE, F_TLV_PINK, isAdmin } from "../MainLayout/index";
 
 interface JournalEntryProps {
   log: Announcement;
@@ -26,7 +26,7 @@ interface JournalEntryProps {
 }
 const LeftContent = () => <Avatar.Icon size={25} icon="folder" />;
 
-const JournalEntry = ({
+const AnnouncementEntry = ({
   log,
   fromJournalPage,
   isSelected,
@@ -35,6 +35,7 @@ const JournalEntry = ({
   const [expanded, setExpanded] = useState(false);
   const navigation = useNavigation<ScreenProps["navigation"]>();
   const theme = useTheme();
+  const date = new Date();
 
   const handleEditLog = () => {
     editCB(log.id);
@@ -50,31 +51,28 @@ const JournalEntry = ({
     <Card style={{ marginBottom: 4 }}>
       {!fromJournalPage && (
         <HomeCardTitle
-          page={"Announcements"}
-          icon={"book-open"}
-          title={"Training Journal"}
+          page={isAdmin ? "AdminAnnouncements" : "Announcements"}
+          icon={"bullhorn-outline"}
+          title={"Coach's Corner"}
         />
       )}
-      <Card.Title
-        subtitleStyle={{ fontStyle: "italic" }}
-        titleStyle={{ minHeight: 0, fontWeight: "bold" }}
-        style={{ minHeight: 0, paddingLeft: 10, paddingTop: 5 }}
-        // title={log.title ? log.title : formattedDate}
-        title='halp'
-        right={(props) => {
-          return !fromJournalPage ? null : (
-            <IconButton
-              {...props}
-              icon="pencil-outline"
-              onPress={() => {
-                Vibration.vibrate(10);
-                handleEditLog();
-              }}
-            />
-          );
+      <View
+        style={{
+          // marginBottom: 10,
+          padding: 10,
+          flexDirection: "row",
+          alignItems: "center",
         }}
-        // subtitle={log.title.length > 0 ? formattedDate : " "}
-      />
+      >
+        <Avatar.Image
+          size={45}
+          source={require("../../../assets/gal_avatar.png")}
+        />
+        <View style={{ paddingLeft: 5 }}>
+          <Text style={{ fontWeight: "bold" }}>Gal</Text>
+          <Text>{date.toDateString()}</Text>
+        </View>
+      </View>
       <Card.Content>
         {log.tags.length > 0 && (
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
@@ -89,11 +87,11 @@ const JournalEntry = ({
           </View>
         )}
         <Text>{entryPreview}</Text>
-        {log.entry.length > 200 && (
-          <Button onPress={() => setExpanded(!expanded)}>
-            {expanded ? "Show Less" : "Show More"}
-          </Button>
-        )}
+        <ScrollView>
+          <Text style={{ maxHeight: 225 }}>
+            {expanded ? log.entry : log.entry.slice(0, 100) + "..."}
+          </Text>
+        </ScrollView>
       </Card.Content>
     </Card>
   );
@@ -109,4 +107,4 @@ const JournalEntry = ({
   );
 };
 
-export default JournalEntry;
+export default AnnouncementEntry;
