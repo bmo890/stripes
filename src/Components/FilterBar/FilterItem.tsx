@@ -16,7 +16,7 @@ const FilterItem = ({
   const theme = useTheme();
   const styles = StyleSheet.create({
     chip: {
-      marginRight: 5,
+      marginHorizontal: 15,
       backgroundColor: notSelected
         ? theme.colors.primaryContainer
         : theme.colors.onPrimaryContainer,

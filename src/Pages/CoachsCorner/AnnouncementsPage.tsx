@@ -20,6 +20,8 @@ import {
   useCompareFilteredItem,
 } from "../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../Components/FilterBar/index";
+import { SearchBar } from "../../Components/SearchBar/SearchBar";
+import { Log } from "../../Types/Logs/LogsType";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {
@@ -38,6 +40,7 @@ const AnnouncementsPage: React.FC = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
   const [descending, setDescending] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
   const theme = useTheme();
 
   useEffect(() => {
@@ -59,8 +62,17 @@ const AnnouncementsPage: React.FC = () => {
   }, [descending]);
 
   const filteredData = useMemo(() => {
-    return logs.filter((log) => useCompareFilteredItem(filterOptions, log));
-  }, [filterOptions, logs]);
+    const checkSearch = (log: Announcement) => {
+      if (searchValue.length === 0) return true;
+      if (log.entry.toLowerCase().includes(searchValue.toLowerCase())) {
+        return true;
+      }
+      return false;
+    };
+    return logs.filter(
+      (log) => useCompareFilteredItem(filterOptions, log) && checkSearch(log)
+    );
+  }, [filterOptions, searchValue, logs]);
 
   const handleFilterChange = (
     filterQueryItem: string,
@@ -75,7 +87,6 @@ const AnnouncementsPage: React.FC = () => {
     );
     setFilterOptions(updatedFilters);
   };
-
   const noFilterSelected = filterOptions.every(
     (filter) => filter.selectedItems.length === 0
   );
@@ -93,12 +104,15 @@ const AnnouncementsPage: React.FC = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={{ padding: 10 }}>
+        <SearchBar setSearchValue={setSearchValue} />
+      </View>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
-          padding: 10,
+          justifyContent: "flex-end",
+          paddingHorizontal: 15,
         }}
       >
         <FilterBar
@@ -132,7 +146,7 @@ const AnnouncementsPage: React.FC = () => {
         <View
           style={{ flexDirection: descending ? "column" : "column-reverse" }}
         >
-          {filteredData.map((log, index) => {
+          {filteredData.map((log) => {
             const isSelected = selectedLogs.includes(log.id);
             return (
               <View

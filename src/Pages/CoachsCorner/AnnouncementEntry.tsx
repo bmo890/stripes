@@ -42,8 +42,8 @@ const AnnouncementEntry = ({
   };
 
   const entryPreview =
-    !expanded && log.entry.length > 200
-      ? log.entry.substring(0, 150) + "..."
+    !expanded && log.entry.length > 300
+      ? log.entry.substring(0, 200) + "..."
       : log.entry;
   const formattedDate = formatDate(log.date);
 
@@ -70,7 +70,12 @@ const AnnouncementEntry = ({
             source={require("../../../assets/gal_avatar.png")}
           />
         ) : (
-            <Avatar.Text size={45}  color='white' style={{backgroundColor: 'blue'}} label="YT" />
+          <Avatar.Text
+            size={45}
+            color="white"
+            style={{ backgroundColor: "blue" }}
+            label="YT"
+          />
         )}
         <View style={{ paddingLeft: 5 }}>
           <Text style={{ fontWeight: "bold" }}>{log.owner}</Text>
@@ -97,9 +102,11 @@ const AnnouncementEntry = ({
             {expanded ? log.entry : log.entry.slice(0, 100) + "..."}
           </Text> */}
         </ScrollView>
-        <Button onPress={() => setExpanded(!expanded)}>
-          {expanded ? "Show Less" : "Show More"}
-        </Button>
+        {log.entry.length > 300 && (
+          <Button onPress={() => setExpanded(!expanded)}>
+            {expanded ? "Show Less" : "Show More"}
+          </Button>
+        )}
       </Card.Content>
     </Card>
   );
