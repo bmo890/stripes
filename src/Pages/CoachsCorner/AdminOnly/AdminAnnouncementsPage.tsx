@@ -26,10 +26,10 @@ const JOURNAL_FILTERS: FilterBuilder[] = [
     field: "tags",
     filterName: "Tags",
   },
-  // {
-  //   field: "videos",
-  //   filterName: "Videos",
-  // },
+  {
+    field: "videos",
+    filterName: "Videos",
+  },
 ];
 
 const CoachPage: React.FC = () => {

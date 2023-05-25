@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { View, ScrollView, Vibration, Pressable, Platform } from "react-native";
 import {
   IconButton,
@@ -9,7 +9,7 @@ import {
 } from "react-native-paper";
 // import AddLogModal from "./NewLogModal";
 import AnnouncementEntry from "./AnnouncementEntry";
-import {Announcement} from '../../Types/Announcements/AnnouncementsType'
+import { Announcement } from "../../Types/Announcements/AnnouncementsType";
 import { fakeAnnouncements } from "./index";
 import { FilterOption } from "../../Components/FilterBar/index";
 import FilterBar from "../../Components/FilterBar/FilterBar";
@@ -27,17 +27,17 @@ const JOURNAL_FILTERS: FilterBuilder[] = [
     filterName: "Tags",
   },
   // {
-  //   field: "videos",
-  //   filterName: "Videos",
+  //   field: "date",
+  //   filterName: "Date",
   // },
 ];
 
 const AnnouncementsPage: React.FC = () => {
+  const scrollViewRef = useRef<ScrollView>(null);
   const [logs, setLogs] = useState<Announcement[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
-  const [deletingLogs, setDeletingLogs] = useState(false);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
-  const [currentLog, setCurrentLog] = useState<Announcement | undefined>(undefined);
+  const [descending, setDescending] = useState(true);
   const theme = useTheme();
 
   useEffect(() => {
@@ -51,6 +51,12 @@ const AnnouncementsPage: React.FC = () => {
     const resetFilters = useGetFilters(logs, JOURNAL_FILTERS);
     setFilterOptions(resetFilters);
   }, [logs]);
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
+    }
+  }, [descending]);
 
   const filteredData = useMemo(() => {
     return logs.filter((log) => useCompareFilteredItem(filterOptions, log));
@@ -100,28 +106,55 @@ const AnnouncementsPage: React.FC = () => {
           filterOptions={filterOptions}
           noFilterSelected={noFilterSelected}
         />
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            paddingBottom: 10,
+          }}
+        >
+          <IconButton
+            onPress={() => setDescending((prev) => !prev)}
+            size={20}
+            icon={
+              descending
+                ? "sort-calendar-ascending"
+                : "sort-calendar-descending"
+            }
+          />
+          <Text style={{ fontSize: 10, position: "absolute", bottom: 10 }}>
+            {descending ? "Descending" : "Ascending"}
+          </Text>
+        </View>
       </View>
-      <ScrollView>
-        {filteredData.map((log, index) => {
-          const isSelected = selectedLogs.includes(log.id);
-          return (
-            <View
-              key={index}
-              style={{
-                marginTop: 10,
-                marginHorizontal: 10,
-                ...selectedBorderStyle(isSelected),
-              }}
-            >
+      <ScrollView ref={scrollViewRef}>
+        <View
+          style={{ flexDirection: descending ? "column" : "column-reverse" }}
+        >
+          {filteredData.map((log, index) => {
+            const isSelected = selectedLogs.includes(log.id);
+            return (
+              <View
+                key={log.id}
+                style={{
+                  marginTop: 10,
+                  marginHorizontal: 10,
+                  ...selectedBorderStyle(isSelected),
+                }}
+              >
                 <AnnouncementEntry
                   log={log}
                   fromJournalPage={true}
                   isSelected={isSelected}
-                  editCB={()=> {return}}
+                  editCB={() => {
+                    return;
+                  }}
                 />
-            </View>
-          );
-        })}
+              </View>
+            );
+          })}
+        </View>
       </ScrollView>
     </View>
   );

@@ -35,7 +35,7 @@ const AnnouncementEntry = ({
   const [expanded, setExpanded] = useState(false);
   const navigation = useNavigation<ScreenProps["navigation"]>();
   const theme = useTheme();
-  const date = new Date();
+  const date = new Date(log.date);
 
   const handleEditLog = () => {
     editCB(log.id);
@@ -64,12 +64,16 @@ const AnnouncementEntry = ({
           alignItems: "center",
         }}
       >
-        <Avatar.Image
-          size={45}
-          source={require("../../../assets/gal_avatar.png")}
-        />
+        {log.owner === "Gal" ? (
+          <Avatar.Image
+            size={45}
+            source={require("../../../assets/gal_avatar.png")}
+          />
+        ) : (
+            <Avatar.Text size={45}  color='white' style={{backgroundColor: 'blue'}} label="YT" />
+        )}
         <View style={{ paddingLeft: 5 }}>
-          <Text style={{ fontWeight: "bold" }}>Gal</Text>
+          <Text style={{ fontWeight: "bold" }}>{log.owner}</Text>
           <Text>{date.toDateString()}</Text>
         </View>
       </View>
@@ -86,12 +90,16 @@ const AnnouncementEntry = ({
             </ScrollView>
           </View>
         )}
-        <Text>{entryPreview}</Text>
+        {/* <Text>{log.entry}</Text> */}
         <ScrollView>
-          <Text style={{ maxHeight: 225 }}>
+          <Text>{entryPreview}</Text>
+          {/* <Text style={{ maxHeight: 225 }}>
             {expanded ? log.entry : log.entry.slice(0, 100) + "..."}
-          </Text>
+          </Text> */}
         </ScrollView>
+        <Button onPress={() => setExpanded(!expanded)}>
+          {expanded ? "Show Less" : "Show More"}
+        </Button>
       </Card.Content>
     </Card>
   );
