@@ -15,6 +15,7 @@ import CoachsCornerCard from "../CoachsCorner/CoachsCornerCard";
 import BeltCard from "../Belt/BeltCard";
 import JournalEntry from "../TrainingLog/JournalEntry";
 import { fakeLogs } from "../TrainingLog/index";
+import SystemsCard from '../Systems/SystemsCard'
 
 export const F_TLV_BLUE = "#9BD5E7";
 export const F_TLV_PINK = "#F0A4C7";
@@ -79,10 +80,13 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               <CoachsCornerCard />
             </View>
             <View style={{ marginTop: 10 }}>
+              <JournalEntry log={fakeLogs[0]} isSelected={false} editCB={() => {return}} />
+            </View>
+            <View style={{ marginTop: 10 }}>
               <BeltCard />
             </View>
             <View style={{ marginTop: 10 }}>
-              <JournalEntry log={fakeLogs[0]} isSelected={false} editCB={() => {return}} />
+              <SystemsCard />
             </View>
             <View style={{ marginTop: 10 }}>
               <BookmarksCard />

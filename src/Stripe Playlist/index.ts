@@ -27,7 +27,7 @@ export enum StripeLevel {
 export interface VideoType {
   id: number;
   stripe: StripeLevel;
-  section: SectionName;
+  section: SectionName | string;
   url: string;
   titleHEB: string;
   titleEN: string;
@@ -56,7 +56,24 @@ export type BeltPlaylist = {
   stripes: Stripe[];
 };
 
+export enum SystemType {
+  Gi,
+  NoGi,
+}
 
+export type SystemsPlaylist = {
+ style: SystemType
+ systems: System[]
+}
+
+export interface System {
+  index: number;
+  stripe: number;
+  section: string;
+  nameEN: string;
+  nameHEB: string;
+  playlist: VideoType[];
+}
 
 
 export interface BookmarkedItem {
