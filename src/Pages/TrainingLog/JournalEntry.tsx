@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { View, ScrollView, Pressable, Vibration } from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { View, ScrollView, Vibration } from "react-native";
 import {
-  Avatar,
   Card,
   Chip,
   Button,
@@ -23,27 +22,58 @@ interface JournalEntryProps {
   fromJournalPage?: boolean;
   isSelected: boolean;
   editCB: (logID: number) => void;
+  highlightText?: string;
 }
-const LeftContent = () => <Avatar.Icon size={25} icon="folder" />;
 
 const JournalEntry = ({
   log,
   fromJournalPage,
   isSelected,
   editCB,
+  highlightText,
 }: JournalEntryProps) => {
   const [expanded, setExpanded] = useState(false);
-  const navigation = useNavigation<ScreenProps["navigation"]>();
-  const theme = useTheme();
 
   const handleEditLog = () => {
     editCB(log.id);
   };
 
-  const entryPreview =
-    !expanded && log.entry.length > 200
-      ? log.entry.substring(0, 150) + "..."
-      : log.entry;
+  useEffect(() => {
+    if (
+      highlightText &&
+      !log.entry
+        .substring(0, 200)
+        .toLowerCase()
+        .includes(highlightText.toLowerCase())
+    ) {
+      setExpanded(true);
+    } else if (log.entry.length <= 300) {
+      setExpanded(true);
+    } else {
+      setExpanded(false);
+    }
+  }, [highlightText, log.entry]);
+
+  const entryPreview = useMemo(() => {
+    const text =
+      expanded || log.entry.length <= 300
+        ? log.entry
+        : log.entry.substring(0, 200) + "...";
+
+    if (highlightText) {
+      const parts = text.split(new RegExp(`(${highlightText})`, "gi"));
+      return parts.map((part, i) =>
+        part.toLowerCase() === highlightText.toLowerCase() ? (
+          <Text key={i} style={{ backgroundColor: "yellow" }}>
+            {part}
+          </Text>
+        ) : (
+          <Text key={i}>{part}</Text>
+        )
+      );
+    }
+    return text;
+  }, [log.entry, highlightText, expanded]);
   const formattedDate = formatDate(log.date);
 
   const JournalCard = () => (

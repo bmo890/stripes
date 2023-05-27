@@ -116,11 +116,10 @@ const AnnouncementsPage: React.FC = () => {
           display: "flex",
           flexDirection: hideFilters ? "row" : "column",
           alignItems: "center",
-          justifyContent: 'space-between'
+          // justifyContent: 'space-between'
         }}
       >
-        {/* <View style={{ padding: 10, display: "flex", flexDirection: "row" }}> */}
-        <View style={{width: hideFilters ? '' : '100%'}}>
+        <View style={{width: hideFilters ? '75%' : '100%'}}>
           <SearchBar setSearchValue={setSearchValue} />
         </View>
         <View>

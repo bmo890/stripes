@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
-import { Button, Text, IconButton } from "react-native-paper";
+import { Button, IconButton, useTheme } from "react-native-paper";
 import Filter from "./Filter";
 import { FilterOption, FilterBarProps } from "./index";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 interface ClearAllProps {
   removeFilters: () => void;
@@ -18,7 +17,7 @@ const ClearAllFiltersIcon = ({
     <View>
       {
         <Button disabled={noFilterSelected} onPress={removeFilters}>
-          Clear
+          {noFilterSelected ? "" : "Clear"}
         </Button>
       }
     </View>
@@ -30,11 +29,12 @@ const FilterBar = ({
   filterCB,
   noFilterSelected,
   sortCB,
-  filterBarCommands
+  filterBarCommands,
 }: FilterBarProps) => {
-  // const [showFilters, setShowFilters] = useState(false);
   const [descending, setDescending] = useState(false);
+  const { hideFilters, showFiltersCB } = filterBarCommands;
   const clear = "clearSelected";
+
   const removeFilters = () => {
     filterCB("", "all", clear);
   };
@@ -43,13 +43,18 @@ const FilterBar = ({
     setDescending((prev) => !prev);
     sortCB();
   };
+
+  const handleFiltersIcon = () => {
+    !hideFilters && removeFilters();
+    showFiltersCB();
+  };
   return (
     <View
       style={{
         flexDirection: "row",
         alignItems: "center",
-        // justifyContent: !showFilters ? "flex-end" : "space-between",
-        width: '100%'
+        justifyContent: hideFilters ? "flex-end" : "space-between",
+        width: "100%",
       }}
     >
       <View
@@ -60,9 +65,9 @@ const FilterBar = ({
       >
         <IconButton
           icon="filter-outline"
+          mode={hideFilters ? undefined : "contained-tonal"}
           size={25}
-          // onPress={() => setShowFilters((prev) => !prev)}
-          onPress={filterBarCommands.showFiltersCB}
+          onPress={handleFiltersIcon}
         />
         {!filterBarCommands.hideFilters && (
           <View
@@ -95,13 +100,13 @@ const FilterBar = ({
           </View>
         )}
       </View>
-        <IconButton
-          onPress={handleShowFilters}
-          size={25}
-          icon={
-            descending ? "sort-calendar-descending" : "sort-calendar-ascending"
-          }
-        />
+      <IconButton
+        onPress={handleShowFilters}
+        size={25}
+        icon={
+          descending ? "sort-calendar-descending" : "sort-calendar-ascending"
+        }
+      />
     </View>
   );
 };
