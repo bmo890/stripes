@@ -49,12 +49,12 @@ export default function Filter({
           <FilterItem
             openCB={() => setVisible(true)}
             filterName={filterName}
-            notSelected={noFilterSelected}
+            notSelected={noFilterSelected || selectedOptions.length === 0}
           />
         }
       >
         {filterOptions.map((item, index) => {
-          const isIncluded = selectedOptions.includes(item.toLowerCase());
+          const isIncluded = selectedOptions.includes(item);
           return (
             <Menu.Item
               key={index}

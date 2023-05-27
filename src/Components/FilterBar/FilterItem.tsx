@@ -8,15 +8,10 @@ interface FilterItemProps {
   filterName: string;
   notSelected: boolean;
 }
-const FilterItem = ({
-  openCB,
-  filterName,
-  notSelected,
-}: FilterItemProps) => {
+const FilterItem = ({ openCB, filterName, notSelected }: FilterItemProps) => {
   const theme = useTheme();
   const styles = StyleSheet.create({
     chip: {
-      marginHorizontal: 15,
       backgroundColor: notSelected
         ? theme.colors.primaryContainer
         : theme.colors.onPrimaryContainer,
@@ -29,9 +24,9 @@ const FilterItem = ({
   });
 
   return (
-    <Chip onPress={openCB} style={styles.chip}>
-      <Text style={styles.text}>{filterName}</Text>
-    </Chip>
+      <Chip onPress={openCB} style={styles.chip}>
+        <Text style={styles.text}>{filterName}</Text>
+      </Chip>
   );
 };
 

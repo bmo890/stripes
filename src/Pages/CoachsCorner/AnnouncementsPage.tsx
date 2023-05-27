@@ -6,6 +6,7 @@ import {
   Text,
   TouchableRipple,
   useTheme,
+  Divider,
 } from "react-native-paper";
 // import AddLogModal from "./NewLogModal";
 import AnnouncementEntry from "./AnnouncementEntry";
@@ -28,10 +29,14 @@ const JOURNAL_FILTERS: FilterBuilder[] = [
     field: "tags",
     filterName: "Tags",
   },
-  // {
-  //   field: "date",
-  //   filterName: "Date",
-  // },
+  {
+    field: "owner",
+    filterName: "Coach",
+  },
+  {
+    field: "date",
+    filterName: "Date",
+  },
 ];
 
 const AnnouncementsPage: React.FC = () => {
@@ -40,6 +45,7 @@ const AnnouncementsPage: React.FC = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
   const [descending, setDescending] = useState(true);
+  const [hideFilters, setHideFilters] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const theme = useTheme();
 
@@ -104,44 +110,34 @@ const AnnouncementsPage: React.FC = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ padding: 10 }}>
-        <SearchBar setSearchValue={setSearchValue} />
-      </View>
       <View
         style={{
-          flexDirection: "row",
+          padding: 10,
+          display: "flex",
+          flexDirection: hideFilters ? "row" : "column",
           alignItems: "center",
-          justifyContent: "flex-end",
-          paddingHorizontal: 15,
+          justifyContent: 'space-between'
         }}
       >
-        <FilterBar
-          filterCB={handleFilterChange}
-          filterOptions={filterOptions}
-          noFilterSelected={noFilterSelected}
-        />
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            paddingBottom: 10,
-          }}
-        >
-          <IconButton
-            onPress={() => setDescending((prev) => !prev)}
-            size={20}
-            icon={
-              descending
-                ? "sort-calendar-ascending"
-                : "sort-calendar-descending"
-            }
-          />
-          <Text style={{ fontSize: 10, position: "absolute", bottom: 10 }}>
-            {descending ? "Descending" : "Ascending"}
-          </Text>
+        {/* <View style={{ padding: 10, display: "flex", flexDirection: "row" }}> */}
+        <View style={{width: hideFilters ? '' : '100%'}}>
+          <SearchBar setSearchValue={setSearchValue} />
         </View>
+        <View>
+          <FilterBar
+            filterCB={handleFilterChange}
+            filterOptions={filterOptions}
+            noFilterSelected={noFilterSelected}
+            filterBarCommands={{
+              hideFilters: hideFilters,
+              showFiltersCB: () => setHideFilters((prev) => !prev),
+            }}
+            sortCB={() => setDescending((prev) => !prev)}
+          />
+        </View>
+
       </View>
+        <Divider />
       <ScrollView ref={scrollViewRef}>
         <View
           style={{ flexDirection: descending ? "column" : "column-reverse" }}
@@ -164,6 +160,7 @@ const AnnouncementsPage: React.FC = () => {
                   editCB={() => {
                     return;
                   }}
+                  highlightText={searchValue}
                 />
               </View>
             );

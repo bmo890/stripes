@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, IconButton } from "react-native-paper";
 import Filter from "./Filter";
 import { FilterOption, FilterBarProps } from "./index";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -16,11 +16,11 @@ const ClearAllFiltersIcon = ({
 }: ClearAllProps) => {
   return (
     <View>
-      {!noFilterSelected && (
-        <View>
-          <Button onPress={removeFilters}>Clear All</Button>
-        </View>
-      )}
+      {
+        <Button disabled={noFilterSelected} onPress={removeFilters}>
+          Clear
+        </Button>
+      }
     </View>
   );
 };
@@ -29,37 +29,79 @@ const FilterBar = ({
   filterOptions,
   filterCB,
   noFilterSelected,
+  sortCB,
+  filterBarCommands
 }: FilterBarProps) => {
+  // const [showFilters, setShowFilters] = useState(false);
+  const [descending, setDescending] = useState(false);
   const clear = "clearSelected";
   const removeFilters = () => {
     filterCB("", "all", clear);
   };
 
+  const handleShowFilters = () => {
+    setDescending((prev) => !prev);
+    sortCB();
+  };
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <MaterialIcons name="filter-list" size={20} />
-        <Text style={{ fontSize: 10 }}>Filters</Text>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        // justifyContent: !showFilters ? "flex-end" : "space-between",
+        width: '100%'
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <IconButton
+          icon="filter-outline"
+          size={25}
+          // onPress={() => setShowFilters((prev) => !prev)}
+          onPress={filterBarCommands.showFiltersCB}
+        />
+        {!filterBarCommands.hideFilters && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {filterOptions.map((filter: FilterOption, i: number) => {
+              const name = filter.filterName;
+              const items = filter.availableItems;
+              const type = filter.filterType;
+              return (
+                <View key={name} style={{ marginHorizontal: 5 }}>
+                  <Filter
+                    filterCB={filterCB}
+                    filterName={name}
+                    filterOptions={items}
+                    filterType={type}
+                    noFilterSelected={noFilterSelected}
+                  />
+                </View>
+              );
+            })}
+            <ClearAllFiltersIcon
+              removeFilters={removeFilters}
+              noFilterSelected={noFilterSelected}
+            />
+          </View>
+        )}
       </View>
-      {filterOptions.map((filter: FilterOption, i: number) => {
-        const name = filter.filterName;
-        const items = filter.availableItems;
-        const type = filter.filterType;
-        return (
-          <Filter
-            key={i}
-            filterCB={filterCB}
-            filterName={name}
-            filterOptions={items}
-            filterType={type}
-            noFilterSelected={noFilterSelected}
-          />
-        );
-      })}
-      <ClearAllFiltersIcon
-        removeFilters={removeFilters}
-        noFilterSelected={noFilterSelected}
-      />
+        <IconButton
+          onPress={handleShowFilters}
+          size={25}
+          icon={
+            descending ? "sort-calendar-descending" : "sort-calendar-ascending"
+          }
+        />
     </View>
   );
 };

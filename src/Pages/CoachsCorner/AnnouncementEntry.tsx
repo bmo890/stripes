@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { View, ScrollView, Pressable, Vibration } from "react-native";
 import {
   Avatar,
@@ -23,15 +23,17 @@ interface JournalEntryProps {
   fromJournalPage?: boolean;
   isSelected: boolean;
   editCB: (logID: number) => void;
+  highlightText?: string;
 }
-const LeftContent = () => <Avatar.Icon size={25} icon="folder" />;
 
 const AnnouncementEntry = ({
   log,
   fromJournalPage,
   isSelected,
   editCB,
+  highlightText
 }: JournalEntryProps) => {
+  // const [expanded, setExpanded] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const navigation = useNavigation<ScreenProps["navigation"]>();
   const theme = useTheme();
@@ -41,10 +43,46 @@ const AnnouncementEntry = ({
     editCB(log.id);
   };
 
-  const entryPreview =
-    !expanded && log.entry.length > 300
-      ? log.entry.substring(0, 200) + "..."
-      : log.entry;
+  // const entryPreview =
+  //   !expanded && log.entry.length > 300
+  //     ? log.entry.substring(0, 200) + "..."
+  //     : log.entry;
+
+  useEffect(() => {
+    if (
+      highlightText &&
+      !log.entry
+        .substring(0, 200)
+        .toLowerCase()
+        .includes(highlightText.toLowerCase())
+    ) {
+      setExpanded(true);
+    } else if (log.entry.length <= 300) {
+      setExpanded(true);
+    } else {
+      setExpanded(false);
+    }
+  }, [highlightText, log.entry]);
+
+  const entryPreview = useMemo(() => {
+    const text =
+      // !expanded && log.entry.length > 300 ? log.entry.substring(0, 200) + "..." : log.entry;
+      expanded || log.entry.length <= 300 ? log.entry : log.entry.substring(0, 200) + "...";
+
+    if (highlightText) {
+      const parts = text.split(new RegExp(`(${highlightText})`, 'gi'));
+      return parts.map((part, i) =>
+        part.toLowerCase() === highlightText.toLowerCase() ? (
+          <Text key={i} style={{ backgroundColor: 'yellow' }}>
+            {part}
+          </Text>
+        ) : (
+          <Text key={i}>{part}</Text>
+        )
+      );
+    }
+    return text;
+  }, [log.entry, highlightText, expanded]);
   const formattedDate = formatDate(log.date);
 
   const AnnouncementCard = () => (
@@ -95,12 +133,8 @@ const AnnouncementEntry = ({
             </ScrollView>
           </View>
         )}
-        {/* <Text>{log.entry}</Text> */}
         <ScrollView>
           <Text>{entryPreview}</Text>
-          {/* <Text style={{ maxHeight: 225 }}>
-            {expanded ? log.entry : log.entry.slice(0, 100) + "..."}
-          </Text> */}
         </ScrollView>
         {log.entry.length > 300 && (
           <Button onPress={() => setExpanded(!expanded)}>

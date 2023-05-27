@@ -13,7 +13,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setSearchValue }) => {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedValue(inputValue);
-    }, 500);
+    }, 700);
 
     return () => {
       clearTimeout(timerId);

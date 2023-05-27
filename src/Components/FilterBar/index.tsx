@@ -20,6 +20,8 @@ export interface FilterOption {
     filterOptions: FilterOption[];
     noFilterSelected: boolean;
     isFromErrorList?: boolean;
+    sortCB: () => void
+    filterBarCommands: {hideFilters: boolean, showFiltersCB: () => void}
   }
   
   export interface FilterBuilder {
