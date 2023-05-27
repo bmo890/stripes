@@ -69,12 +69,12 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.display}>
-            <Button
+            {/* <Button
               mode="contained"
               onPress={() => navigation.navigate("Profile")}
             >
               Go to details
-            </Button>
+            </Button> */}
             <View style={{ marginTop: 10 }}>
               <CoachsCornerCard />
             </View>
@@ -82,7 +82,7 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               <BeltCard />
             </View>
             <View style={{ marginTop: 10 }}>
-              <JournalEntry log={fakeLogs[0]} />
+              <JournalEntry log={fakeLogs[0]} isSelected={false} editCB={() => {return}} />
             </View>
             <View style={{ marginTop: 10 }}>
               <BookmarksCard />

@@ -8,16 +8,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AppBar from "../../Components/AppBar";
 import HomeScreen from "../Home";
 import ProfileScreen from "../Profile";
-import BeltPage from "../Belt/BeltPage"
-import {BeltLevel} from '../../Stripe Playlist/index'
+import BeltPage from "../Belt/BeltPage";
+import { BeltLevel } from "../../Stripe Playlist/index";
 import JournalPage from "../TrainingLog/JournalPage";
+import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
+import CoachAdminPage from '../CoachsCorner/AdminOnly/AdminAnnouncementsPage'
 
 export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
-  Belt: {beltPage: BeltLevel} 
-  Log: undefined
-  Coach: undefined
+  Belt: { beltPage: BeltLevel };
+  Journal: undefined;
+  Announcements: undefined;
+  AdminAnnouncements: undefined
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -35,8 +38,9 @@ export default function MainLayout() {
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
         <RootStack.Screen name="Belt" component={BeltPage} />
-        <RootStack.Screen name="Log" component={JournalPage} />
-
+        <RootStack.Screen name="Journal" component={JournalPage} />
+        <RootStack.Screen name="Announcements" component={AnnouncementsPage} />
+        <RootStack.Screen name="AdminAnnouncements" component={CoachAdminPage} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

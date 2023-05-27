@@ -1,21 +1,7 @@
 import { VideoType } from "../../Stripe Playlist/index";
 import { W1_PLAYLIST } from "../../Stripe Playlist/WhiteBeltPlaylist";
-
-export interface Log {
-  id: number;
-  title: string;
-  entry: string;
-  date: string;
-  arboxGenerated?: boolean;
-  tags: string[]
-  // tags: Tag[];
-  // videos?: VideoType[];
-}
-
-export interface Tag {
-  name: string;
-  id: number;
-}
+import {Log} from '../../Types/Logs/LogsType'
+import {Tag} from '../../Types/Tags/TagsType'
 
 const date1 = new Date();
 date1.setFullYear(2023, 3, 11); // Sets the date to May 11, 2023

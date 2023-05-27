@@ -22,9 +22,7 @@ import {
   Badge,
 } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Log } from "../index";
-import HomeCardTitle from "../../Home/Components/HomeCardTitle";
-import ISOFormatter from "../../../Utils/ISOFormatter";
+import ISOFormatter from "../../Utils/ISOFormatter";
 
 interface TagHandlerProps {
   tags: string[];

@@ -22,11 +22,10 @@ import {
   useTheme,
   TouchableRipple,
 } from "react-native-paper";
-import { Log } from "./index";
+import { Log } from "../../Types/Logs/LogsType";
 import formatDate from "../../Utils/ISOFormatter";
-import HomeCardTitle from "../Home/Components/HomeCardTitle";
 import ISOFormatter from "../../Utils/ISOFormatter";
-import TagHandler from "./Components/TagHandler";
+import TagHandler from "../../Components/Tags/TagHandler";
 import SingleDatePicker from "../../Components/DateTimePickers/SingleDatePicker";
 interface Props {
   visible: boolean;
