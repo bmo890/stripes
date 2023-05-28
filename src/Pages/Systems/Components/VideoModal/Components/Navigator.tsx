@@ -1,11 +1,12 @@
 import { View } from "react-native";
 import { Card, IconButton } from "react-native-paper";
 import { Section, VideoType } from "../../../../../Stripe Playlist/index";
+import {Course, CourseVideo} from '../../../index'
 
 interface ProgressBarProps {
-  selectedVideo: VideoType;
-  selectedSection: Section;
-  changeVideo: (video: VideoType) => void;
+  selectedVideo: CourseVideo;
+  selectedSection: Course;
+  changeVideo: (video: CourseVideo) => void;
 }
 
 const Navigator = ({

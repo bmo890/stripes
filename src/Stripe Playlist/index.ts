@@ -23,7 +23,6 @@ export enum StripeLevel {
   S4,
 }
 
-
 export interface VideoType {
   id: number;
   stripe: StripeLevel;
@@ -56,26 +55,7 @@ export type BeltPlaylist = {
   stripes: Stripe[];
 };
 
-export enum SystemType {
-  Gi,
-  NoGi,
-}
-
-export type SystemsPlaylist = {
- style: SystemType
- systems: System[]
-}
-
-export interface System {
-  index: number;
-  stripe: number;
-  section: string;
-  nameEN: string;
-  nameHEB: string;
-  playlist: VideoType[];
-}
-
-
+// ********bookmarks********
 export interface BookmarkedItem {
   belt: BeltLevel;
   stripe: StripeLevel;
@@ -83,9 +63,6 @@ export interface BookmarkedItem {
   video: VideoType;
 }
 
-
 export interface UserBookmarks {
   savedItems: BookmarkedItem[];
 }
-
-

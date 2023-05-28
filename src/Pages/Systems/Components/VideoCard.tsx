@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import { VideoType } from "../../../Stripe Playlist/index";
+import { CourseVideo } from '../index';
 
 interface VideoCardProps {
-    video: VideoType
-    modalCB: (video: VideoType) => void
+    video: CourseVideo
+    modalCB: (video: CourseVideo) => void
 }
 // const VideoCard = ({ video }: { video: VideoType }) => {
 const VideoCard = ({video, modalCB}: VideoCardProps) => {

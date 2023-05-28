@@ -9,11 +9,11 @@ import AppBar from "../../Components/AppBar";
 import HomeScreen from "../Home";
 import ProfileScreen from "../Profile";
 import BeltPage from "../Belt/BeltPage";
-import { BeltLevel, SystemType } from "../../Stripe Playlist/index";
+import { BeltLevel } from "../../Stripe Playlist/index";
 import JournalPage from "../TrainingLog/JournalPage";
 import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
-import CoachAdminPage from '../CoachsCorner/AdminOnly/AdminAnnouncementsPage'
-import SystemsPage from '../Systems/SystemsPage'
+import CoachAdminPage from "../CoachsCorner/AdminOnly/AdminAnnouncementsPage";
+import CoursesCollectionPage from "../Systems/CoursesCollectionPage";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,8 +21,8 @@ export type RootStackParamList = {
   Belt: { beltPage: BeltLevel };
   Journal: undefined;
   Announcements: undefined;
-  AdminAnnouncements: undefined
-  Systems: {systemType: SystemType}
+  AdminAnnouncements: undefined;
+  Courses: undefined;
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -40,10 +40,13 @@ export default function MainLayout() {
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
         <RootStack.Screen name="Belt" component={BeltPage} />
-        <RootStack.Screen name="Systems" component={SystemsPage} />
+        <RootStack.Screen name="Courses" component={CoursesCollectionPage} />
         <RootStack.Screen name="Journal" component={JournalPage} />
         <RootStack.Screen name="Announcements" component={AnnouncementsPage} />
-        <RootStack.Screen name="AdminAnnouncements" component={CoachAdminPage} />
+        <RootStack.Screen
+          name="AdminAnnouncements"
+          component={CoachAdminPage}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

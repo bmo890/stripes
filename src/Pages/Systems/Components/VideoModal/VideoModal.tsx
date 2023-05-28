@@ -1,15 +1,15 @@
 import { Modal, Dimensions, SafeAreaView, View } from "react-native";
 import { Text, Card } from "react-native-paper";
-import { Stripe, Section, VideoType } from "../../../../Stripe Playlist/index";
+import {Style, Course, CourseVideo} from '../../index'
 import YoutubePlayer from "../../../../Components/YoutubePlayer";
 import { HEADER_HEIGHT } from "../../../../Components/AppBar/AppBar";
 import Header from "./Components/Header";
 import Navigator from "./Components/Navigator";
 
 export interface ModalProps {
-  selectedVideo: VideoType | false;
-  selectedSection: Section | false;
-  changeVideo: (video: VideoType) => void;
+  selectedVideo: CourseVideo | false;
+  selectedSection: Course | false;
+  changeVideo: (video: CourseVideo) => void;
   visible: boolean;
   closeCB: () => void;
 }

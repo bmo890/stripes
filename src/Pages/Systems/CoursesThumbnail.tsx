@@ -3,13 +3,13 @@ import { View, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 
-interface SystemThumbnailProps {
+interface CourseThumbnailProps {
   onPress: () => void;
 //   belt: BeltLevel;
   amount: number;
 }
 
-const SystemThumbnail: React.FC<SystemThumbnailProps> = ({
+const CourseThumbnail: React.FC<CourseThumbnailProps> = ({
   onPress,
 //   belt,
   amount,
@@ -50,4 +50,4 @@ const SystemThumbnail: React.FC<SystemThumbnailProps> = ({
   );
 };
 
-export default SystemThumbnail;
+export default CourseThumbnail;

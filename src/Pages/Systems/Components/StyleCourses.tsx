@@ -11,22 +11,23 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Collapsible from "react-native-collapsible";
 import { Stripe, Section, VideoType } from "../../../Stripe Playlist/index";
+import {Style, Course, CourseVideo} from '../index'
 import VideoCard from "./VideoCard";
 import VideoModal from "./VideoModal/VideoModal";
 
-interface StripeSectionProps {
-  stripe: Stripe;
+interface StyleTypeProps {
+  style: Style;
 }
 
 interface SectionListProps {
-  section: Section;
-  openModalCB: (video: VideoType) => void;
+  course: Course;
+  openModalCB: (video: CourseVideo) => void;
 }
 
-const SectionPlaylist = ({ section, openModalCB }: SectionListProps) => {
+const SectionPlaylist = ({ course, openModalCB }: SectionListProps) => {
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-      {section.playlist.map((video, index) => (
+      {course.playlist.map((video, index) => (
         <View style={{ width: "33.33%" }} key={index}>
           <VideoCard video={video} modalCB={openModalCB} />
         </View>
@@ -35,48 +36,48 @@ const SectionPlaylist = ({ section, openModalCB }: SectionListProps) => {
   );
 };
 
-const StripeSection = ({ stripe }: StripeSectionProps) => {
-  const initialExpandedSections = stripe.sections.map((stripe, index) => index);
-  const [selectedVideo, setSelectedVideo] = useState<VideoType | false>(false);
-  const [selectedSection, setSelectedSection] = useState<Section | false>(
+const StyleCourses = ({ style }: StyleTypeProps) => {
+  const initialExpandedSections = style.courses.map((course, index) => index);
+  const [selectedVideo, setSelectedVideo] = useState<CourseVideo | false>(false);
+  const [selectedSection, setSelectedSection] = useState<Course | false>(
     false
   );
   const [openModal, setOpenModal] = useState(false);
 
   const theme = useTheme();
 
-  const [collapsedSections, setCollapsedSections] = useState<number[]>(
+  const [collapsedCourses, setCollapsedCourses] = useState<number[]>(
     initialExpandedSections
   );
 
-  const toggleSection = (sectionIndex: number) => {
-    if (collapsedSections.includes(sectionIndex)) {
-      setCollapsedSections(collapsedSections.filter((i) => i !== sectionIndex));
+  const toggleSection = (courseIndex: number) => {
+    if (collapsedCourses.includes(courseIndex)) {
+      setCollapsedCourses(collapsedCourses.filter((i) => i !== courseIndex));
     } else {
-      setCollapsedSections([...collapsedSections, sectionIndex]);
+      setCollapsedCourses([...collapsedCourses, courseIndex]);
     }
   };
 
-  const openModalCB = (video: VideoType) => {
-    const section = stripe.sections.filter(
-      (section) => section.section === video.section
+  const openModalCB = (video: CourseVideo) => {
+    const course = style.courses.filter(
+      (course) => course.courseTitle === video.course
     );
     setSelectedVideo(video);
-    setSelectedSection(section[0]);
+    setSelectedSection(course[0]);
     setOpenModal(true);
   };
 
   return (
     <ScrollView>
-      {stripe.sections.map((section: Section, index: number) => (
-        <View key={section.index} style={styles.sectionContainer}>
+      {style.courses.map((course: Course, index: number) => (
+        <View key={course.index} style={styles.sectionContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.title} onPress={() => toggleSection(index)}>
-              {section.nameEN}
+              {course.nameEN}
             </Text>
             <MaterialIcons
               name={
-                collapsedSections.includes(index)
+                collapsedCourses.includes(index)
                   ? "expand-less"
                   : "expand-more"
               }
@@ -84,8 +85,8 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
               onPress={() => toggleSection(index)}
             />
           </View>
-          <Collapsible collapsed={!collapsedSections.includes(index)}>
-            <SectionPlaylist section={section} openModalCB={openModalCB} />
+          <Collapsible collapsed={!collapsedCourses.includes(index)}>
+            <SectionPlaylist course={course} openModalCB={openModalCB} />
           </Collapsible>
         </View>
       ))}
@@ -93,7 +94,7 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
         visible={openModal}
         selectedVideo={selectedVideo}
         selectedSection={selectedSection}
-        changeVideo={(video: VideoType) => setSelectedVideo(video)}
+        changeVideo={(video: CourseVideo) => setSelectedVideo(video)}
         closeCB={() => {
           setSelectedVideo(false);
           setSelectedSection(false);
@@ -103,7 +104,7 @@ const StripeSection = ({ stripe }: StripeSectionProps) => {
   );
 };
 
-export default StripeSection;
+export default StyleCourses;
 
 const styles = StyleSheet.create({
   sectionContainer: {

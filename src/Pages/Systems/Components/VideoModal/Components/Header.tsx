@@ -44,10 +44,11 @@ const ModalHeader = ({
         style={{ marginLeft: 8, flexDirection: "row", alignItems: "center" }}
       >
         <View style={{ marginRight: 10 }}>
-          <ChooseStripeIcon amount={selectedVideo.stripe + 1} belt={0} />
+          {/* <ChooseStripeIcon amount={selectedVideo. + 1} belt={0} /> */}
+          <Text>{selectedSection.nameEN}</Text>
         </View>
         <Text style={{ color: "black", fontSize: 15, fontWeight: "bold" }}>
-          {selectedSection.nameEN}
+          {selectedVideo.titleEN}
         </Text>
       </View>
       {/* -----------------------------*/}

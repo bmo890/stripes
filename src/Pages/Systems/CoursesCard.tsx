@@ -3,9 +3,10 @@ import { Image, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { BeltLevel } from "../../Stripe Playlist/index";
 import { ScreenProps } from "../MainLayout/MainLayout";
-import SystemThumbnail from "./SystemsThumbnail";
+import CoursesThumbnail from "./CoursesThumbnail";
+import {Berimbolo_1} from '.'
 
-const SystemsCard: React.FC = () => {
+const CoursesCard: React.FC = () => {
   // const navigation = useNavigation();
   const navigation = useNavigation<ScreenProps["navigation"]>();
 
@@ -16,18 +17,18 @@ const SystemsCard: React.FC = () => {
         title={
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <List.Icon icon="graph-outline" />
-            <Text>Systems</Text>
+            <Text>Courses</Text>
           </View>
         }
       />
       <Card.Content
         style={{ flexDirection: "row", justifyContent: "space-around" }}
       >
-        <SystemThumbnail
+        <CoursesThumbnail
         //   belt={BeltLevel.White}
           amount={4}
           onPress={() =>
-            navigation.navigate("Systems")
+            navigation.navigate("Courses")
         }
         />
       </Card.Content>
@@ -35,4 +36,4 @@ const SystemsCard: React.FC = () => {
   );
 };
 
-export default SystemsCard;
+export default CoursesCard;

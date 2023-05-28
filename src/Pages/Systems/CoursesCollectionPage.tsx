@@ -3,36 +3,28 @@ import { View, StyleSheet, Image } from "react-native";
 import { Text } from "react-native-paper";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import { useRoute, RouteProp, Route } from "@react-navigation/native";
-import { BeltLevel, StripeLevel } from "../../Stripe Playlist";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import ChooseStripeIcon from "../../Components/ChooseStripeIcon/ChooseStripeIcon";
-import StripeSection from './Components/StripeSection'
+import { Style, Course, GI_COURSES, NOGI_COURSES } from ".";
+import StyleCourses from "./Components/StyleCourses";
 
-import { BeltPlaylist, Stripe, Section } from "../../Stripe Playlist/index";
-
-import {
-  WHITE_PLAYLIST,
-  BLUE_PLAYLIST,
-} from "../../Stripe Playlist/WhiteBeltPlaylist";
-
-const SystemsPage = ({ route, navigation }: ScreenProps) => {
-  const { beltPage } = route.params as { beltPage: BeltLevel };
-  const belt: BeltPlaylist =
-    beltPage === BeltLevel.White ? WHITE_PLAYLIST : BLUE_PLAYLIST;
+const CoursesCollectionPage = ({ route, navigation }: ScreenProps) => {
+  // const { systemType } = route.params as { course: Course };
+  const styleTypes = [GI_COURSES, NOGI_COURSES];
+  // systemType === SystemType.Gi ? WHITE_PLAYLIST : BLUE_PLAYLIST;
   interface TabType {
     key: string;
-    stripe: StripeLevel;
+    courses: Style;
     title: string;
   }
   const [currentTab, setCurrentTab] = useState(0);
   const [tabs] = useState<TabType[]>(
-    belt.stripes.map(
-      (stripe: Stripe, index): TabType => {
+    styleTypes.map(
+      (type, index): TabType => {
         // console.log(stripe);
         return {
           key: index.toString(),
-          stripe: stripe.stripe,
-          title: `Stripe ${stripe.stripe + 1}`,
+          courses: type,
+          title: type.nameEN,
         };
       }
     )
@@ -40,29 +32,28 @@ const SystemsPage = ({ route, navigation }: ScreenProps) => {
 
   const renderScene = ({ route }: { route: TabType }) => {
     // const stripeIndex = parseInt(route.key.replace("stripe", "")) - 1;
-    const stripeIndex = parseInt(route.key);
-    const stripe = belt.stripes[stripeIndex];
-
-    return <StripeSection stripe={stripe} />;
+    const coursesIndex = parseInt(route.key);
+    const style = styleTypes[coursesIndex];
+    return <StyleCourses style={style} />;
+    return <Text>hi</Text>;
   };
-
-  // const renderTabBar = (props: any) => (
-  //   <TabBar
-  //     {...props}
-  //     indicatorStyle={styles.indicator}
-  //     style={styles.tabBar}
-  //     labelStyle={styles.tabLabel}
-  //   />
-  // );
 
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      renderLabel={({ route, focused, color }: { route: TabType; focused: boolean; color: string }) => {
+      renderLabel={({
+        route,
+        focused,
+        color,
+      }: {
+        route: TabType;
+        focused: boolean;
+        color: string;
+      }) => {
         return (
           <View>
-            {/* <Text>{route.title}</Text> */}
-            <ChooseStripeIcon amount={route.stripe + 1} belt={BeltLevel.White}/>
+            <Text>{route.title}</Text>
+            {/* <ChooseStripeIcon amount={route.stripe + 1} belt={BeltLevel.White}/> */}
           </View>
         );
       }}
@@ -100,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SystemsPage;
+export default CoursesCollectionPage;
