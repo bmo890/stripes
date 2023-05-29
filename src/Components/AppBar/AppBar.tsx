@@ -11,6 +11,8 @@ import {
   Appbar,
   List,
 } from "react-native-paper";
+import { getAuth, signOut } from "firebase/auth";
+
 
 type MenuItemProps = {
   icon: string;
@@ -46,8 +48,19 @@ const AppBar = ({
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
-
   const title = getHeaderTitle(options, route.name);
+
+  const auth = getAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log(auth.currentUser)
   return (
     <Appbar.Header style={styles.header}>
       {back && (
@@ -89,7 +102,7 @@ const AppBar = ({
           />
           <Divider />
           <Menu.Item
-            onPress={() => {}}
+            onPress={handleSignOut}
             title={<MenuItem icon="logout" title="Logout" />}
           />
         </Menu>

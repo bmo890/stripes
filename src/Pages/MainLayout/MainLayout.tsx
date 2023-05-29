@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Platform, StyleSheet, Text, View, ScrollView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +15,8 @@ import JournalPage from "../TrainingLog/JournalPage";
 import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
 import CoachAdminPage from "../CoachsCorner/AdminOnly/AdminAnnouncementsPage";
 import CoursesCollectionPage from "../Systems/CoursesCollectionPage";
+import AuthModal from "../../Auth/AuthModal";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -29,6 +32,28 @@ export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function MainLayout() {
+  const [user, setUser] = useState<User | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const auth = getAuth();
+
+  console.log(auth);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setShowModal(true);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const hideModal = () => setShowModal(false);
+
+  const signUpSuccess = () => {
+    alert("success!");
+  };
+
   return (
     <NavigationContainer>
       <RootStack.Navigator
@@ -48,6 +73,11 @@ export default function MainLayout() {
           component={CoachAdminPage}
         />
       </RootStack.Navigator>
+      <AuthModal
+        visible={showModal}
+        hideModal={hideModal}
+        signUpSuccess={signUpSuccess}
+      />
     </NavigationContainer>
   );
 }
