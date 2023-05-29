@@ -23,11 +23,10 @@ export enum StripeLevel {
   S4,
 }
 
-
 export interface VideoType {
   id: number;
   stripe: StripeLevel;
-  section: SectionName;
+  section: SectionName | string;
   url: string;
   titleHEB: string;
   titleEN: string;
@@ -56,9 +55,7 @@ export type BeltPlaylist = {
   stripes: Stripe[];
 };
 
-
-
-
+// ********bookmarks********
 export interface BookmarkedItem {
   belt: BeltLevel;
   stripe: StripeLevel;
@@ -66,9 +63,6 @@ export interface BookmarkedItem {
   video: VideoType;
 }
 
-
 export interface UserBookmarks {
   savedItems: BookmarkedItem[];
 }
-
-

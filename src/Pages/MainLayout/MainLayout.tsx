@@ -12,7 +12,8 @@ import BeltPage from "../Belt/BeltPage";
 import { BeltLevel } from "../../Stripe Playlist/index";
 import JournalPage from "../TrainingLog/JournalPage";
 import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
-import CoachAdminPage from '../CoachsCorner/AdminOnly/AdminAnnouncementsPage'
+import CoachAdminPage from "../CoachsCorner/AdminOnly/AdminAnnouncementsPage";
+import CoursesCollectionPage from "../Systems/CoursesCollectionPage";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -20,7 +21,8 @@ export type RootStackParamList = {
   Belt: { beltPage: BeltLevel };
   Journal: undefined;
   Announcements: undefined;
-  AdminAnnouncements: undefined
+  AdminAnnouncements: undefined;
+  Courses: { style: "gi" | "nogi" };
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -38,9 +40,13 @@ export default function MainLayout() {
         <RootStack.Screen name="Home" component={HomeScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
         <RootStack.Screen name="Belt" component={BeltPage} />
+        <RootStack.Screen name="Courses" component={CoursesCollectionPage} />
         <RootStack.Screen name="Journal" component={JournalPage} />
         <RootStack.Screen name="Announcements" component={AnnouncementsPage} />
-        <RootStack.Screen name="AdminAnnouncements" component={CoachAdminPage} />
+        <RootStack.Screen
+          name="AdminAnnouncements"
+          component={CoachAdminPage}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

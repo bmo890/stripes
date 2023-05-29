@@ -8,14 +8,14 @@ import {
   Text,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Button, IconButton, MD3Colors } from "react-native-paper";
+import { Button, IconButton, MD3Colors, Divider } from "react-native-paper";
 import { ScreenProps } from "../MainLayout/MainLayout";
 import BookmarksCard from "../Bookmarks/BookmarksCard";
 import CoachsCornerCard from "../CoachsCorner/CoachsCornerCard";
 import BeltCard from "../Belt/BeltCard";
 import JournalEntry from "../TrainingLog/JournalEntry";
 import { fakeLogs } from "../TrainingLog/index";
-
+import CoursesCard from "../Systems/CoursesCard";
 export const F_TLV_BLUE = "#9BD5E7";
 export const F_TLV_PINK = "#F0A4C7";
 
@@ -79,10 +79,19 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               <CoachsCornerCard />
             </View>
             <View style={{ marginTop: 10 }}>
+              <JournalEntry
+                log={fakeLogs[0]}
+                isSelected={false}
+                editCB={() => {
+                  return;
+                }}
+              />
+            </View>
+            <View style={{ marginTop: 10 }}>
               <BeltCard />
             </View>
             <View style={{ marginTop: 10 }}>
-              <JournalEntry log={fakeLogs[0]} isSelected={false} editCB={() => {return}} />
+              <CoursesCard />
             </View>
             <View style={{ marginTop: 10 }}>
               <BookmarksCard />
