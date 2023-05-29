@@ -56,7 +56,8 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{
-              uri: `https://i.ytimg.com/vi_webp/${videoId}/hqdefault.webp`,
+              // uri: `https://i.ytimg.com/vi_webp/${videoId}/sddefault.webp`,
+              uri: `https://i.ytimg.com/vi_webp/${videoId}/sddefault.webp`,
             }}
           />
         </View>

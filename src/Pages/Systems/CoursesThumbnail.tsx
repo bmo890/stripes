@@ -2,24 +2,24 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
+import {F_TLV_BLUE, F_TLV_PINK} from '../MainLayout/index'
 
 interface CourseThumbnailProps {
-  onPress: () => void;
-//   belt: BeltLevel;
-  amount: number;
+  onPress: (style: string) => void;
+  style: string;
 }
 
 const CourseThumbnail: React.FC<CourseThumbnailProps> = ({
   onPress,
-//   belt,
-  amount,
+  style,
 }) => {
   const gradientColorsWhite = ["#f0f0f0", "#c0c0c0"];
-
+  const gradient = style === 'Gi' ? [F_TLV_BLUE, F_TLV_PINK] : [F_TLV_PINK, F_TLV_BLUE]
+console.log(style)
 
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => onPress(style)}
       style={{
         width: 110,
         height: 110,
@@ -33,16 +33,13 @@ const CourseThumbnail: React.FC<CourseThumbnailProps> = ({
       }}
     >
       <LinearGradient
-        colors={gradientColorsWhite}
+        colors={gradient}
         start={{ x: 0.5, y: 0.5 }}
         end={{ x: 1, y: 1 }}
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
-        <View style={{ paddingTop: 8 }}>
-          {/* <ChooseStripeIcon belt={belt} amount={amount} /> */}
-          <Text>Berimbolo Basics</Text>
-        </View>
         <Text style={{ color: "black", fontWeight: "bold", paddingTop: 8 }}>
+          {style}
           {/* {belt === BeltLevel.White ? "WHITE" : "BLUE"} */}
         </Text>
       </LinearGradient>

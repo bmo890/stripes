@@ -25,10 +25,15 @@ const CoursesCard: React.FC = () => {
         style={{ flexDirection: "row", justifyContent: "space-around" }}
       >
         <CoursesThumbnail
-        //   belt={BeltLevel.White}
-          amount={4}
+          style={'Gi'}
           onPress={() =>
-            navigation.navigate("Courses")
+            navigation.navigate("Courses", {style: 'gi'})
+        }
+        />
+        <CoursesThumbnail
+          style={'No Gi'}
+          onPress={() =>
+            navigation.navigate("Courses", {style: 'nogi'})
         }
         />
       </Card.Content>

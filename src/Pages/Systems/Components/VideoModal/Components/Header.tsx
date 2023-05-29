@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   View,
 } from "react-native";
-import { Text, Card, IconButton } from "react-native-paper";
+import { Text, Card, IconButton, List } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { HEADER_HEIGHT } from "../../../../../Components/AppBar/AppBar";
 import { F_TLV_BLUE, F_TLV_PINK } from "../../../../Home/HomeScreen";
@@ -34,32 +34,41 @@ const ModalHeader = ({
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         width: "100%",
         height: HEADER_HEIGHT,
-        alignItems: "center",
+        paddingHorizontal: 10,
       }}
     >
-      {/* -----breadcrumbs section ------*/}
+      <View style={{ flexDirection: "row", alignItems: "center", marginRight: 5 }}>
+        <List.Icon icon="graph-outline" />
+      </View>
       <View
-        style={{ marginLeft: 8, flexDirection: "row", alignItems: "center" }}
+        style={{ flexDirection: "column", justifyContent: "center", flex: 1 }}
       >
-        <View style={{ marginRight: 10 }}>
-          {/* <ChooseStripeIcon amount={selectedVideo. + 1} belt={0} /> */}
-          <Text>{selectedSection.nameEN}</Text>
-        </View>
-        <Text style={{ color: "black", fontSize: 15, fontWeight: "bold" }}>
+        <Text
+          style={{ color: "black", fontSize: 15, fontWeight: "bold" }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {selectedSection.nameEN}
+        </Text>
+        <Text
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          style={{
+            flexShrink: 1,
+          }}
+        >
           {selectedVideo.titleEN}
         </Text>
       </View>
-      {/* -----------------------------*/}
-      <View>
-        <IconButton
-          icon="close-circle-outline"
-          iconColor={"black"}
-          size={30}
-          onPress={() => closeCB()}
-        />
-      </View>
+      <IconButton
+        icon="close-circle-outline"
+        iconColor={"black"}
+        size={30}
+        onPress={() => closeCB()}
+      />
     </LinearGradient>
   );
 };

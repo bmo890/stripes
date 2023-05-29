@@ -22,7 +22,7 @@ export type RootStackParamList = {
   Journal: undefined;
   Announcements: undefined;
   AdminAnnouncements: undefined;
-  Courses: undefined;
+  Courses: { style: "gi" | "nogi" };
 };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;

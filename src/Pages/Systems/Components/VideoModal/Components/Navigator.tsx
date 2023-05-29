@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Card, IconButton } from "react-native-paper";
 import { Section, VideoType } from "../../../../../Stripe Playlist/index";
-import {Course, CourseVideo} from '../../../index'
+import { Course, CourseVideo } from "../../../index";
 
 interface ProgressBarProps {
   selectedVideo: CourseVideo;
@@ -19,10 +19,10 @@ const Navigator = ({
   return (
     <Card
       style={{
-        marginTop: 10,
+        // marginTop: 10,
         height: 60,
         justifyContent: "center",
-        paddingHorizontal: 10,
+        // paddingHorizontal: 10,
       }}
     >
       <View

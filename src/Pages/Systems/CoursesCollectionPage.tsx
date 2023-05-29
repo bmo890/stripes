@@ -7,8 +7,8 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { Style, Course, GI_COURSES, NOGI_COURSES } from ".";
 import StyleCourses from "./Components/StyleCourses";
 
-const CoursesCollectionPage = ({ route, navigation }: ScreenProps) => {
-  // const { systemType } = route.params as { course: Course };
+const CoursesCollectionPage = ({ route, navigation }: ScreenProps, ) => {
+  const { style } = route.params as { style: string };
   const styleTypes = [GI_COURSES, NOGI_COURSES];
   // systemType === SystemType.Gi ? WHITE_PLAYLIST : BLUE_PLAYLIST;
   interface TabType {
@@ -16,7 +16,7 @@ const CoursesCollectionPage = ({ route, navigation }: ScreenProps) => {
     courses: Style;
     title: string;
   }
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(style === 'gi' ? 0 : 1);
   const [tabs] = useState<TabType[]>(
     styleTypes.map(
       (type, index): TabType => {
@@ -35,7 +35,6 @@ const CoursesCollectionPage = ({ route, navigation }: ScreenProps) => {
     const coursesIndex = parseInt(route.key);
     const style = styleTypes[coursesIndex];
     return <StyleCourses style={style} />;
-    return <Text>hi</Text>;
   };
 
   const renderTabBar = (props: any) => (
