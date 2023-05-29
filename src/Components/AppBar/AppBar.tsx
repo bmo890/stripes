@@ -11,28 +11,28 @@ import {
   Appbar,
   List,
 } from "react-native-paper";
-import { getAuth, signOut } from "firebase/auth";
-
+import { getAuth, signOut, User } from "firebase/auth";
+import AuthModal from "../../Auth/AuthModal";
 
 type MenuItemProps = {
   icon: string;
   title: string;
 };
 
-export const HEADER_HEIGHT = 64
+export const HEADER_HEIGHT = 64;
 
 const MenuItem: React.FC<MenuItemProps> = ({ icon, title }) => {
   return (
-    <View style={{ flexDirection: "row", alignItems: 'center'}}>
-      <List.Icon icon={icon}/>
-      <Text style={{marginLeft: 5}}>{title}</Text>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <List.Icon icon={icon} />
+      <Text style={{ marginLeft: 5 }}>{title}</Text>
     </View>
   );
 };
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "black",
-    height: HEADER_HEIGHT
+    height: HEADER_HEIGHT,
   },
   content: {
     color: "white",
@@ -44,7 +44,8 @@ const AppBar = ({
   navigation,
   options,
   route,
-}: NativeStackHeaderProps) => {
+  handleUserLogin,
+}: NativeStackHeaderProps & { handleUserLogin: () => void }) => {
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -53,6 +54,7 @@ const AppBar = ({
   const auth = getAuth();
 
   const handleSignOut = async () => {
+    closeMenu();
     try {
       await signOut(auth);
     } catch (error) {
@@ -60,7 +62,12 @@ const AppBar = ({
     }
   };
 
-  console.log(auth.currentUser)
+  const handleSignIn = () => {
+    closeMenu();
+    handleUserLogin();
+  };
+
+  console.log(auth.currentUser);
   return (
     <Appbar.Header style={styles.header}>
       {back && (
@@ -101,10 +108,17 @@ const AppBar = ({
             title={<MenuItem icon="cog" title="Settings" />}
           />
           <Divider />
-          <Menu.Item
-            onPress={handleSignOut}
-            title={<MenuItem icon="logout" title="Logout" />}
-          />
+          {auth.currentUser && !auth.currentUser.isAnonymous ? (
+            <Menu.Item
+              onPress={handleSignOut}
+              title={<MenuItem icon="logout" title="Logout" />}
+            />
+          ) : (
+            <Menu.Item
+              onPress={handleSignIn}
+              title={<MenuItem icon="login" title="Login" />}
+            />
+          )}
         </Menu>
       </View>
     </Appbar.Header>

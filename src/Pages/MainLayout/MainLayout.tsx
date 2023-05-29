@@ -36,7 +36,6 @@ export default function MainLayout() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const auth = getAuth();
 
-  console.log(auth);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -54,12 +53,16 @@ export default function MainLayout() {
     alert("success!");
   };
 
+  const handleUserLogin = () => {
+    setShowModal(true)
+  }
+   
   return (
     <NavigationContainer>
       <RootStack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          header: (props) => <AppBar {...props} />,
+          header: (props) => <AppBar {...props} handleUserLogin={handleUserLogin}/>,
         }}
       >
         <RootStack.Screen name="Home" component={HomeScreen} />
