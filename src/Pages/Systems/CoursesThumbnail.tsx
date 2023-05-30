@@ -15,7 +15,6 @@ const CourseThumbnail: React.FC<CourseThumbnailProps> = ({
 }) => {
   const gradientColorsWhite = ["#f0f0f0", "#c0c0c0"];
   const gradient = style === 'Gi' ? [F_TLV_BLUE, F_TLV_PINK] : [F_TLV_PINK, F_TLV_BLUE]
-console.log(style)
 
   return (
     <TouchableOpacity

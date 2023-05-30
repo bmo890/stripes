@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Platform,
   ScrollView,
@@ -16,10 +16,22 @@ import BeltCard from "../Belt/BeltCard";
 import JournalEntry from "../TrainingLog/JournalEntry";
 import { fakeLogs } from "../TrainingLog/index";
 import CoursesCard from "../Systems/CoursesCard";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+
 export const F_TLV_BLUE = "#9BD5E7";
 export const F_TLV_PINK = "#F0A4C7";
 
 export default function HomeScreen({ route, navigation }: ScreenProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = getAuth().onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user && !user.isAnonymous);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -78,15 +90,17 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
             <View style={{ marginTop: 10 }}>
               <CoachsCornerCard />
             </View>
-            <View style={{ marginTop: 10 }}>
-              <JournalEntry
-                log={fakeLogs[0]}
-                isSelected={false}
-                editCB={() => {
-                  return;
-                }}
-              />
-            </View>
+            {isAuthenticated && (
+              <View style={{ marginTop: 10 }}>
+                <JournalEntry
+                  log={fakeLogs[0]}
+                  isSelected={false}
+                  editCB={() => {
+                    return;
+                  }}
+                />
+              </View>
+            )}
             <View style={{ marginTop: 10 }}>
               <BeltCard />
             </View>
@@ -94,7 +108,7 @@ export default function HomeScreen({ route, navigation }: ScreenProps) {
               <CoursesCard />
             </View>
             <View style={{ marginTop: 10 }}>
-              <BookmarksCard />
+              {isAuthenticated && <BookmarksCard />}
             </View>
           </View>
         </ScrollView>
