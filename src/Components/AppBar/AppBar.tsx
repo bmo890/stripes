@@ -67,7 +67,6 @@ const AppBar = ({
     handleUserLogin();
   };
 
-  console.log(auth.currentUser);
   return (
     <Appbar.Header style={styles.header}>
       {back && (

@@ -27,22 +27,27 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
-  const [signUpError, setSignUpError] = useState<string>("");
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const handleSignIn = async () => {
+    authError && setAuthError(null)
     try {
       const userCredential: UserCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+      console.log(userCredential);
       hideModal();
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
+      // setAuthError("Something went wrong during Sign Up. Please try again.");
+      setAuthError(error.message);
     }
   };
 
   const handleSignUp = async () => {
+    authError && setAuthError(null)
     try {
       const userCredential: UserCredential = await createUserWithEmailAndPassword(
         auth,
@@ -53,18 +58,21 @@ const AuthModal: React.FC<AuthModalProps> = ({
       hideModal();
       // signUpSuccess();
     } catch (error) {
-      alert(error);
       console.error(error);
-      setSignUpError("Something went wrong. Please try again.");
+      // setAuthError("Something went wrong when signing in. Please try again.");
+      setAuthError(error.message);
     }
   };
 
   const handleAnonymousSignIn = async () => {
+    authError && setAuthError(null)
     try {
       await signInAnonymously(auth);
       hideModal();
     } catch (error) {
       console.error(error);
+      // setAuthError("Something went wrong. Please try again.");
+      setAuthError(error.message);
     }
   };
 
@@ -91,7 +99,14 @@ const AuthModal: React.FC<AuthModalProps> = ({
           right={() => (
             <View>
               {auth.currentUser && auth.currentUser.isAnonymous && (
-                <Button onPress={hideModal}>X</Button>
+                <Button
+                  onPress={() => {
+                    authError && setAuthError(null);
+                    hideModal();
+                  }}
+                >
+                  X
+                </Button>
               )}
             </View>
           )}
@@ -117,6 +132,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
             />
           </View>
           <View style={{ marginHorizontal: 25, marginVertical: 10 }}>
+            {authError && <Text style={{ color: "red" }}>{authError}</Text>}
             {!isSigningUp ? (
               <View>
                 <Button
@@ -129,7 +145,10 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 <Button
                   style={{ margin: 5 }}
                   mode="elevated"
-                  onPress={() => setIsSigningUp(true)}
+                  onPress={() => {
+                    authError && setAuthError(null);
+                    setIsSigningUp(true);
+                  }}
                 >
                   Sign Up
                 </Button>
@@ -159,7 +178,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 >
                   Back
                 </Button>
-                {signUpError && <Text>{signUpError}</Text>}
               </>
             )}
           </View>
