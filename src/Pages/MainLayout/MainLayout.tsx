@@ -56,6 +56,8 @@ export default function MainLayout() {
   const handleUserLogin = () => {
     setShowModal(true)
   }
+
+  const isAdmin = true
    
   return (
     <NavigationContainer>
@@ -70,7 +72,7 @@ export default function MainLayout() {
         <RootStack.Screen name="Belt" component={BeltPage} />
         <RootStack.Screen name="Courses" component={CoursesCollectionPage} />
         <RootStack.Screen name="Journal" component={JournalPage} />
-        <RootStack.Screen name="Announcements" component={AnnouncementsPage} />
+        <RootStack.Screen name="Announcements" component={!isAdmin ? AnnouncementsPage : CoachAdminPage} />
         <RootStack.Screen
           name="AdminAnnouncements"
           component={CoachAdminPage}

@@ -20,6 +20,8 @@ import {
   useCompareFilteredItem,
 } from "../../../Components/FilterBar/FilterBarHooks";
 import { FilterBuilder } from "../../../Components/FilterBar/index";
+import AddLogModal from '../../TrainingLog/NewLogModal'
+import { Log } from "../../../Types/Logs/LogsType";
 
 const JOURNAL_FILTERS: FilterBuilder[] = [
   {
@@ -34,11 +36,13 @@ const JOURNAL_FILTERS: FilterBuilder[] = [
 
 const CoachPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [logs, setLogs] = useState<Announcement[]>([]);
+  // const [logs, setLogs] = useState<Announcement[]>([]);
+  const [logs, setLogs] = useState<Log[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [deletingLogs, setDeletingLogs] = useState(false);
   const [selectedLogs, setSelectedLogs] = useState<number[]>([]);
-  const [currentLog, setCurrentLog] = useState<Announcement | undefined>(undefined);
+  // const [currentLog, setCurrentLog] = useState<Announcement | undefined>(undefined);
+  const [currentLog, setCurrentLog] = useState<Log | undefined>(undefined);
   const theme = useTheme();
 
   useEffect(() => {
@@ -62,7 +66,8 @@ const CoachPage: React.FC = () => {
     setModalVisible(false)
   }
 
-  const handleLogSubmit = (newLog: Announcement) => {
+  // const handleLogSubmit = (newLog: Announcement) => {
+  const handleLogSubmit = (newLog: Log) => {
     if (currentLog) {
       setLogs((logs) =>
         logs.map((log) => (log.id === currentLog.id ? newLog : log))
@@ -142,11 +147,11 @@ const CoachPage: React.FC = () => {
           padding: 10,
         }}
       >
-        <FilterBar
+        {/* <FilterBar
           filterCB={handleFilterChange}
           filterOptions={filterOptions}
           noFilterSelected={noFilterSelected}
-        />
+        /> */}
         {deletingLogs ? (
           <View
             style={{
@@ -213,12 +218,12 @@ const CoachPage: React.FC = () => {
           );
         })}
       </ScrollView>
-      {/* <AddLogModal
+      <AddLogModal
         visible={modalVisible}
         currentLog={currentLog}
         onClose={closeLog}
         onSubmit={handleLogSubmit}
-      /> */}
+      />
     </View>
   );
 };
