@@ -17,9 +17,11 @@ import formatDate from "../../Utils/ISOFormatter";
 import HomeCardTitle from "../Home/Components/HomeCardTitle";
 import { LinearGradient } from "expo-linear-gradient";
 import { F_TLV_BLUE, F_TLV_PINK, isAdmin } from "../MainLayout/index";
+import { Log } from "../../Types/Logs/LogsType";
 
 interface JournalEntryProps {
-  log: Announcement;
+  // log: Announcement;
+  log: Log;
   fromJournalPage?: boolean;
   isSelected: boolean;
   editCB: (logID: number) => void;

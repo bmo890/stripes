@@ -23,12 +23,14 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 import { Log } from "../../Types/Logs/LogsType";
+import {Announcement} from "../../Types/Announcements/AnnouncementsType"
 import formatDate from "../../Utils/ISOFormatter";
 import ISOFormatter from "../../Utils/ISOFormatter";
 import TagHandler from "../../Components/Tags/TagHandler";
 import SingleDatePicker from "../../Components/DateTimePickers/SingleDatePicker";
 interface Props {
   visible: boolean;
+  // currentLog: Log | Announcement | undefined;
   currentLog: Log | undefined;
   onClose: () => void;
   onSubmit: (log: Log) => void;
@@ -45,6 +47,7 @@ const NewLogModal: React.FC<Props> = ({
   const currentEntryTime = ISOFormatter(time);
   const defaultLog: Log = {
     id: Date.now(),
+    owner: '',
     title: currentEntryTime,
     tags: ["log"],
     entry: "",

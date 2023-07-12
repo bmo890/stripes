@@ -2,6 +2,7 @@ import { VideoType } from "../../Stripe Playlist/index";
 import { W1_PLAYLIST } from "../../Stripe Playlist/WhiteBeltPlaylist";
 import {Tag} from '../../Types/Tags/TagsType'
 import { Announcement, Coach } from '../../Types/Announcements/AnnouncementsType'
+import { Log } from "../../Types/Logs/LogsType";
 
 
 
@@ -47,9 +48,11 @@ export const fakeTags: Tag[] = [
   { name: "kneeslide", id: 3 },
 ];
 
-export const fakeAnnouncements: Announcement[] = [
+// export const fakeAnnouncements: Announcement[] = [
+export const fakeAnnouncements: Log[] = [
   {
     id: 1,
+    title: '',
     owner: Coach.Gal,
     date: date1.toISOString(),
     entry:
@@ -62,6 +65,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 2,
+    title: '',
     owner: Coach.Gal,
     date: date2.toISOString(),
     entry:
@@ -71,6 +75,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 3,
+    title: '',
     owner: Coach.Yam,
     date: date3.toISOString(),
     entry:
@@ -80,6 +85,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 4,
+    title: '',
     owner: Coach.Gal,
     date: date4.toISOString(),
     entry:
@@ -89,6 +95,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 5,
+    title: '',
     owner: Coach.Yam,
     date: date5.toISOString(),
     entry:
@@ -98,6 +105,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 6,
+    title: '',
     owner: Coach.Gal,
     date: date6.toISOString(),
     entry:
@@ -107,6 +115,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 7,
+    title: '',
     owner: Coach.Yam,
     date: date7.toISOString(),
     entry:
@@ -116,6 +125,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 8,
+    title: '',
     owner: Coach.Gal,
     date: date8.toISOString(),
     entry:
@@ -125,6 +135,7 @@ export const fakeAnnouncements: Announcement[] = [
   },
   {
     id: 9,
+    title: '',
     owner: Coach.Yam,
     date: date9.toISOString(),
     entry:
