@@ -12,7 +12,10 @@ import {
   List,
 } from "react-native-paper";
 import { getAuth, signOut, User } from "firebase/auth";
+import { auth } from "../../../firebase";
 import AuthModal from "../../Auth/AuthModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 type MenuItemProps = {
   icon: string;
@@ -51,12 +54,11 @@ const AppBar = ({
   const closeMenu = () => setVisible(false);
   const title = getHeaderTitle(options, route.name);
 
-  const auth = getAuth();
-
   const handleSignOut = async () => {
-    closeMenu();
     try {
       await signOut(auth);
+      AsyncStorage.removeItem('@user');
+      closeMenu();
     } catch (error) {
       console.error(error);
     }

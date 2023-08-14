@@ -17,13 +17,14 @@ import JournalEntry from "../TrainingLog/JournalEntry";
 import { fakeLogs } from "../TrainingLog/index";
 import CoursesCard from "../Systems/CoursesCard";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 export const F_TLV_BLUE = "#9BD5E7";
 export const F_TLV_PINK = "#F0A4C7";
 
 export default function HomeScreen({ route, navigation }: ScreenProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const auth = getAuth();
+  // const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = getAuth().onAuthStateChanged((user) => {

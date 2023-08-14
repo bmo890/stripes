@@ -10,6 +10,9 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { deleteUser } from "firebase/auth";
 import { View } from "react-native";
 
 interface AuthModalProps {
@@ -23,14 +26,16 @@ const AuthModal: React.FC<AuthModalProps> = ({
   hideModal,
   signUpSuccess,
 }) => {
-  const auth = getAuth();
+  // const auth = getAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleSignIn = async () => {
-    authError && setAuthError(null)
+    authError && setAuthError(null);
     try {
       const userCredential: UserCredential = await signInWithEmailAndPassword(
         auth,
@@ -47,25 +52,47 @@ const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   const handleSignUp = async () => {
-    authError && setAuthError(null)
+    let user;
+    authError && setAuthError(null);
+    setLoading(true);
     try {
       const userCredential: UserCredential = await createUserWithEmailAndPassword(
         auth,
-        email,
-        password
+        email.toLowerCase(),
+        password,
       );
-      setIsSigningUp(false);
-      hideModal();
-      // signUpSuccess();
+      if (userCredential.user) {
+        user = userCredential.user;
+
+        const userDocRef = doc(db, "users", email); 
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: email.toLowerCase(),
+          role: "user",
+          teamID: 1,
+          joined: Date.now(),
+          logs: [],
+          bookmarks: []
+        });
+      }
+      setSuccess("Account created!");
+      setTimeout(() => {
+        setIsSigningUp(false);
+        setSuccess(null)
+        hideModal();
+      }, 1000);
     } catch (error) {
       console.error(error);
-      // setAuthError("Something went wrong when signing in. Please try again.");
+      setLoading(false)
       setAuthError(error.message);
+      if (user) {
+        await deleteUser(user);
+      }
     }
   };
 
   const handleAnonymousSignIn = async () => {
-    authError && setAuthError(null)
+    authError && setAuthError(null);
     try {
       await signInAnonymously(auth);
       hideModal();
@@ -74,6 +101,13 @@ const AuthModal: React.FC<AuthModalProps> = ({
       // setAuthError("Something went wrong. Please try again.");
       setAuthError(error.message);
     }
+  };
+
+  const cancelSignUp = () => {
+    setEmail("");
+    setPassword("");
+    setIsSigningUp(false);
+    setAuthError(null);
   };
 
   // const handleGoogleSignIn = async () => {
@@ -95,7 +129,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
     >
       <Card style={{ margin: 10 }}>
         <Card.Title
-          title={"Signup"}
+          title={isSigningUp ? "Create an account" : "Sign in"}
           right={() => (
             <View>
               {auth.currentUser && auth.currentUser.isAnonymous && (
@@ -133,6 +167,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
           </View>
           <View style={{ marginHorizontal: 25, marginVertical: 10 }}>
             {authError && <Text style={{ color: "red" }}>{authError}</Text>}
+            {success && <Text style={{ color: "green" }}>{success}</Text>}
             {!isSigningUp ? (
               <View>
                 <Button
@@ -147,6 +182,8 @@ const AuthModal: React.FC<AuthModalProps> = ({
                   mode="elevated"
                   onPress={() => {
                     authError && setAuthError(null);
+                    setEmail("");
+                    setPassword("");
                     setIsSigningUp(true);
                   }}
                 >
@@ -174,7 +211,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 <Button
                   style={{ margin: 5 }}
                   mode="elevated"
-                  onPress={() => setIsSigningUp(false)}
+                  onPress={() => cancelSignUp()}
                 >
                   Back
                 </Button>
