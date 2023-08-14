@@ -16,7 +16,10 @@ import AnnouncementsPage from "../CoachsCorner/AnnouncementsPage";
 import CoachAdminPage from "../CoachsCorner/AdminOnly/AdminAnnouncementsPage";
 import CoursesCollectionPage from "../Systems/CoursesCollectionPage";
 import AuthModal from "../../Auth/AuthModal";
+import {auth, db} from '../../../firebase'
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { doc, getDoc } from "firebase/firestore";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -28,18 +31,61 @@ export type RootStackParamList = {
   Courses: { style: "gi" | "nogi" };
 };
 
+type AppUser = {
+  auth: User;
+  email: string;
+  role: string;
+  uid: string;
+  teamID: number;
+  username: string;
+
+
+
+}
+
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function MainLayout() {
   const [user, setUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const auth = getAuth();
+  // const auth = getAuth(app);
+
+
+  // const storeData = async (value: string) => {
+  //   try {
+  //     await AsyncStorage.setItem("@user", value);
+  //   } catch (e) {
+  //     console.log("error saving to async storage", e);
+  //   }
+  // };
+
+  // const retrieveData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("@user");
+  //     if (value !== null) {
+  //       // value previously stored
+  //       const userData = JSON.parse(value);
+  //       setUser(userData); // Set your state here
+  //     }
+  //   } catch (e) {
+  //     // error reading value
+  //     console.log("error reading from async storage", e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   retrieveData();
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(auth)
+      console.log(user)
       if (user) {
+        // Here you're setting the user state and storing it in AsyncStorage when the user logs in
         setUser(user);
+        // storeData(JSON.stringify(user));
       } else {
         setShowModal(true);
       }
@@ -58,7 +104,6 @@ export default function MainLayout() {
   }
 
   const isAdmin = true
-   
   return (
     <NavigationContainer>
       <RootStack.Navigator
