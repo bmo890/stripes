@@ -32,6 +32,7 @@ export interface VideoType {
   titleEN: string;
   descriptionHEB: string;
   descriptionEN: string;
+  isYouTube?: boolean
 }
 
 export interface Section {

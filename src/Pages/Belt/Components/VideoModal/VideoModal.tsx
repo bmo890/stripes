@@ -5,6 +5,7 @@ import YoutubePlayer from "../../../../Components/YoutubePlayer";
 import { HEADER_HEIGHT } from "../../../../Components/AppBar/AppBar";
 import Header from "./Components/Header";
 import Navigator from "./Components/Navigator";
+import NewPlayer from "../../../../Components/YoutubePlayer/NewPlayer";
 
 export interface ModalProps {
   selectedVideo: VideoType | false;
@@ -47,13 +48,15 @@ const VideoModal = ({
             visible={visible}
             closeCB={closeCB}
           />
-          <YoutubePlayer
-            videoId={selectedVideo.url}
-            style={{ width: "100%", height: "30%" }}
-          />
+            <NewPlayer
+              videoUrl={selectedVideo.url}
+              isYouTube={selectedVideo.isYouTube}
+              // style={{ flex: 3, width: "100%" }}
+              // style={{ height: '100%', width: "100%" }}
+            />
           <View
             style={{
-              flex: 1,
+              // flex: 7,
               width: "100%",
               flexDirection: "column",
               padding: 10,

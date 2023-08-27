@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Platform, View, Image } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { ActivityIndicator, Platform, View, Image, Button } from "react-native";
 import { WebView } from "react-native-webview";
 
 interface YoutubePlayerProps {
@@ -7,35 +7,9 @@ interface YoutubePlayerProps {
   style?: object;
 }
 
-const YoutubeLoader = () => {
-  return (
-    <View
-      style={{
-        position: "absolute",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.75)",
-        borderRadius: 10,
-        width: 70,
-        height: 50,
-        zIndex: 3,
-      }}
-    >
-      <ActivityIndicator size="large" color={"white"} />
-    </View>
-  );
-};
-
 const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
+  const adjustedStyle = { flex: 3, width: "100%" };
   const [loaded, setLoaded] = useState(false);
-  const webView = (
-    <WebView
-      style={style}
-      javaScriptEnabled={true}
-      source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
-    />
-  );
-
   useEffect(() => {
     setLoaded(false);
   }, [videoId]);
@@ -52,7 +26,6 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
             alignItems: "center",
           }}
         >
-          {/* <YoutubeLoader /> */}
           <Image
             style={{ width: "100%", height: "100%" }}
             source={{
@@ -65,7 +38,8 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
       {Platform.OS === "web" ? (
         <iframe
           title="youtube-player"
-          src={`https://www.youtube.com/embed/${videoId}`}
+          // src={`https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0`}
+          src={videoId}
           frameBorder="0"
           allowFullScreen
           onLoad={() => {
@@ -83,13 +57,15 @@ const YoutubePlayer = ({ videoId, style }: YoutubePlayerProps) => {
       ) : (
         <WebView
           allowsFullscreenVideo
-          style={style}
+          style={adjustedStyle}
           javaScriptEnabled={true}
           onLoad={() => {
             // setTimeout(() => setLoaded(true), 10);
             setLoaded(true);
           }}
-          source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
+          // source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
+          // source={{ uri: `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0` }}
+          source={{uri: videoId}}
         />
       )}
     </View>

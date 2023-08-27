@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Platform, StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationProp } from "@react-navigation/native";
@@ -38,9 +38,6 @@ type AppUser = {
   uid: string;
   teamID: number;
   username: string;
-
-
-
 }
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
@@ -49,6 +46,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function MainLayout() {
   const [user, setUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+
   // const auth = getAuth(app);
 
 
@@ -104,6 +102,8 @@ export default function MainLayout() {
   }
 
   const isAdmin = true
+
+
   return (
     <NavigationContainer>
       <RootStack.Navigator

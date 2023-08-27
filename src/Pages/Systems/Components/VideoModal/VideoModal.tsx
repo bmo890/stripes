@@ -2,6 +2,7 @@ import { Modal, Dimensions, SafeAreaView, View } from "react-native";
 import { Text, Card } from "react-native-paper";
 import { Style, Course, CourseVideo } from "../../index";
 import YoutubePlayer from "../../../../Components/YoutubePlayer";
+import CloudinaryPlayer from '../../../../Components/YoutubePlayer/CloudinaryPlayer'
 import { HEADER_HEIGHT } from "../../../../Components/AppBar/AppBar";
 import Header from "./Components/Header";
 import Navigator from "./Components/Navigator";
@@ -52,6 +53,10 @@ const VideoModal = ({
             videoId={selectedVideo.url}
             style={{ width: "100%", height: "30%" }}
           />
+          {/* <CloudinaryPlayer
+            videoId={selectedVideo.url}
+            style={{ width: "100%", height: "30%" }}
+          /> */}
           <View
             style={{
               flex: 1,
