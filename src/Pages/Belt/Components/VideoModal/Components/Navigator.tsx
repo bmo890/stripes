@@ -54,9 +54,11 @@ const Navigator = ({
               key={index}
               style={{
                 backgroundColor: index === currentIndex ? "lightblue" : "gray",
+                borderColor: "gray",
+                borderWidth: 1,
                 borderRadius: 5,
-                width: 10,
-                height: 10,
+                width: 12,
+                height: 12,
                 marginHorizontal: 2,
               }}
             />

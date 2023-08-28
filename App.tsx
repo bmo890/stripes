@@ -4,8 +4,6 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 import MainLayout from "./src/Pages/MainLayout";
-import YoutubePlayer from './src/Components/YoutubePlayer/YoutubePlayer'
-import NewPlayer from './src/Components/YoutubePlayer/NewPlayer'
 import React from "react";
 
 const theme = {

@@ -316,7 +316,7 @@ const S2_1: Section = {
   nameHEB: "סייד מלמעלה",
   playlist: [
     {
-      id: 1,
+      id: 0,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "QeQ7Cp9Yl8M",
@@ -329,7 +329,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 2,
+      id: 1,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "XL4Vj-11AKc",
@@ -341,7 +341,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 3,
+      id: 2,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "Fd2lVPylYHU",
@@ -352,7 +352,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 4,
+      id: 3,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "Icz_qbcNXUk",
@@ -363,7 +363,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 5,
+      id: 4,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "ZDybi6XyOc4",
@@ -374,7 +374,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 6,
+      id: 5,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "1QpwcwX9BJ4",
@@ -385,7 +385,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 7,
+      id: 6,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "s9et3vtP4ro",
@@ -396,7 +396,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 8,
+      id: 7,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "v1aFhxCVrlU",
@@ -407,7 +407,7 @@ const S2_1: Section = {
       isYouTube: true,
     },
     {
-      id: 9,
+      id: 8,
       stripe: StripeLevel.S2,
       section: SectionName.S2_1,
       url: "CUFK2MDs0Lo",
@@ -678,17 +678,17 @@ const S3_2: Section = {
       descriptionEN: "**that he puts his knees to his chest properly",
       isYouTube: true,
     },
-    {
-      id: 3,
-      stripe: StripeLevel.S3,
-      section: SectionName.S3_2,
-      url: "0",
-      titleHEB: "ניסלייד",
-      titleEN: "Kneeslide",
-      descriptionHEB: "-",
-      descriptionEN: "-",
-      isYouTube: true,
-    },
+    // {
+    //   id: 3,
+    //   stripe: StripeLevel.S3,
+    //   section: SectionName.S3_2,
+    //   url: "0",
+    //   titleHEB: "ניסלייד",
+    //   titleEN: "Kneeslide",
+    //   descriptionHEB: "-",
+    //   descriptionEN: "-",
+    //   isYouTube: true,
+    // },
   ],
 };
 
